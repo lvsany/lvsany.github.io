@@ -231,8 +231,37 @@
 <h1 id="5-编程题"><a href="#5-编程题" class="headerlink" title="5.编程题"></a>5.编程题</h1><h2 id="Qz10"><a href="#Qz10" class="headerlink" title="Qz10"></a>Qz10</h2><p><strong>running res</strong></p>
 <p><img src="https://s2.loli.net/2024/09/26/sefubGOZIT9XkDP.png" alt="2024-09-26-21-09-07.png"></p>
 <p><strong>Code</strong></p>
+<p><code>class Person &#123;     String name;     int age;     int sex;//0表示女性，1表示男性哦     public Person(String name,int age, int sex) &#123;         this.name = name;         this.age = age;         this.sex=sex;     &#125;     public void setAge(int age) &#123;         this.age = age;     &#125;     public int getAge() &#123;         return age;     &#125;     public void work()&#123;         System.out.println(&quot;working&quot;);     &#125;     public void showAge()&#123;         System.out.println(age);     &#125; &#125; public class TestPerson &#123;     public static void main(String[] args) &#123;         Person person = new Person(&quot;Lvs4nXN0thing&quot;,18,1);         person.setAge(20);         person.showAge();         Person person2 = new Person(&quot;Lvs4nXN0thing&quot;,20,2);         person2.setAge(18);         person2.showAge();     &#125; &#125;</code></p>
 <p><a href="./Code/Qz10/TestPerson.java">code&#x2F;Qz10</a></p>
-<h2 id="Qz11"><a href="#Qz11" class="headerlink" title="Qz11"></a>Qz11</h2><p>**</p>
+<h2 id="Qz11"><a href="#Qz11" class="headerlink" title="Qz11"></a>Qz11</h2><p><strong>running res</strong></p>
+<p><img src="https://s2.loli.net/2024/09/26/sCvTwZaoxYGf9J8.png" alt="image.png"></p>
+<p><strong>Code</strong></p>
+<p>&#96;&#96;<br>import java.util.Scanner;</p>
+<p>public class Qz11 {<br>    static boolean noZeroBefo(String a){<br>        if(a.length() &#x3D;&#x3D; 1) return true;<br>        return a.charAt(0) !&#x3D; ‘0’;<br>    }</p>
+<pre><code>static boolean backBack(String a) &#123;
+    int len = a.length();
+    int i=0,j=len-1;
+    while(i&lt;j)&#123;
+        if(a.charAt(i)==a.charAt(j))&#123;
+            i++;j--;
+        &#125;
+        else return false;
+    &#125;
+    return true;
+&#125;
+public static void main(String[] args) &#123;
+    Scanner in = new Scanner(System.in);
+    String a = in.nextLine();
+    if(noZeroBefo(a)==true)&#123;
+        System.out.println(a+&quot;是一个没有前导0的数&quot;);&#123;
+            if(backBack(a)==true)
+                System.out.println(a+&quot;是回文数&quot;);
+            else System.out.println(a+&quot;不是回文数&quot;);
+        &#125;
+    &#125;else System.out.println(a+&quot;不是一个没有前导0的数&quot;);
+&#125;
+</code></pre>
+<p>}<br>&#96;&#96;</p>
 
   </div>
 
