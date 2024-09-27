@@ -23,6 +23,25 @@
     
     
     <entry>
+      <title>Algorithom:Prefix Sum</title>
+      <link href="/2024/09/27/Code/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
+      <url>/2024/09/27/Code/%E5%89%8D%E7%BC%80%E5%92%8C/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Explain"><a href="#Explain" class="headerlink" title="Explain"></a>Explain</h2><p>The partial sum is used for caculating sum of many interval data, whose the size is indefine. </p><h2 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h2><p>The prefix sum can be understood as the sum of the first n of an array. It can reduce much time when processing.</p><h2 id="Example-1"><a href="#Example-1" class="headerlink" title="Example.1"></a>Example.1</h2><blockquote><p><strong>Description</strong></p><p>There are n intergers in an array <code>a</code> , now Lvs4nX wanna know the value of $\sum^b_{i&#x3D;a}a[i]$ .</p><p><strong>Pro Sov</strong></p><p>use another array  <code>sum</code> , which can record the sum of first a in array <code>a</code> . That must be: $sum[i]&#x3D;\sum_{i&#x3D;0}^aa[i]$ .</p><p><strong>Code</strong></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">int</span> a[]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">        a[i]+=a[i<span class="number">-1</span>];</span><br><span class="line">    &#125;    </span><br><span class="line">    <span class="type">int</span> a=<span class="number">2</span>,b=<span class="number">4</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,a[<span class="number">4</span>]-a[<span class="number">2</span><span class="number">-1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Code </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>oopLab02（问答报告</title>
       <link href="/2024/09/26/Homework/LAB02/Qz01(sample)/"/>
       <url>/2024/09/26/Homework/LAB02/Qz01(sample)/</url>
