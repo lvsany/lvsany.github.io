@@ -572,7 +572,7 @@ body {
   }
 }
 .max-width {
-  max-width: 48rem;
+  max-width: 72rem;
 }
 @media (max-width: 480px) {
   .px3 {
@@ -1398,10 +1398,25 @@ article .content .caption {
 #tag-cloud .tag-cloud-tags {
   clear: both;
   text-align: center;
+  padding: 1rem;
 }
 #tag-cloud .tag-cloud-tags a {
   display: inline-block;
-  margin: 10px;
+  margin: 0.6rem;
+  padding: 0.5rem 1rem;
+  background: #f5f5f5;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #383838;
+  border: 1px solid #e0e0e0;
+  font-weight: 500;
+}
+#tag-cloud .tag-cloud-tags a:hover {
+  background: #2bbc8a;
+  color: #fff;
+  border-color: #2bbc8a;
+  box-shadow: 0 4px 8px rgba(124,179,66,0.2);
 }
 .tooltipped {
   position: relative;
@@ -1507,14 +1522,49 @@ article .content .caption {
 #categories .category-list-title {
   color: #666;
 }
+#categories .category-list {
+  list-style: none;
+  padding: 0;
+}
+#categories .category-list .category-list-item {
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.8rem;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#categories .category-list .category-list-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-color: #e0e0e0;
+}
+#categories .category-list .category-list-item a {
+  color: #2bbc8a;
+  text-decoration: none;
+  font-weight: 500;
+}
+#categories .category-list .category-list-item a:hover {
+  background-image: linear-gradient(transparent, transparent 3px, #2bbc8a 3px, #2bbc8a);
+  background-position: bottom;
+  background-size: 100% 6px;
+  background-repeat: repeat-x;
+}
 #categories .category-list .category-list-item .category-list-count {
   color: #666;
+  font-size: 0.9rem;
+  background: #f5f5f5;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  margin-left: 1rem;
 }
 #categories .category-list .category-list-item .category-list-count:before {
-  content: " (";
+  content: "";
 }
 #categories .category-list .category-list-item .category-list-count:after {
-  content: ")";
+  content: "";
 }
 .highlight {
   color: #585260;
@@ -1688,4 +1738,31 @@ code {
 .flex-layout .flex-content p {
   margin: 0.5rem 0;
   line-height: 1.6;
+}
+/* About Me 部分样式 */
+#about-me {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(43,188,138,0.05);
+  border-left: 4px solid #2bbc8a;
+  border-radius: 4px;
+}
+#about-me .about-intro {
+  color: #383838;
+  line-height: 1.8;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+#about-me .about-links {
+  margin-top: 1rem;
+}
+#about-me .about-links .read-more {
+  color: #2bbc8a;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+#about-me .about-links .read-more:hover {
+  color: #27a97c;
+  text-decoration: underline;
 }
