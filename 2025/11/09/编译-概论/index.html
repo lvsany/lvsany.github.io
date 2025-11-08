@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="基本概念 源程序（Source Program）  指用汇编语言或高级语言（如C、Java等）编写的程序，是程序员直接编写的代码形式。  目标程序（Target Program）  指由翻译程序处理源程序后生成的程序，使用目标语言表示。目标语言可以是：  中间语言（如字节码、IR中间表示）， 某种计算机的机器语言（二进制代码）， 或某种汇编语言。   翻译程序（Translator）  指将源程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译-概论">
+<meta property="og:url" content="http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="基本概念 源程序（Source Program）  指用汇编语言或高级语言（如C、Java等）编写的程序，是程序员直接编写的代码形式。  目标程序（Target Program）  指由翻译程序处理源程序后生成的程序，使用目标语言表示。目标语言可以是：  中间语言（如字节码、IR中间表示）， 某种计算机的机器语言（二进制代码）， 或某种汇编语言。   翻译程序（Translator）  指将源程序">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/image.png">
+<meta property="article:published_time" content="2025-11-08T16:22:19.000Z">
+<meta property="article:modified_time" content="2025-11-08T16:25:12.131Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="Compiler Theory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>编译-概论</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/11/09/%E7%BC%96%E8%AF%91-%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E8%A1%A8%E7%A4%BA/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&text=编译-概论"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&is_video=false&description=编译-概论"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-概论&body=Check out this article: http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&name=编译-概论&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&t=编译-概论"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E6%89%A7%E8%A1%8C-vs-%E8%A7%A3%E9%87%8A%E6%89%A7%E8%A1%8C"><span class="toc-number">1.1.</span> <span class="toc-text">编译执行 vs. 解释执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">编译过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E7%A8%8B%E5%BA%8F%E6%9E%84%E9%80%A0"><span class="toc-number">3.</span> <span class="toc-text">编译程序构造</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        编译-概论
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-11-08T16:22:19.000Z" class="dt-published" itemprop="datePublished">2025-11-09</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Compiler/">Compiler</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Compiler-Theory/" rel="tag">Compiler Theory</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ol>
+<li><p><strong>源程序（Source Program）</strong></p>
+<p> 指用汇编语言或高级语言（如C、Java等）编写的程序，是程序员直接编写的代码形式。</p>
+</li>
+<li><p><strong>目标程序（Target Program）</strong></p>
+<p> 指由翻译程序处理源程序后生成的程序，使用目标语言表示。目标语言可以是：</p>
+<ul>
+<li>中间语言（如字节码、IR中间表示），</li>
+<li>某种计算机的机器语言（二进制代码），</li>
+<li>或某种汇编语言。</li>
+</ul>
+</li>
+<li><p><strong>翻译程序（Translator）</strong></p>
+<p> 指将源程序转换为目标程序的程序，是广义的翻译工具总称。它包括：</p>
+<ul>
+<li><strong>编译程序（Compiler）</strong>：将高级语言源程序整体翻译为目标程序。</li>
+<li><strong>汇编程序（Assembler）</strong>：将汇编语言源程序翻译为机器语言。</li>
+<li>其他变换程序（如转换工具）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="编译执行-vs-解释执行"><a href="#编译执行-vs-解释执行" class="headerlink" title="编译执行 vs. 解释执行"></a><strong>编译执行 vs. 解释执行</strong></h3><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>编译执行</strong></th>
+<th><strong>解释执行</strong></th>
+<th><strong>JIT（混合）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>执行方式</strong></td>
+<td>提前编译成机器码</td>
+<td>逐行解释执行</td>
+<td>先编译成中间码，再动态编译</td>
+</tr>
+<tr>
+<td><strong>执行速度</strong></td>
+<td>快</td>
+<td>慢</td>
+<td>较快（优化后接近编译执行）</td>
+</tr>
+<tr>
+<td><strong>跨平台性</strong></td>
+<td>差（依赖平台）</td>
+<td>好（解释器跨平台）</td>
+<td>好（如 JVM、CLR）</td>
+</tr>
+<tr>
+<td><strong>错误检查</strong></td>
+<td>编译时发现</td>
+<td>运行时发现</td>
+<td>编译 + 运行时检查</td>
+</tr>
+<tr>
+<td><strong>典型语言</strong></td>
+<td>C、C++、Go</td>
+<td>Python、JS</td>
+<td>Java、C#</td>
+</tr>
+</tbody></table>
+<h2 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h2><ol>
+<li>词法分析<ol>
+<li>task：分析和识别单词</li>
+</ol>
+</li>
+<li>语法分析<ol>
+<li>task：根据规则，分析和识别程序中的各种语法成分，进行语法正确性检测</li>
+</ol>
+</li>
+<li>语义分析，生成中间代码<ol>
+<li>对识别出的各种语法成分进行语义分析，并产生相应的中间代码</li>
+<li>便于优化</li>
+<li>方便移植</li>
+</ol>
+</li>
+<li>代码优化<ol>
+<li>task：得到高质量的目标程序</li>
+</ol>
+</li>
+<li>生成目标程序</li>
+</ol>
+<h2 id="编译程序构造"><a href="#编译程序构造" class="headerlink" title="编译程序构造"></a>编译程序构造</h2><ol>
+<li><p>逻辑结构<br> 1. </p>
+<p> <img src="/images/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/image.png" alt="alt text"></p>
+<ol>
+<li>按照五个阶段</li>
+<li>每个阶段都要做两件事<ol>
+<li>表格管理</li>
+<li>出错处理</li>
+</ol>
+</li>
+<li>以上7个部分</li>
+</ol>
+</li>
+<li><p>遍：从头到尾扫描一次（很多遍扫描）</p>
+<ol>
+<li>在一遍扫描即可完成整个编译过程→一边扫描编译程序</li>
+</ol>
+</li>
+<li><p>前端和后端</p>
+<ol>
+<li>front：负责分析与源语言相关的部分，将源代码转换为中间表示</li>
+<li>back：负责与目标机器相关的部分，将中间表示转换为目标机器代码</li>
+</ol>
+</li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">about me</a></li>
+        
+          <li><a href="/categories/">categories</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E6%89%A7%E8%A1%8C-vs-%E8%A7%A3%E9%87%8A%E6%89%A7%E8%A1%8C"><span class="toc-number">1.1.</span> <span class="toc-text">编译执行 vs. 解释执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">编译过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E7%A8%8B%E5%BA%8F%E6%9E%84%E9%80%A0"><span class="toc-number">3.</span> <span class="toc-text">编译程序构造</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&text=编译-概论"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&is_video=false&description=编译-概论"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-概论&body=Check out this article: http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&title=编译-概论"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&name=编译-概论&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/&t=编译-概论"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'owner/githubrepo';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
