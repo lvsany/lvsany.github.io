@@ -1664,3 +1664,28 @@ code {
 #header-post #actions {
   direction: ltr !important;
 }
+/* 可复用的并排布局组件 */
+.flex-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.flex-layout .flex-media {
+  flex-shrink: 0;
+}
+.flex-layout .flex-media img {
+  max-width: 300px;
+  border-radius: 8px;
+}
+.flex-layout .flex-media video {
+  width: 300px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.flex-layout .flex-content {
+  flex: 1;
+}
+.flex-layout .flex-content p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
