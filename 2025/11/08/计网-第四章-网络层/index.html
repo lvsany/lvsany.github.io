@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="第四章 网络层 课时14.1 网络层的几个重要概念4.1.1 网络层提供的两种服务 核心争论：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？ 两种观点： 面向连接的可靠交付：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。 无连接的数据报服务：互联网设计思路，网络层简单灵活，仅提供尽最大努力交付，不保证服务质量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网-第四章-网络层">
+<meta property="og:url" content="http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="第四章 网络层 课时14.1 网络层的几个重要概念4.1.1 网络层提供的两种服务 核心争论：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？ 两种观点： 面向连接的可靠交付：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。 无连接的数据报服务：互联网设计思路，网络层简单灵活，仅提供尽最大努力交付，不保证服务质量">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%201.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%202.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%203.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%204.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%205.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%206.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%207.png">
+<meta property="og:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%208.png">
+<meta property="article:published_time" content="2025-11-08T07:46:16.000Z">
+<meta property="article:modified_time" content="2025-11-08T10:11:07.936Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="C-Net">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>计网-第四章-网络层</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&text=计网-第四章-网络层"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&is_video=false&description=计网-第四章-网络层"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计网-第四章-网络层&body=Check out this article: http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&name=计网-第四章-网络层&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&t=计网-第四章-网络层"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82-%E8%AF%BE%E6%97%B61"><span class="toc-number">1.</span> <span class="toc-text">第四章 网络层 课时1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 网络层的几个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 网络层提供的两种服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 网络层的两个层面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AE-IP"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 网际协议 IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%99%9A%E6%8B%9F%E4%BA%92%E8%BF%9E%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1 虚拟互连网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.2 IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-IP%E5%9C%B0%E5%9D%80%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">1. IP地址表示方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.4.</span> <span class="toc-text">2. 分类的IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="toc-number">1.2.5.</span> <span class="toc-text">3. 无分类编址CIDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-IP%E5%9C%B0%E5%9D%80%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.6.</span> <span class="toc-text">4. IP地址特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.7.</span> <span class="toc-text">4.2.3 IP地址与MAC地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="toc-number">1.2.8.</span> <span class="toc-text">4.2.4 地址解析协议ARP</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        计网-第四章-网络层
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-11-08T07:46:16.000Z" class="dt-published" itemprop="datePublished">2025-11-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C-Net/" rel="tag">C-Net</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="第四章-网络层-课时1"><a href="#第四章-网络层-课时1" class="headerlink" title="第四章 网络层 课时1"></a>第四章 网络层 课时1</h1><h2 id="4-1-网络层的几个重要概念"><a href="#4-1-网络层的几个重要概念" class="headerlink" title="4.1 网络层的几个重要概念"></a>4.1 网络层的几个重要概念</h2><h3 id="4-1-1-网络层提供的两种服务"><a href="#4-1-1-网络层提供的两种服务" class="headerlink" title="4.1.1 网络层提供的两种服务"></a>4.1.1 网络层提供的两种服务</h3><ul>
+<li><strong>核心争论</strong>：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？</li>
+<li><strong>两种观点</strong>：<ul>
+<li><strong>面向连接的可靠交付</strong>：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。</li>
+<li><strong>无连接的数据报服务</strong>：互联网设计思路，网络层简单灵活，仅提供尽最大努力交付，不保证服务质量（可能出错、丢失、重复、失序），可靠通信由运输层负责。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image.png" alt="image.png"></p>
+<h3 id="4-1-2-网络层的两个层面"><a href="#4-1-2-网络层的两个层面" class="headerlink" title="4.1.2 网络层的两个层面"></a>4.1.2 网络层的两个层面</h3><p>不同网路中的主机通信，要经过若干个路由器的协同转发分组；因此，在路由器中转发的数据有两类：数据；路由信息（为数据传送服务）</p>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%201.png" alt="image.png"></p>
+<ul>
+<li><strong>数据层面</strong>：路由器根据转发表快速转发分组，<strong>独立工作，硬件实现</strong>。</li>
+<li><strong>控制层面</strong>：路由器<strong>协同</strong>计算路由表，<strong>软件实现</strong>，速度较慢。</li>
+<li><strong>软件定义网络（SDN）</strong>：分离数据层面与控制层面，提升网络可编程性。路由器只负责转发</li>
+</ul>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%202.png" alt="image.png"></p>
+<hr>
+<h2 id="4-2-网际协议-IP"><a href="#4-2-网际协议-IP" class="headerlink" title="4.2 网际协议 IP"></a>4.2 网际协议 IP</h2><h3 id="4-2-1-虚拟互连网络"><a href="#4-2-1-虚拟互连网络" class="headerlink" title="4.2.1 虚拟互连网络"></a>4.2.1 虚拟互连网络</h3><ul>
+<li><strong>问题</strong>：异构网络互连需解决寻址、分组长度、路由等技术差异。</li>
+<li><strong>解决方案</strong>：使用<del>路由器（非转发器或网桥）</del> 其实是中间设备 实现网络互连，形成统一的虚拟网络（IP网）。</li>
+<li><strong>意义</strong>：屏蔽底层异构细节，主机通信如同在同一网络。</li>
+<li>![alt text](image 9.png)</li>
+</ul>
+<p>**使用转发器或者网桥的不算网络互连：**比如某公司拥有20层办公楼，每层都有数十台电脑需要联网。转发器，网桥或交换机仅仅把一个网络扩大了，仍然是一个网络</p>
+<p>所以，当互联网上的主机进行通信时，虽然不在同一个网络中，但是好像在同一个网络中，看不到任何网络异构的细节，<strong>这样的IP网的上层如果再使用TCP协议，就是现在的互联网</strong></p>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%203.png" alt="image.png"></p>
+<h3 id="4-2-2-IP地址"><a href="#4-2-2-IP地址" class="headerlink" title="4.2.2 IP地址"></a>4.2.2 IP地址</h3><h3 id="1-IP地址表示方法"><a href="#1-IP地址表示方法" class="headerlink" title="1. IP地址表示方法"></a>1. IP地址表示方法</h3><ul>
+<li>32位二进制，点分十进制记法（如 <code>192.168.1.1</code>），由ICANN全局分配。</li>
+<li>二级结构：<code>IP地址 = {&lt;网络号&gt;, &lt;主机号&gt;}</code>。</li>
+</ul>
+<h3 id="2-分类的IP地址"><a href="#2-分类的IP地址" class="headerlink" title="2. 分类的IP地址"></a>2. 分类的IP地址</h3><p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%204.png" alt="image.png"></p>
+<p>多播地址：用于一对多通信的IP地址</p>
+<ul>
+<li><strong>A类</strong>：网络号8位（首位0），主机号24位，指派范围1.0.0.0 ~ 126.255.255.255<ul>
+<li>网络号保留0（本机网络），127（本地环回测试）</li>
+</ul>
+</li>
+<li><strong>B类</strong>：网络号16位（前两位10），主机号16位，指派范围128.1.0.0 ~ 191.255.255.255<ul>
+<li>网络号保留128.0，采用CIDR时可以指派</li>
+</ul>
+</li>
+<li><strong>C类</strong>：网络号24位（前三位110），主机号8位，范围192.0.1.0 ~ 223.255.255.255<ul>
+<li>网络号保留192.0.0，采用CIDR可以指派</li>
+</ul>
+</li>
+<li>指派主机号的时候，要扣除全0和全1<ul>
+<li>全0:网络192.168.1.0&#x2F;24中，192.168.1.0代表整个网络</li>
+<li>全1:向特定网络内的所有主机发送广播数据包</li>
+</ul>
+</li>
+<li><strong>特殊地址</strong>：<ul>
+<li>网络号0（本网络）、127（环回测试，如127.0.0.1）。</li>
+<li>私网地址：10.0.0.0&#x2F;8、172.16.0.0&#x2F;12、192.168.0.0&#x2F;16。</li>
+<li>169.254.0.0（自动分配地址）。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：地址分配不灵活，浪费严重。</li>
+</ul>
+<h3 id="3-无分类编址CIDR"><a href="#3-无分类编址CIDR" class="headerlink" title="3. 无分类编址CIDR"></a>3. 无分类编址CIDR</h3><ul>
+<li>核心：消除ABC类划分，支持可变长子网掩码。</li>
+<li>CIDR记法：<code>IP地址/前缀长度</code>（如 <code>128.14.35.7/20</code>）。</li>
+<li>不能指派：主机号全0（网络号）全1（广播地址）不能指派</li>
+<li>地址块：相同前缀的连续IP地址集合，大小由前缀位数决定（如&#x2F;20块含2^12地址）。</li>
+<li>地址掩码（子网掩码）：计算机读不了斜线前缀长度；所以提出这么一个东西是给计算机看的，32位，连续1表示前缀长度（如&#x2F;20掩码255.255.240.0）。<ul>
+<li>网络地址计算：<code>IP地址 AND 地址掩码</code>。</li>
+</ul>
+</li>
+<li>路由聚合：合并多个小地址块为一大块，减少路由表项（如16个C类聚合成一个&#x2F;20块）。</li>
+<li>超网构造：CIDR块包含多个C类地址，支持灵活划分。</li>
+</ul>
+<p><strong>三个特殊的CIDR地址块</strong></p>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%205.png" alt="image.png"></p>
+<p>举个例子，看一下CIDR地址聚合的魅力🤩：</p>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%206.png" alt="image.png"></p>
+<p>会发现，如果安装传统分类，这个ISP有64个c类地址，需要在路由表中维护64项，而经过CIDR的聚合之后，只需要根据几行维护即可</p>
+<h3 id="4-IP地址特点"><a href="#4-IP地址特点" class="headerlink" title="4. IP地址特点"></a>4. IP地址特点</h3><ul>
+<li>每个IP地址都由网络前缀和主机号两部分组成<ul>
+<li>通过路由聚合，减小了转发表所占的存储空间，记忆查找转发表的时间</li>
+</ul>
+</li>
+<li>IP地址是标志一台主机和一条链路的接口<ul>
+<li>主机如果连接了两个网路，就有两个IP</li>
+<li>路由器一定有至少两个IP</li>
+</ul>
+</li>
+<li><strong>转发器或交换机连接起来的若干个局域网</strong>仍然为一个网络<ul>
+<li>无需多言，有相同的网络前缀，只是主机号不同。不同网络号的主机连接的时候一定会用到路由器</li>
+</ul>
+</li>
+<li>所有网络前缀在网络层平等对待</li>
+</ul>
+<h3 id="4-2-3-IP地址与MAC地址"><a href="#4-2-3-IP地址与MAC地址" class="headerlink" title="4.2.3 IP地址与MAC地址"></a>4.2.3 IP地址与MAC地址</h3><ul>
+<li><strong>IP地址</strong>：逻辑地址，网络层使用，放在IP数据报首部。</li>
+<li><strong>MAC地址</strong>：物理地址，数据链路层使用，固化在网卡，放在MAC帧首部。</li>
+</ul>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%207.png" alt="image.png"></p>
+<ul>
+<li><strong>通信路径示例</strong>：H1→R1→R2→H2，IP地址始终不变，MAC地址逐跳改变。</li>
+</ul>
+<p><img src="/image/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%208.png" alt="image.png"></p>
+<h3 id="4-2-4-地址解析协议ARP"><a href="#4-2-4-地址解析协议ARP" class="headerlink" title="4.2.4 地址解析协议ARP"></a>4.2.4 地址解析协议ARP</h3><ul>
+<li><strong>作用</strong>：根据IP地址查询对应MAC地址。</li>
+<li><strong>ARP高速缓存</strong>：存储IP-MAC映射表，动态更新。</li>
+<li><strong>工作流程</strong>：<ol>
+<li>主机A在本局域网广播ARP请求（含目标IP地址）。</li>
+<li>目标主机B单播响应ARP分组（含自身MAC地址）。</li>
+<li>A更新ARP缓存，后续通信直接使用。</li>
+</ol>
+</li>
+<li><strong>跨网络通信</strong>：主机通过路由器转发时，ARP解析路由器接口的MAC地址。</li>
+<li><strong>四种典型情况</strong>：<ol>
+<li>同网络主机通信：ARP解析目的主机MAC。</li>
+<li>跨网络主机通信：ARP解析默认路由器MAC。</li>
+<li>路由器转发至同网络主机：ARP解析目的主机MAC。</li>
+<li>路由器转发至跨网络主机：ARP解析下一跳路由器MAC。</li>
+</ol>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82-%E8%AF%BE%E6%97%B61"><span class="toc-number">1.</span> <span class="toc-text">第四章 网络层 课时1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 网络层的几个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 网络层提供的两种服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 网络层的两个层面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AE-IP"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 网际协议 IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%99%9A%E6%8B%9F%E4%BA%92%E8%BF%9E%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1 虚拟互连网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.2 IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-IP%E5%9C%B0%E5%9D%80%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">1. IP地址表示方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.4.</span> <span class="toc-text">2. 分类的IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="toc-number">1.2.5.</span> <span class="toc-text">3. 无分类编址CIDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-IP%E5%9C%B0%E5%9D%80%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.6.</span> <span class="toc-text">4. IP地址特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.7.</span> <span class="toc-text">4.2.3 IP地址与MAC地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="toc-number">1.2.8.</span> <span class="toc-text">4.2.4 地址解析协议ARP</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&text=计网-第四章-网络层"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&is_video=false&description=计网-第四章-网络层"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计网-第四章-网络层&body=Check out this article: http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&title=计网-第四章-网络层"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&name=计网-第四章-网络层&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/&t=计网-第四章-网络层"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

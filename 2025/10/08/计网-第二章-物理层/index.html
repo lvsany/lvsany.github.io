@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="最底层 2.1 物理层的概念第0层才是传输媒体 概念： 传输数据比特流的第1层，考虑的是如何在传输媒体上传输数据比特流 作用： 屏蔽掉不同传输媒体和通信手段的差异 用于物理层的协议为规程，主要是和传输媒体相关的 主要任务：  确定与传输媒体接口的一些特性 机械特性，接线等形状尺寸等 电气特性，电压的范围 功能特性，指明电平电压的意义 过程特性，不同功能可能出现的时间的出现顺序，eg.蓝牙，先配对再">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网-第二章-物理层">
+<meta property="og:url" content="http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="最底层 2.1 物理层的概念第0层才是传输媒体 概念： 传输数据比特流的第1层，考虑的是如何在传输媒体上传输数据比特流 作用： 屏蔽掉不同传输媒体和通信手段的差异 用于物理层的协议为规程，主要是和传输媒体相关的 主要任务：  确定与传输媒体接口的一些特性 机械特性，接线等形状尺寸等 电气特性，电压的范围 功能特性，指明电平电压的意义 过程特性，不同功能可能出现的时间的出现顺序，eg.蓝牙，先配对再">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%201.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%202.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%203.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%204.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%205.png">
+<meta property="article:published_time" content="2025-10-08T09:54:38.000Z">
+<meta property="article:modified_time" content="2025-11-08T10:07:42.056Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="C-Net">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>计网-第二章-物理层</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&text=计网-第二章-物理层"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&is_video=false&description=计网-第二章-物理层"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计网-第二章-物理层&body=Check out this article: http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&name=计网-第二章-物理层&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&t=计网-第二章-物理层"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E7%89%A9%E7%90%86%E5%B1%82%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">2.1 物理层的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">2.2 数据通信的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">2.2.1 数据通信系统的模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E6%9C%89%E5%85%B3%E4%BF%A1%E9%81%93%E7%9A%84%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.2 有关信道的几个基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F%EF%BC%88%F0%9F%A4%93%E2%80%BC%EF%B8%8F%E2%80%BC%EF%B8%8F"><span class="toc-number">2.3.</span> <span class="toc-text">2.2.3 信道的极限容量（🤓‼️‼️</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E4%BF%A1%E9%81%93%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="toc-number">3.</span> <span class="toc-text">2.4 信道复用技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-1-%E9%A2%91%E5%88%86%E5%A4%8D%E7%94%A8%E3%80%81%E6%97%B6%E5%88%86%E5%A4%8D%E7%94%A8%E5%92%8C%E7%BB%9F%E8%AE%A1%E6%97%B6%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">2.4.1 频分复用、时分复用和统计时分复用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-2-%E6%B3%A2%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">2.4.2 波分复用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-3-%E7%A0%81%E5%88%86%E5%A4%8D%E7%94%A8%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">2.4.3 码分复用（重点！！！）</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        计网-第二章-物理层
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-10-08T09:54:38.000Z" class="dt-published" itemprop="datePublished">2025-10-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C-Net/" rel="tag">C-Net</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>最底层</p>
+<h2 id="2-1-物理层的概念"><a href="#2-1-物理层的概念" class="headerlink" title="2.1 物理层的概念"></a>2.1 物理层的概念</h2><p>第0层才是传输媒体</p>
+<p><strong>概念：</strong> 传输数据比特流的第1层，考虑的是如何在传输媒体上传输数据比特流</p>
+<p><strong>作用：</strong> 屏蔽掉不同传输媒体和通信手段的差异</p>
+<p><strong>用于物理层的协议为规程</strong>，主要是和传输媒体相关的</p>
+<p>主要任务：</p>
+<ul>
+<li>确定与传输媒体接口的一些特性<ul>
+<li>机械特性，接线等形状尺寸等</li>
+<li>电气特性，电压的范围</li>
+<li>功能特性，指明电平电压的意义</li>
+<li>过程特性，不同功能可能出现的时间的出现顺序，eg.蓝牙，先配对再传输</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-2-数据通信的基础知识"><a href="#2-2-数据通信的基础知识" class="headerlink" title="2.2 数据通信的基础知识"></a>2.2 数据通信的基础知识</h2><p>为什么在物理层通信的时候要把数字信号转换成模拟信号(analogous signal)：</p>
+<ul>
+<li>数字信号是方形的、非连续（离散）的脉冲，由0和1组成，它在理想电路中表现很好。但当依赖物理介质的时候<ul>
+<li>数字信号包含了从低频到极高频的广泛频率成分，传不了多远就会失真，变形。想象用大喊的方式，短滴答代表0，长滴答代表1传给一公里外的人，他根本区分不出来。</li>
+<li>使用模拟信号，可以使用一个特定频率的模拟波作为载体，可以传播很远</li>
+</ul>
+</li>
+<li>另外一个重要的原因，如果每个通信都独占一条线路，根本也不现实💀</li>
+</ul>
+<h3 id="2-2-1-数据通信系统的模型"><a href="#2-2-1-数据通信系统的模型" class="headerlink" title="2.2.1 数据通信系统的模型"></a>2.2.1 数据通信系统的模型</h3><p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image.png" alt="image.png"></p>
+<p><strong>比特流是数据在物理层传输时的表现形式，由0和1组成的序列</strong></p>
+<p><strong>物理层干的事：调制解调，操控比特流</strong></p>
+<ul>
+<li>数字信号：离散的</li>
+<li>模拟信号：连续的，英文为analogous，译为类自然的</li>
+<li>码元：在使用时间域（简称为时域）的波形表示数字信号时，代表不同离散数值的基本波形<ul>
+<li>使用二进制编码的时候，只有01两种码元</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>通信的目的是传送消息（话音、文字、图像等）</li>
+<li>数据是运送消息的实体，数据是使用特定方式表示的信息</li>
+</ol>
+<h3 id="2-2-2-有关信道的几个基本概念"><a href="#2-2-2-有关信道的几个基本概念" class="headerlink" title="2.2.2 有关信道的几个基本概念"></a>2.2.2 有关信道的几个基本概念</h3><ul>
+<li>信道：一般用来表述香某一个方向传送信息的媒体（信道和电路不同，一条电路包含一条发送信道和一条接收信道）。分为：单向通信（单工通信），双向交替通信（半双工），双向同时通信（全双工</li>
+<li>基带信号（基本频带信号）来自信源的信号<ul>
+<li>信源发出的没有调制的原始信号</li>
+<li>包含有较多的低频，直流成分</li>
+<li><strong>像计算机输出的代表个各种文字或图像文件的数据信号都属于基带信号</strong></li>
+</ul>
+</li>
+<li>调制<ul>
+<li><p>基带信号往往包含很多低频信号或者直流分量，无法在信道中直接传输，为了解决这一个问题，需要对信号进行转换</p>
+</li>
+<li><p><strong>第一种调制——基带调制</strong>：对基带信号的波形进行转换，其实就是从一种基带信号转换到另外一种基带信号。数字信号→数字信号，这一过程通常叫<strong>编码</strong></p>
+<ul>
+<li>常用的编码方式：变动的多，信号频率高，不容易出错，容易校准</li>
+</ul>
+<p>  <img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%201.png" alt="image1.png"></p>
+<ul>
+<li>不归零制：正电平代表1，负电平代表0。</li>
+<li>归零制：正脉冲代表1，负脉冲代表0。</li>
+<li>曼彻斯特编码：位周期中心的向上跳变代表0，位周期中心的向下跳变代表1。但也可反过来定义。</li>
+<li>差分曼彻斯特编码：在每一位的中心处始终都有跳变。位开始边界有跳变代表0，而位开始边界没有跳变代表1。</li>
+<li>信号频率<ul>
+<li>曼彻斯特编码和差分曼彻斯特编码产生的信号频率比不归零制高</li>
+</ul>
+</li>
+<li>自同步能力<ul>
+<li>不归零无法从波形中提取时钟，没有自同步能力</li>
+<li>曼彻斯特和差分曼彻斯特可以提取，故有自同步能力</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>第二种调制——带通调制</strong>：基带信号中有低频，直流成分（没发辐射电磁波）—使用载波，把基带信号的频率范围搬移到较高的频段，并转换为模拟信号，能更好的在模拟信道中传输</p>
+<ul>
+<li>带通信号：仅在一段频率范围内能够通过信道</li>
+<li><strong>基本的带通调制方法</strong></li>
+</ul>
+<p>  <img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%202.png" alt="image2.png"></p>
+<ul>
+<li>调幅，载波的振幅随基带数字信号而变化。例如：0和1分别对应无载波输出和有载波输出</li>
+<li>调频，载波的频率随基带数字信号而变化。例如：0和1分别对应频率f1和频率f2</li>
+<li>调相，载波的厨师香味随基带数字信号而变化。例如：0和1分别对应相位0度和180度</li>
+</ul>
+<p>  <strong>技术上一般采用多元制的振幅相位混合调制方法，正交振幅调制（这个需要掌握嘛🤔</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-3-信道的极限容量（🤓‼️‼️"><a href="#2-2-3-信道的极限容量（🤓‼️‼️" class="headerlink" title="2.2.3 信道的极限容量（🤓‼️‼️"></a>2.2.3 信道的极限容量（🤓‼️‼️</h3><p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%203.png" alt="image3.png"></p>
+<ul>
+<li>信道带宽：信道能够通过的频率范围<ul>
+<li>码间串扰：接收端收到的信号波形失去了码元之间的清晰界限</li>
+<li>奈式准则：<strong>带宽是W(Hz)的信道中，码元传输的最高速度2W（两倍带宽）</strong><ul>
+<li>作用范围：从发送器到接收器？？？关注的是码元的传输速度</li>
+<li>超过这个速度，就会出现码间乱扰，无法判决</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>信噪比：信号的平均功率和噪声的平均功率之比<ul>
+<li>$信噪比(dB)&#x3D;10log_{10}(S&#x2F;N)(dB)$</li>
+</ul>
+</li>
+<li>香农公式：信息的极限传输速率<ul>
+<li>$C &#x3D; Wlog_2(1+S&#x2F;N)(bit&#x2F;s)$</li>
+<li>作用范围：从信源到信宿，关注的是整个信息的传输速率</li>
+</ul>
+</li>
+<li>如果码元和信息的速率都到极限，<strong>还可以利用编码的方式，提高码元的信息量</strong></li>
+</ul>
+<h2 id="2-4-信道复用技术"><a href="#2-4-信道复用技术" class="headerlink" title="2.4 信道复用技术"></a>2.4 信道复用技术</h2><p>复用：允许用户使用一个<strong>共享信道</strong>进行通信</p>
+<h3 id="2-4-1-频分复用、时分复用和统计时分复用"><a href="#2-4-1-频分复用、时分复用和统计时分复用" class="headerlink" title="2.4.1 频分复用、时分复用和统计时分复用"></a>2.4.1 频分复用、时分复用和统计时分复用</h3><ul>
+<li>频分复用，一人一个频段，比较简单，所有用户在同样的时间占用不同的带宽</li>
+<li>时分复用，将时间划分一段段等长的时分复用帧，每一个用户占用固定序号的帧<ul>
+<li>导致信道利用率不高</li>
+</ul>
+</li>
+</ul>
+<p>以上两种，不灵活，但是简单</p>
+<ul>
+<li>统计时分复用，不是固定分配时隙，而是按需动态分配时隙，因此可以提高线路的利用率</li>
+</ul>
+<p><strong>频分多址和时分多址</strong></p>
+<ul>
+<li>频分多址：让更多的用户轮流使用N个频带</li>
+<li>时分多址：更多的用户轮流使用N个时隙</li>
+</ul>
+<p><strong>复用器和分用器</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%204.png" alt="image4.png"></p>
+<h3 id="2-4-2-波分复用"><a href="#2-4-2-波分复用" class="headerlink" title="2.4.2 波分复用"></a>2.4.2 波分复用</h3><p>光的频分复用，<strong>波分复用是频分复用技术在光纤通信领域的一种特定应用和演进</strong></p>
+<h3 id="2-4-3-码分复用（重点！！！）"><a href="#2-4-3-码分复用（重点！！！）" class="headerlink" title="2.4.3 码分复用（重点！！！）"></a>2.4.3 码分复用（重点！！！）</h3><p><strong>频分复用</strong>就像把房间按<strong>前后位置</strong>划分成几个区域，不同区域的人在不同位置说话，靠空间距离避免干扰。</p>
+<p><strong>时分复用</strong>就像大家<strong>轮流发言</strong>，一个人说完下一个人再说，靠时间顺序避免干扰。</p>
+<p><strong>码分复用</strong>则非常奇特：<strong>所有人都在房间的同一时间、同一地点大声说话</strong>，但每一对人使用一种<strong>只有他们自己能听懂的、独特的语言</strong>（比如中文、西班牙语、阿拉伯语）。尽管背景噪音很大，但因为你只懂中文，你的大脑会自动过滤掉其他所有语言，只专注于与你使用中文的同伴的对话。</p>
+<ul>
+<li>结合频分复用和时分复用</li>
+<li>在同样的时间使用同样的频带用不同的码型</li>
+</ul>
+<p>CDMA</p>
+<p>每个站分配的码片序列：各不相同，且必须互相正交 (orthogonal)。</p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/image%205.png" alt="image5.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E7%89%A9%E7%90%86%E5%B1%82%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">2.1 物理层的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">2.2 数据通信的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">2.2.1 数据通信系统的模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E6%9C%89%E5%85%B3%E4%BF%A1%E9%81%93%E7%9A%84%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.2 有关信道的几个基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F%EF%BC%88%F0%9F%A4%93%E2%80%BC%EF%B8%8F%E2%80%BC%EF%B8%8F"><span class="toc-number">2.3.</span> <span class="toc-text">2.2.3 信道的极限容量（🤓‼️‼️</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E4%BF%A1%E9%81%93%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="toc-number">3.</span> <span class="toc-text">2.4 信道复用技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-1-%E9%A2%91%E5%88%86%E5%A4%8D%E7%94%A8%E3%80%81%E6%97%B6%E5%88%86%E5%A4%8D%E7%94%A8%E5%92%8C%E7%BB%9F%E8%AE%A1%E6%97%B6%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">2.4.1 频分复用、时分复用和统计时分复用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-2-%E6%B3%A2%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">2.4.2 波分复用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-3-%E7%A0%81%E5%88%86%E5%A4%8D%E7%94%A8%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">2.4.3 码分复用（重点！！！）</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&text=计网-第二章-物理层"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&is_video=false&description=计网-第二章-物理层"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计网-第二章-物理层&body=Check out this article: http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&title=计网-第二章-物理层"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&name=计网-第二章-物理层&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/10/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/&t=计网-第二章-物理层"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
