@@ -99,7 +99,9 @@
 </header>
 
         
-        <section id="about" class="p-note" style="text-align: center; padding: 3rem 2rem; background: #fff; border-bottom: 1px solid #f0f0f0;">
+        
+
+<section id="about" class="p-note" style="text-align: center; padding: 3rem 2rem; background: #fff; border-bottom: 1px solid #f0f0f0;">
   
   
     <p style="margin-top: 2rem; font-size: 1rem; letter-spacing: 0.02em;">
@@ -111,22 +113,6 @@
         
           <a class="icon u-url" target="_blank" rel="noopener me" href="http://github.com/lvsany" aria-label="github" title="github" style="margin: 0 8px; font-size: 1.2rem; transition: 0.3s;">
             <i class="fa-brands fa-github"></i>
-          </a>
-        
-        
-      
-        
-        
-          <a class="icon u-url" target="_blank" rel="noopener me" href="/" aria-label="twitter" title="twitter" style="margin: 0 8px; font-size: 1.2rem; transition: 0.3s;">
-            <i class="fa-brands fa-twitter"></i>
-          </a>
-        
-        
-      
-        
-        
-          <a class="icon u-url" target="_blank" rel="noopener me" href="/" aria-label="facebook" title="facebook" style="margin: 0 8px; font-size: 1.2rem; transition: 0.3s;">
-            <i class="fa-brands fa-facebook"></i>
           </a>
         
         
@@ -158,6 +144,178 @@
       <a href="/about/" style="color: #fff; text-decoration: none; font-weight: 500; display: inline-block; padding: 0.8rem 1.8rem; background-color: #333; border-radius: 980px; transition: all 0.3s ease; font-size: 1rem;">
         → Learn More
       </a>
+    </p>
+  </div>
+</section>
+
+<section id="contributions" style="padding: 4rem 2rem; background: linear-gradient(135deg, #f5f7fa 0%, #fff 100%); text-align: center; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    <h2 style="font-size: 1.8rem; font-weight: 700; margin: 0 0 2rem 0; letter-spacing: -0.02em; text-align: left;">📝 Blogging Activity</h2>
+    <div style="text-align: center; margin: 2rem 0; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+      <!-- 月份标签 -->
+      <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0 10px; font-size: 0.8rem; font-weight: 500; color: #999;">
+        
+        
+          <span style="width: calc(8.33% - 2px);">Dec</span>
+        
+          <span style="width: calc(8.33% - 2px);">Jan</span>
+        
+          <span style="width: calc(8.33% - 2px);">Feb</span>
+        
+          <span style="width: calc(8.33% - 2px);">Mar</span>
+        
+          <span style="width: calc(8.33% - 2px);">Apr</span>
+        
+          <span style="width: calc(8.33% - 2px);">May</span>
+        
+          <span style="width: calc(8.33% - 2px);">Jun</span>
+        
+          <span style="width: calc(8.33% - 2px);">Jul</span>
+        
+          <span style="width: calc(8.33% - 2px);">Aug</span>
+        
+          <span style="width: calc(8.33% - 2px);">Sep</span>
+        
+          <span style="width: calc(8.33% - 2px);">Oct</span>
+        
+          <span style="width: calc(8.33% - 2px);">Nov</span>
+        
+      </div>
+      
+      <!-- 柱状图 -->
+      <svg id="contribution-chart" width="100%" height="180" style="border-radius: 8px; background: linear-gradient(to bottom, #fafbfc, #f5f7fa);" data-months="[0,0,0,0,0,0,0,0,0,1,1,3]"></svg>
+      
+      <!-- 图例 -->
+      <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f0f0f0; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 12px; height: 12px; background: #e0e0e0; border-radius: 2px;"></div>
+          <span style="font-size: 0.85rem; color: #666;">无更新</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 12px; height: 12px; background: #aed581; border-radius: 2px;"></div>
+          <span style="font-size: 0.85rem; color: #666;">低活跃</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 12px; height: 12px; background: #7cb342; border-radius: 2px;"></div>
+          <span style="font-size: 0.85rem; color: #666;">中等</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 12px; height: 12px; background: #558b2f; border-radius: 2px;"></div>
+          <span style="font-size: 0.85rem; color: #666;">活跃</span>
+        </div>
+      </div>
+      
+      <script>
+        (function() {
+          const svg = document.getElementById('contribution-chart');
+          const monthData = JSON.parse(svg.getAttribute('data-months'));
+          const barWidth = 100 / 12 - 1.5;
+          const maxCount = Math.max(...monthData, 1);
+          
+          // 定义颜色渐变
+          function getColor(count, max) {
+            const ratio = count / max;
+            if (count === 0) return '#e0e0e0';
+            if (ratio < 0.3) return '#aed581';
+            if (ratio < 0.6) return '#9ccc65';
+            if (ratio < 0.85) return '#7cb342';
+            return '#558b2f';
+          }
+          
+          monthData.forEach((count, i) => {
+            const x = i * (100 / 12);
+            const barHeight = (count / maxCount) * 80;
+            const y = 100 - barHeight;
+            
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', x + 0.75 + '%');
+            rect.setAttribute('y', y + '%');
+            rect.setAttribute('width', barWidth + '%');
+            rect.setAttribute('height', barHeight + '%');
+            rect.setAttribute('fill', getColor(count, maxCount));
+            rect.setAttribute('rx', '3');
+            rect.setAttribute('ry', '3');
+            rect.style.cursor = 'pointer';
+            rect.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            rect.style.filter = 'drop-shadow(0 1px 2px rgba(0,0,0,0.05))';
+            
+            // 创建提示框
+            const tooltip = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            tooltip.id = 'tooltip-' + i;
+            tooltip.style.opacity = '0';
+            tooltip.style.transition = 'opacity 0.3s ease';
+            
+            // 计算tooltip位置：在柱子上方，确保不超出SVG边界
+            const tooltipX = x + barWidth / 2 + 0.75;
+            const tooltipY = Math.max(y - 12, 2); // 确保不超出顶部
+            
+            const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            bg.setAttribute('x', (tooltipX - 4) + '%');
+            bg.setAttribute('y', (tooltipY - 3) + '%');
+            bg.setAttribute('width', '8%');
+            bg.setAttribute('height', '6%');
+            bg.setAttribute('fill', '#333');
+            bg.setAttribute('rx', '3');
+            bg.setAttribute('ry', '3');
+            
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', tooltipX + '%');
+            text.setAttribute('y', tooltipY + '%');
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'middle');
+            text.setAttribute('font-size', '12');
+            text.setAttribute('fill', '#fff');
+            text.setAttribute('font-weight', 'bold');
+            text.textContent = count;
+            
+            tooltip.appendChild(bg);
+            tooltip.appendChild(text);
+            svg.appendChild(tooltip);
+            
+            rect.addEventListener('mouseenter', function() {
+              this.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))';
+              this.style.transform = 'scaleY(1.1)';
+              this.setAttribute('transform', 'origin: center bottom');
+              tooltip.style.opacity = '1';
+            });
+            
+            rect.addEventListener('mouseleave', function() {
+              this.style.filter = 'drop-shadow(0 1px 2px rgba(0,0,0,0.05))';
+              this.style.transform = 'scaleY(1)';
+              tooltip.style.opacity = '0';
+            });
+            
+            svg.appendChild(rect);
+          });
+        })();
+      </script>
+    </div>
+    
+    <!-- 状态提醒 -->
+    <style>
+      .update-status {
+        font-size: 0.95rem;
+        margin-top: 1.5rem;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+      }
+      .update-status.urgent {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .update-status.warning {
+        background: #fff8e1;
+        color: #f57f17;
+      }
+      .update-status.active {
+        background: #f1f8e9;
+        color: #33691e;
+      }
+    </style>
+    
+    <p class="update-status active">
+      ✨ 太棒了！你正在保持活跃！继续加油！🚀
     </p>
   </div>
 </section>
