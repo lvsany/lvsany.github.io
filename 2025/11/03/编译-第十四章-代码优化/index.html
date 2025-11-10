@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image2.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image-1.png">
 <meta property="article:published_time" content="2025-11-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-11-10T10:06:25.179Z">
+<meta property="article:modified_time" content="2025-11-10T12:00:53.683Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="Compiler Theory">
 <meta name="twitter:card" content="summary">
@@ -216,6 +216,7 @@
 </li>
 <li>每个入口语句到下一个入口语句（或程序结束）之间的所有语句属于同一基本块</li>
 </ol>
+<p><strong>同时，在划分基本块时要注意return语句也是一种跳转语句，意味着程序执行到return语句时会跳出当前函数，因此紧跟在return语句之后的第一条语句也应作为一个新的基本块的入口语句。</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>) prod := <span class="number">0</span></span><br><span class="line">(<span class="number">2</span>) i := <span class="number">1</span></span><br><span class="line">(<span class="number">3</span>) t1 := <span class="number">4</span> * i</span><br><span class="line">(<span class="number">4</span>) t2 := a [ t1 ]</span><br><span class="line">(<span class="number">5</span>) t3 := <span class="number">4</span> * i</span><br><span class="line">(<span class="number">6</span>) t4 := b [ t3 ]</span><br><span class="line">(<span class="number">7</span>) t5 := t2 * t4</span><br><span class="line">(<span class="number">8</span>) t6 := prod + t5</span><br><span class="line">(<span class="number">9</span>) prod := t6</span><br><span class="line">(<span class="number">10</span>) t7 := i + <span class="number">1</span></span><br><span class="line">(<span class="number">11</span>) i := t7</span><br><span class="line">(<span class="number">12</span>) <span class="keyword">if</span> i &lt;= <span class="number">20</span> <span class="keyword">goto</span> (<span class="number">3</span>)</span><br><span class="line">(<span class="number">13</span>) …</span><br></pre></td></tr></table></figure>
 <p>根据规则，我们可以确定1，3，13为入口语句<br>所以可以划分的基本块为[1-2], [3-12], [13-]</p>
 <h3 id="3-3-流图构建"><a href="#3-3-流图构建" class="headerlink" title="3.3 流图构建"></a>3.3 流图构建</h3><p>流图是有向图，其中：</p>
