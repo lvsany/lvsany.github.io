@@ -14,12 +14,12 @@
 <meta property="og:description" content="一、代码优化概述1.1 基本概念代码优化指编译程序为了生成高质量的目标程序而做的各种加工和处理，主要目的是提高目标代码的运行效率，包括时间效率（减少运行时间）和空间效率（减少内存容量）。 优化必须严格遵循”不能改变原有程序语义”的原则。 1.2 优化代价与效果关系优化所花费的代价和优化产生的效果呈非线性关系：简单的处理能带来明显的优化效果，但要进一步提高效果就需要付出更大的代价。  二、优化分类2">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image.png">
-<meta property="og:image" content="http://lvsany.github.io/image1.png">
-<meta property="og:image" content="http://lvsany.github.io/image2.png">
-<meta property="og:image" content="http://lvsany.github.io/image-1.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image1.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image2.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image-1.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image.png">
 <meta property="article:published_time" content="2025-11-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-11-10T02:46:19.930Z">
+<meta property="article:modified_time" content="2025-11-10T02:49:00.027Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="Compiler Theory">
 <meta name="twitter:card" content="summary">
@@ -218,7 +218,7 @@
 <li>如果B2的执行紧跟在B1之后，则从B1到B2有一条有向边</li>
 <li>B1称为B2的前驱，B2称为B1的后继</li>
 </ul>
-<p><img src="/image1.png" alt="alt text"></p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image1.png" alt="alt text"></p>
 <h2 id="四、基本块内优化"><a href="#四、基本块内优化" class="headerlink" title="四、基本块内优化"></a>四、基本块内优化</h2><h3 id="4-1-代数性质利用"><a href="#4-1-代数性质利用" class="headerlink" title="4.1 代数性质利用"></a>4.1 代数性质利用</h3><ul>
 <li>编译时完成常量表达式计算</li>
 <li>整数类型与实型转换</li>
@@ -243,7 +243,7 @@
 <li>基本块中变量的最终计算结果都对应着图中的一个结点<br>通过DAG图进行优化，易得需要两个算法：code in basic block -&gt; DAG -&gt; code after optimization</li>
 </ul>
 <p><strong>算法14.2</strong>构建DAG图消除公共子表达式：</p>
-<p><img src="/image2.png" alt="alt text"></p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image2.png" alt="alt text"></p>
 <ol>
 <li>建立结点表记录变量名&#x2F;常量值与结点序号的对应关系</li>
 <li>按规则建立DAG图，处理形如z&#x3D;x op y的中间代码<ol>
@@ -258,7 +258,7 @@
 <blockquote>
 <p>将数组变量a作为一个单独的变量进行考虑，将形如x &#x3D; a[i]的中间代码都表示为x &#x3D; a [] i，其中[]为数组取值操作符；形如a[j] &#x3D; y的中间代码都表示为a &#x3D; j “[]&#x3D;” y，其中“[]&#x3D;”为数组成员赋值操作符。</p>
 </blockquote>
-<p><img src="/image-1.png" alt="alt text"></p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image-1.png" alt="alt text"></p>
 <h3 id="4-7-窥孔优化"><a href="#4-7-窥孔优化" class="headerlink" title="4.7 窥孔优化"></a>4.7 窥孔优化</h3><p>关注目标指令的短序列，通过删除冗余代码或用更高效代码替代来提升质量，不局限于同一基本块。</p>
 <figure class="highlight mips"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov a <span class="keyword">b</span></span><br><span class="line"><span class="keyword"></span>mov <span class="keyword">b </span>a</span><br></pre></td></tr></table></figure>
 
