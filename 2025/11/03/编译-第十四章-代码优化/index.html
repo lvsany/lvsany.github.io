@@ -17,10 +17,10 @@
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image1.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image2.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image-1.png">
-<meta property="og:image" content="http://lvsany.github.io/2025/11/03/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image.png">
-<meta property="og:image" content="http://lvsany.github.io/2025/11/03/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/image-1.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/%E5%AE%9A%E4%B9%89-%E4%BD%BF%E7%94%A8%E9%93%BE%E4%BE%8B%E5%9B%BE.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/%E7%BD%91%E7%9A%84%E6%9E%84%E9%80%A0.png">
 <meta property="article:published_time" content="2025-11-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-11-11T00:36:55.319Z">
+<meta property="article:modified_time" content="2025-11-11T00:41:41.172Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="Compiler Theory">
 <meta name="twitter:card" content="summary">
@@ -324,7 +324,7 @@
 <h3 id="5-4-冲突图构建"><a href="#5-4-冲突图构建" class="headerlink" title="5.4 冲突图构建"></a>5.4 冲突图构建</h3><p>冲突图中结点是待分配全局寄存器的变量，当两个变量中一个在另一个定义处活跃时，它们之间有边连接。用于寄存器分配优化。</p>
 <h3 id="5-5-定义-使用链和网"><a href="#5-5-定义-使用链和网" class="headerlink" title="5.5 定义-使用链和网"></a>5.5 定义-使用链和网</h3><div class="flex-layout">
     <div class="flex-media">
-        <img src="image.png" alt="定义-使用链例图">
+        <img src="/images/编译-第十四章-代码优化/定义-使用链例图.png" alt="定义-使用链例图">
     </div>
     <div class="flex-content">
         <p><strong>定义-使用链</strong>：变量的定义点及所有可能使用该值的使用点组成的链</p>
@@ -334,7 +334,7 @@
 <p>注意⚠️：不能按照数据流把所有有关b的变量使用都连上，因为b在基本块内被重新定义了，所以只能把基本块内从定义点出发到下一个定义点前的使用点连上</p>
 <div class="flex-layout">
     <div class="flex-media">
-        <img src="image-1.png" alt="网的构造">
+        <img src="/images/编译-第十四章-代码优化/网的构造.png" alt="网的构造">
     </div>
     <div class="flex-content">
         <p><strong>网</strong>：同一变量的多个定义-使用链如果拥有共同使用点，则合并为同一个网。</p>
@@ -346,7 +346,9 @@
 </div>
 
 <h2 id="六、循环优化"><a href="#六、循环优化" class="headerlink" title="六、循环优化"></a>六、循环优化</h2><h3 id="6-1-重要性"><a href="#6-1-重要性" class="headerlink" title="6.1 重要性"></a>6.1 重要性</h3><p>程序运行时间的80%由仅占源程序20%的循环部分执行，特别是多重循环的最内层。</p>
-<h3 id="6-2-循环不变式代码外提"><a href="#6-2-循环不变式代码外提" class="headerlink" title="6.2 循环不变式代码外提"></a>6.2 循环不变式代码外提</h3><p>将不随循环控制变量改变的表达式移到循环外部，减少计算次数（频度削弱）。</p>
+<h3 id="6-2-循环不变式代码外提"><a href="#6-2-循环不变式代码外提" class="headerlink" title="6.2 循环不变式代码外提"></a>6.2 循环不变式代码外提</h3><p>将不随循环控制变量改变的表达式[不变表达式]，移到循环外部，减少计算次数（频度削弱）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i=<span class="number">1</span>; i&lt;=n; i++) &#123;</span><br><span class="line">    t = a + b; <span class="comment">// 不变表达式</span></span><br><span class="line">    x[i] = t * i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="6-3-循环展开"><a href="#6-3-循环展开" class="headerlink" title="6.3 循环展开"></a>6.3 循环展开</h3><p>将循环体代码重复产生多次，以空间换时间。判断准则：</p>
 <ol>
 <li>主存资源丰富，处理机时间昂贵</li>
