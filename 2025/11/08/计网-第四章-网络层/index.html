@@ -23,12 +23,12 @@
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%207.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%208.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763231489644_lhi96e_image.png">
-<meta property="og:image" content="attachment:75602ec6-9c12-41b4-b1f0-89e1eb2465d9:image.png">
-<meta property="og:image" content="attachment:aa189d7f-2ac6-4e40-8bbe-66ac6599cc1e:image.png">
-<meta property="og:image" content="attachment:d36fe184-ba7d-4b57-bc39-1ad5f004aee1:image.png">
-<meta property="og:image" content="attachment:5a63bed5-aa3d-4a21-8da5-86c1db0981aa:image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763231741338_zxyesi_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763232047077_ebfuwn_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763232081830_6jk54r_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763232096113_a4ymqi_image.png">
 <meta property="article:published_time" content="2025-11-08T15:46:16.000Z">
-<meta property="article:modified_time" content="2025-11-15T10:32:48.616Z">
+<meta property="article:modified_time" content="2025-11-15T10:42:19.057Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="C-Net Theory">
 <meta name="twitter:card" content="summary">
@@ -316,23 +316,17 @@
 </ul>
 <h3 id="4-2-5-IP数据包格式"><a href="#4-2-5-IP数据包格式" class="headerlink" title="4.2.5 IP数据包格式"></a>4.2.5 IP数据包格式</h3><p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763231489644_lhi96e_image.png" alt="image"></p>
 <ul>
-<li><p>总长度：首部和数据之和的length，总长度不能超过MTU——最大传送单元</p>
-</li>
-<li><p>标识：其实就是一个计数器，IP数据报的标识，尽管分片之后标识一样</p>
-</li>
-<li><p>标志：最低位MF(more fragment)（1:后面还有分片，0最后一个分片）；DF(don’t fragment)：用来探测MTU</p>
-</li>
-<li><p>片偏移：片相对于总长度的偏移；以字节为单位：偏移量&#x2F;8</p>
-<p>  <img src="attachment:75602ec6-9c12-41b4-b1f0-89e1eb2465d9:image.png" alt="image.png"></p>
-</li>
-<li><p>协议：这个数据报使用何种协议</p>
-</li>
-<li><p>首部检验和：只检验首部，不检验数据；</p>
-</li>
-<li><p>两个地址：32位地址</p>
-</li>
-<li><p>可变部分：不用，</p>
-</li>
+<li>总长度：首部和数据之和的length，总长度不能超过MTU——最大传送单元</li>
+<li>标识：其实就是一个计数器，IP数据报的标识，尽管分片之后标识一样</li>
+<li>标志：最低位MF(more fragment)（1:后面还有分片，0最后一个分片）；DF(don’t fragment)：用来探测MTU</li>
+<li>片偏移：片相对于总长度的偏移；以字节为单位：偏移量&#x2F;8</li>
+</ul>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763231741338_zxyesi_image.png" alt="image"></p>
+<ul>
+<li>协议：这个数据报使用何种协议</li>
+<li>首部检验和：只检验首部，不检验数据；</li>
+<li>两个地址：32位地址</li>
+<li>可变部分：不用，</li>
 </ul>
 <h2 id="4-3"><a href="#4-3" class="headerlink" title="4.3"></a>4.3</h2><h3 id="4-3-1-基于终点的转发"><a href="#4-3-1-基于终点的转发" class="headerlink" title="4.3.1 基于终点的转发"></a>4.3.1 基于终点的转发</h3><p>基于分组首部终点目的地址传送和转发</p>
 <ul>
@@ -341,18 +335,17 @@
 <h3 id="4-3-2-最长前缀匹配"><a href="#4-3-2-最长前缀匹配" class="headerlink" title="4.3.2 最长前缀匹配"></a>4.3.2 最长前缀匹配</h3><p>CIDR中选择最长前缀</p>
 <p>网络前缀越长，地址越具体，越好找</p>
 <p><strong>可以按照前缀的长度排列转发表，以便加快查表（二叉线索）</strong></p>
-<p><img src="attachment:aa189d7f-2ac6-4e40-8bbe-66ac6599cc1e:image.png" alt="image.png"></p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763232047077_ebfuwn_image.png" alt="image"></p>
 <ul>
-<li><p>转发表中有两种特殊的路由</p>
-<ul>
+<li>转发表中有两种特殊的路由<ul>
 <li>主机路由：&#x2F;32</li>
 <li>默认路由：0.0.0.0&#x2F;0，超人</li>
 </ul>
-<p>  <img src="attachment:d36fe184-ba7d-4b57-bc39-1ad5f004aee1:image.png" alt="image.png"></p>
 </li>
 </ul>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763232081830_6jk54r_image.png" alt="image"></p>
 <p><strong>整个转发的过程：</strong></p>
-<p><img src="attachment:5a63bed5-aa3d-4a21-8da5-86c1db0981aa:image.png" alt="image.png"></p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763232096113_a4ymqi_image.png" alt="image"></p>
 
     </div>
   </div>
