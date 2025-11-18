@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="编译-第十一章-词法分析程序的自动生成技术3.5 正则表达式与有穷自动机 3.5.1 正则表达式和正则集合的递归定义  ｜ -&gt; 或（选择） · -&gt; 连接 *或{} -&gt;重复，这个不是闭包  先*, 后 •, 最后 |。• 在正则表达式中可以省略 正则表达式相等&lt;&#x3D;&gt;这两个正则表达式表示的语言相等 正则表达式的性质：  正则表达式与3型文法等价 3.5.2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译-第十一章-词法分析程序的自动生成技术(重要)">
+<meta property="og:url" content="http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="编译-第十一章-词法分析程序的自动生成技术3.5 正则表达式与有穷自动机 3.5.1 正则表达式和正则集合的递归定义  ｜ -&gt; 或（选择） · -&gt; 连接 *或{} -&gt;重复，这个不是闭包  先*, 后 •, 最后 |。• 在正则表达式中可以省略 正则表达式相等&lt;&#x3D;&gt;这两个正则表达式表示的语言相等 正则表达式的性质：  正则表达式与3型文法等价 3.5.2">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E9%87%8D%E8%A6%81/1763425056634_dz55x_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E9%87%8D%E8%A6%81/1763424431366_xtas1o_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E9%87%8D%E8%A6%81/1763424807026_jiygw_image.png">
+<meta property="article:published_time" content="2025-11-18T00:02:29.000Z">
+<meta property="article:modified_time" content="2025-11-17T16:21:26.793Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="Compiler Theory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E9%87%8D%E8%A6%81/1763425056634_dz55x_image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>编译-第十一章-词法分析程序的自动生成技术(重要)</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/11/11/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0-%E7%9B%AE%E6%A0%87%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%92%8C%E4%BC%98%E5%8C%96/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&text=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&is_video=false&description=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第十一章-词法分析程序的自动生成技术(重要)&body=Check out this article: http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&name=编译-第十一章-词法分析程序的自动生成技术(重要)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&t=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF"><span class="toc-number">1.</span> <span class="toc-text">编译-第十一章-词法分析程序的自动生成技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="toc-number">1.1.</span> <span class="toc-text">3.5 正则表达式与有穷自动机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E6%AD%A3%E5%88%99%E9%9B%86%E5%90%88%E7%9A%84%E9%80%92%E5%BD%92%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">3.5.1 正则表达式和正则集合的递归定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-2-%E7%A1%AE%E5%AE%9A%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA%EF%BC%88DFA%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">3.5.2. 确定有穷自动机（DFA）</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" style="padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    <header style="margin-bottom: 2rem; text-align: center;">
+      
+    <h1 class="posttitle p-name" itemprop="name headline">
+        编译-第十一章-词法分析程序的自动生成技术(重要)
+    </h1>
+
+
+
+      <div class="meta" style="margin-top: 1.5rem; font-size: 0.95rem; color: #666;">
+        <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+        </span>
+        <span style="margin: 0 0.5rem;">•</span>
+        
+    <div class="postdate">
+      
+        <time datetime="2025-11-18T00:02:29.000Z" class="dt-published" itemprop="datePublished">2025-11-18</time>
+        
+      
+    </div>
+
+
+        
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Compiler/">Compiler</a>
+    </div>
+
+
+        
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Compiler-Theory/" rel="tag">Compiler Theory</a>
+    </div>
+
+
+      </div>
+    </header>
+    
+
+    <div class="content e-content" itemprop="articleBody" style="text-align: left; line-height: 1.8; font-size: 1rem;">
+      <h1 id="编译-第十一章-词法分析程序的自动生成技术"><a href="#编译-第十一章-词法分析程序的自动生成技术" class="headerlink" title="编译-第十一章-词法分析程序的自动生成技术"></a>编译-第十一章-词法分析程序的自动生成技术</h1><h2 id="3-5-正则表达式与有穷自动机"><a href="#3-5-正则表达式与有穷自动机" class="headerlink" title="3.5 正则表达式与有穷自动机"></a>3.5 正则表达式与有穷自动机</h2><p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E9%87%8D%E8%A6%81/1763425056634_dz55x_image.png" alt="image"></p>
+<h3 id="3-5-1-正则表达式和正则集合的递归定义"><a href="#3-5-1-正则表达式和正则集合的递归定义" class="headerlink" title="3.5.1 正则表达式和正则集合的递归定义"></a>3.5.1 正则表达式和正则集合的递归定义</h3><p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E9%87%8D%E8%A6%81/1763424431366_xtas1o_image.png" alt="image"></p>
+<ul>
+<li>｜ -&gt; 或（选择）</li>
+<li>· -&gt; 连接</li>
+<li>*或{} -&gt;重复，这个不是闭包</li>
+</ul>
+<p>先*, 后 •, 最后 |。• 在正则表达式中可以省略</p>
+<p>正则表达式相等&lt;&#x3D;&gt;这两个正则表达式表示的语言相等</p>
+<p>正则表达式的性质：</p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E9%87%8D%E8%A6%81/1763424807026_jiygw_image.png" alt="image"></p>
+<p>正则表达式与3型文法等价</p>
+<h3 id="3-5-2-确定有穷自动机（DFA）"><a href="#3-5-2-确定有穷自动机（DFA）" class="headerlink" title="3.5.2. 确定有穷自动机（DFA）"></a>3.5.2. 确定有穷自动机（DFA）</h3><p>根据您提供的图片信息，已成功识别并整理出图中的文本内容如下：</p>
+<p>一个确定的有穷自动机（DFA）M是一个五元式：<br> M&#x3D;(S,\Sigma,\delta,s_{0},Z)   </p>
+<p>其中：  </p>
+<ol>
+<li>S — 有穷状态集  </li>
+<li>Σ — 输入字母表，不包括空串</li>
+<li>δ — 映射函数（也称状态转换函数）——（标注：s’ 叫做 s 的后继状态）<br> S\times\Sigma\rightarrow S<br> \delta(s,a)&#x3D;s’，s,s’\in S，a\in\Sigma   </li>
+<li>s_{0}  — 初始状态  s_{0}\in S   </li>
+<li>Z — 终止状态集  Z\subseteq S</li>
+</ol>
+<p>以上内容完整提取自图片中的文字和公式，格式与逻辑关系已按原图排版整理。如需进一步解释或补充，请随时告知！</p>
+
+    </div>
+  </div>
+</article>
+<div style="padding: 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">about me</a></li>
+        
+          <li><a href="/categories/">categories</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF"><span class="toc-number">1.</span> <span class="toc-text">编译-第十一章-词法分析程序的自动生成技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="toc-number">1.1.</span> <span class="toc-text">3.5 正则表达式与有穷自动机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E6%AD%A3%E5%88%99%E9%9B%86%E5%90%88%E7%9A%84%E9%80%92%E5%BD%92%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">3.5.1 正则表达式和正则集合的递归定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-2-%E7%A1%AE%E5%AE%9A%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA%EF%BC%88DFA%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">3.5.2. 确定有穷自动机（DFA）</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&text=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&is_video=false&description=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第十一章-词法分析程序的自动生成技术(重要)&body=Check out this article: http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&title=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&name=编译-第十一章-词法分析程序的自动生成技术(重要)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/&t=编译-第十一章-词法分析程序的自动生成技术(重要)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'owner/githubrepo';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
