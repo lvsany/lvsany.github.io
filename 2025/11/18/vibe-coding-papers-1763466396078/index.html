@@ -13,11 +13,14 @@
 <meta property="og:site_name" content="Fyw0o&#39;s blogs">
 <meta property="og:description" content="Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation Agent as a judger：一种评估范式，其中一个智能体或LLM被用作“评委”来对另一个智能体的输出进行评分、分析和评估 Scaffold：一个软件项目的核心框架，包括模块设计和接口设计，用于辅助标注 Arran">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763468634664_c7fd0h_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763469654743_gspbjo_image.png">
 <meta property="article:published_time" content="2025-11-18T11:46:36.000Z">
-<meta property="article:modified_time" content="2025-11-18T04:20:00.487Z">
+<meta property="article:modified_time" content="2025-11-18T04:41:51.038Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="AI4SE">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763468634664_c7fd0h_image.png">
     
     
       
@@ -125,7 +128,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">现状问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">评估实验</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -182,6 +185,22 @@
 <li>Scaffold：一个软件项目的核心框架，包括模块设计和接口设计，用于辅助标注</li>
 <li>Arrange-Act-Assert：准备测试数据和环境 -&gt; 执行被测行为 -&gt; 验证结果是否符合预期</li>
 </ul>
+<h3 id="现状问题"><a href="#现状问题" class="headerlink" title="现状问题"></a>现状问题</h3><ul>
+<li>高标注成本和专业知识要求高，需要大量时间投入</li>
+<li>僵化的评估指标，主要依赖于单元测试</li>
+</ul>
+<h3 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h3><p>提出了一个以产品需求文档为中心的基准测试集，并设计了一个智能体驱动的数据生成管线</p>
+<p>pipeline:</p>
+<p><img src="/images/vibe-coding-papers/1763468634664_c7fd0h_image.png" alt="image"></p>
+<ul>
+<li>从学术论文，github上找一些”seed tasks”</li>
+<li>LLM分析，创建初始的prd和aaa-method</li>
+<li>code agent根据上一步创建的prd和aaa-method生成一个代码的基本框架（scaffold），评估方案和一些测试要用的东西</li>
+<li>评估人根据生成的scaffold&amp;something4test来建议</li>
+<li>code agent根据建议修改内容</li>
+<li>最后移除scaffold，保留下来一份纯净的prd和评估方案</li>
+</ul>
+<h3 id="评估实验"><a href="#评估实验" class="headerlink" title="评估实验"></a>评估实验</h3><p>引入EvalAgent作”Agent as a judger”<br><img src="/images/vibe-coding-papers/1763469654743_gspbjo_image.png" alt="image"></p>
 
     </div>
   </div>
@@ -228,7 +247,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">现状问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">评估实验</span></a></li></ol></li></ol>
       </div>
     
 
