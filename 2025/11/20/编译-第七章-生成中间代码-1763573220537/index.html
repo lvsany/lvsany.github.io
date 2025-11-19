@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="中间代码有多种形式：波兰表示，N-元表示，抽象代码，LLVM IR 7.1 （逆）波兰表示算术表达式（中缀表达式）：F*3.1416*R*(H+R) 波兰表示（后缀表达式）：F 3.1416* R* H R+* 转换算法 采用操作符栈实现中缀表达式到波兰表示的转换 算法步骤： 读到操作数时立即输出 遇到操作符时与栈顶操作符比较优先级 栈顶操作符优先级高则输出栈顶操作符 栈外操作符优先级高则入栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译-第七章-生成中间代码">
+<meta property="og:url" content="http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="中间代码有多种形式：波兰表示，N-元表示，抽象代码，LLVM IR 7.1 （逆）波兰表示算术表达式（中缀表达式）：F*3.1416*R*(H+R) 波兰表示（后缀表达式）：F 3.1416* R* H R+* 转换算法 采用操作符栈实现中缀表达式到波兰表示的转换 算法步骤： 读到操作数时立即输出 遇到操作符时与栈顶操作符比较优先级 栈顶操作符优先级高则输出栈顶操作符 栈外操作符优先级高则入栈">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81/1763573375517_zrqq4m_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81/1763573400281_0d3j9t_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81/1763573431743_foome8_image.png">
+<meta property="article:published_time" content="2025-11-19T17:27:00.000Z">
+<meta property="article:modified_time" content="2025-11-19T09:30:41.359Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="Compiler Theory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81/1763573375517_zrqq4m_image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>编译-第七章-生成中间代码</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/11/18/vibe-coding-papers-1763466396078/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&text=编译-第七章-生成中间代码"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&is_video=false&description=编译-第七章-生成中间代码"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第七章-生成中间代码&body=Check out this article: http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&name=编译-第七章-生成中间代码&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&t=编译-第七章-生成中间代码"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%EF%BC%88%E9%80%86%EF%BC%89%E6%B3%A2%E5%85%B0%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">7.1 （逆）波兰表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">转换算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%B3%A2%E5%85%B0%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.3.</span> <span class="toc-text">条件语句的波兰表示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-N-%E5%85%83%E8%A1%A8%E7%A4%BA"><span class="toc-number">2.</span> <span class="toc-text">7.2 N-元表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">条件语句示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%B4%E6%8E%A5%E4%B8%89%E5%85%83%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">间接三元式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E5%BC%8F%E8%A1%A8%E7%A4%BA"><span class="toc-number">2.3.</span> <span class="toc-text">四元式表示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-%E6%8A%BD%E8%B1%A1%E6%9C%BA%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">7.3 抽象机代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#P-code%E6%A6%82%E8%BF%B0"><span class="toc-number">3.1.</span> <span class="toc-text">P-code概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E7%BB%84%E6%88%90"><span class="toc-number">3.2.</span> <span class="toc-text">寄存器组成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4-%E5%85%B6%E4%BB%96%E5%BD%A2%E5%BC%8F%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">7.4 其他形式的中间代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91-AST"><span class="toc-number">4.1.</span> <span class="toc-text">抽象语法树(AST)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BE-DAG"><span class="toc-number">4.2.</span> <span class="toc-text">有向无环图(DAG)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%8D%95%E4%B8%80%E8%B5%8B%E5%80%BC%E5%BD%A2%E5%BC%8F-SSA"><span class="toc-number">4.3.</span> <span class="toc-text">静态单一赋值形式(SSA)</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" style="padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    <header style="margin-bottom: 2rem; text-align: center;">
+      
+    <h1 class="posttitle p-name" itemprop="name headline">
+        编译-第七章-生成中间代码
+    </h1>
+
+
+
+      <div class="meta" style="margin-top: 1.5rem; font-size: 0.95rem; color: #666;">
+        <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+        </span>
+        <span style="margin: 0 0.5rem;">•</span>
+        
+    <div class="postdate">
+      
+        <time datetime="2025-11-19T17:27:00.000Z" class="dt-published" itemprop="datePublished">2025-11-20</time>
+        
+      
+    </div>
+
+
+        
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Compiler/">Compiler</a>
+    </div>
+
+
+        
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Compiler-Theory/" rel="tag">Compiler Theory</a>
+    </div>
+
+
+      </div>
+    </header>
+    
+
+    <div class="content e-content" itemprop="articleBody" style="text-align: left; line-height: 1.8; font-size: 1rem;">
+      <p>中间代码有多种形式：波兰表示，N-元表示，抽象代码，LLVM IR</p>
+<h2 id="7-1-（逆）波兰表示"><a href="#7-1-（逆）波兰表示" class="headerlink" title="7.1 （逆）波兰表示"></a>7.1 （逆）波兰表示</h2><p>算术表达式（中缀表达式）：<code>F*3.1416*R*(H+R)</code></p>
+<p>波兰表示（后缀表达式）：<code>F 3.1416* R* H R+*</code></p>
+<h3 id="转换算法"><a href="#转换算法" class="headerlink" title="转换算法"></a><strong>转换算法</strong></h3><ul>
+<li>采用操作符栈实现中缀表达式到波兰表示的转换</li>
+<li>算法步骤：<ol>
+<li>读到操作数时立即输出</li>
+<li>遇到操作符时与栈顶操作符比较优先级</li>
+<li>栈顶操作符优先级高则输出栈顶操作符</li>
+<li>栈外操作符优先级高则入栈</li>
+</ol>
+</li>
+</ul>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a><strong>优点</strong></h3><ol>
+<li>无二义性表达算术表达式</li>
+<li>易于转换为汇编语言或机器语言</li>
+<li>操作符顺序即为计算顺序</li>
+<li>适用于多种语言结构</li>
+</ol>
+<h3 id="条件语句的波兰表示"><a href="#条件语句的波兰表示" class="headerlink" title="条件语句的波兰表示"></a><strong>条件语句的波兰表示</strong></h3><p>if语句：<code>if &lt;expr&gt; then &lt;stmt1&gt; else &lt;stmt2&gt;</code></p>
+<p>波兰表示：<code>&lt;expr&gt; &lt;label1&gt; BZ &lt;stmt1&gt; &lt;label2&gt; BR &lt;stmt2&gt;</code></p>
+<ul>
+<li><strong>BZ操作符</strong>：二目操作符，当<code>&lt;expr&gt;</code>结果为0(false)时转移到<code>&lt;label1&gt;</code>（<code>&lt;stmt2&gt;</code>的头符号）</li>
+<li><strong>BR操作符</strong>：一目操作符，无条件转移到<code>&lt;label2&gt;</code>（if语句后的第一个语句）</li>
+</ul>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81/1763573375517_zrqq4m_image.png" alt="image"></p>
+<h2 id="7-2-N-元表示"><a href="#7-2-N-元表示" class="headerlink" title="7.2 N-元表示"></a>7.2 N-元表示</h2><p>每条指令由n个域组成，通常第一个域表示操作符，其余为操作数</p>
+<h3 id="条件语句示例"><a href="#条件语句示例" class="headerlink" title="条件语句示例"></a><strong>条件语句示例</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if x&gt;y then z:=x else z:=y+1;</span><br></pre></td></tr></table></figure>
+
+<p>三元式表示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(1) &gt;, x, y</span><br><span class="line">(2) BMZ, (1), (5)    # 若(1)≤0则转移到(5)</span><br><span class="line">(3) :=, z, x</span><br><span class="line">(4) BR, , (7)        # 无条件转移到(7)</span><br><span class="line">(5) +, y, 1</span><br><span class="line">(6) :=, z, (5)</span><br><span class="line">(7) ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="间接三元式"><a href="#间接三元式" class="headerlink" title="间接三元式"></a><strong>间接三元式</strong></h3><ul>
+<li>为解决优化时三元式位置变更问题而设计</li>
+<li>使用单独的执行顺序表记录三元式的执行次序</li>
+<li>优化时只需调整顺序表，三元式本身保持不变</li>
+</ul>
+<h3 id="四元式表示"><a href="#四元式表示" class="headerlink" title="四元式表示"></a><strong>四元式表示</strong></h3><p>格式：操作符、操作数1、操作数2、结果</p>
+<p>示例：<code>(A+B)*(C+D)-E</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+, A, B, T1</span><br><span class="line">+, C, D, T2</span><br><span class="line">*, T1, T2, T3</span><br><span class="line">-, T3, E, T4</span><br></pre></td></tr></table></figure>
+
+<p>优点：便于优化处理</p>
+<h2 id="7-3-抽象机代码"><a href="#7-3-抽象机代码" class="headerlink" title="7.3 抽象机代码"></a>7.3 抽象机代码</h2><h3 id="P-code概述"><a href="#P-code概述" class="headerlink" title="P-code概述"></a><strong>P-code概述</strong></h3><ul>
+<li>基于虚拟的”堆栈计算机”模型</li>
+<li>操作主要在运行栈的栈顶进行</li>
+<li>便于程序移植和解释执行</li>
+</ul>
+<h3 id="寄存器组成"><a href="#寄存器组成" class="headerlink" title="寄存器组成"></a><strong>寄存器组成</strong></h3><ol>
+<li><strong>PC</strong>：程序计数器</li>
+<li><strong>NP</strong>：New指针，指向堆的顶部</li>
+<li><strong>SP</strong>：运行栈指针，指向可直接寻址的数据</li>
+<li><strong>BP</strong>：基地址指针，指向当前活动记录起始位置</li>
+<li><strong>MP</strong>：栈标志指针</li>
+<li><strong>EP</strong>：极限栈指针</li>
+</ol>
+<h2 id="7-4-其他形式的中间代码"><a href="#7-4-其他形式的中间代码" class="headerlink" title="7.4 其他形式的中间代码"></a>7.4 其他形式的中间代码</h2><h3 id="抽象语法树-AST"><a href="#抽象语法树-AST" class="headerlink" title="抽象语法树(AST)"></a><strong>抽象语法树(AST)</strong></h3><ul>
+<li>树型图表示中间代码</li>
+<li>叶节点为操作数，中间节点为操作符</li>
+<li>直观展示表达式结构层次</li>
+</ul>
+<h3 id="有向无环图-DAG"><a href="#有向无环图-DAG" class="headerlink" title="有向无环图(DAG)"></a><strong>有向无环图(DAG)</strong></h3><ul>
+<li>语法树的归约表达方式</li>
+<li>叶节点标记为变量名或常量</li>
+<li>中间节点标记为操作符</li>
+<li>支持公共子表达式消除等优化</li>
+</ul>
+<p>示例：<code>a:=b*(-c)+b*(-c)</code>的DAG表示</p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81/1763573400281_0d3j9t_image.png" alt="image"></p>
+<h3 id="静态单一赋值形式-SSA"><a href="#静态单一赋值形式-SSA" class="headerlink" title="静态单一赋值形式(SSA)"></a><strong>静态单一赋值形式(SSA)</strong></h3><ul>
+<li>每个变量只赋值一次的特殊四元式</li>
+<li>优点：简化优化过程，获得更好优化结果</li>
+<li>通过插入Φ函数实现从普通四元式转换</li>
+</ul>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81/1763573431743_foome8_image.png" alt="image"></p>
+
+    </div>
+  </div>
+</article>
+<div style="padding: 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">about me</a></li>
+        
+          <li><a href="/categories/">categories</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%EF%BC%88%E9%80%86%EF%BC%89%E6%B3%A2%E5%85%B0%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">7.1 （逆）波兰表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">转换算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%B3%A2%E5%85%B0%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.3.</span> <span class="toc-text">条件语句的波兰表示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-N-%E5%85%83%E8%A1%A8%E7%A4%BA"><span class="toc-number">2.</span> <span class="toc-text">7.2 N-元表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">条件语句示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%B4%E6%8E%A5%E4%B8%89%E5%85%83%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">间接三元式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E5%BC%8F%E8%A1%A8%E7%A4%BA"><span class="toc-number">2.3.</span> <span class="toc-text">四元式表示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-%E6%8A%BD%E8%B1%A1%E6%9C%BA%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">7.3 抽象机代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#P-code%E6%A6%82%E8%BF%B0"><span class="toc-number">3.1.</span> <span class="toc-text">P-code概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E7%BB%84%E6%88%90"><span class="toc-number">3.2.</span> <span class="toc-text">寄存器组成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4-%E5%85%B6%E4%BB%96%E5%BD%A2%E5%BC%8F%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">7.4 其他形式的中间代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91-AST"><span class="toc-number">4.1.</span> <span class="toc-text">抽象语法树(AST)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BE-DAG"><span class="toc-number">4.2.</span> <span class="toc-text">有向无环图(DAG)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%8D%95%E4%B8%80%E8%B5%8B%E5%80%BC%E5%BD%A2%E5%BC%8F-SSA"><span class="toc-number">4.3.</span> <span class="toc-text">静态单一赋值形式(SSA)</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&text=编译-第七章-生成中间代码"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&is_video=false&description=编译-第七章-生成中间代码"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第七章-生成中间代码&body=Check out this article: http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&title=编译-第七章-生成中间代码"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&name=编译-第七章-生成中间代码&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/&t=编译-第七章-生成中间代码"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'owner/githubrepo';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
