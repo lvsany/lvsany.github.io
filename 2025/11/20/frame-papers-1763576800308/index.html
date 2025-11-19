@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORKpaper link 问题 由于LLMs的简单串联，容易导致级联幻觉（Cascading Hallucinations），使得解决方案复杂化 。 效率低下： 缺乏有效的、连贯的、准确的问题解决流程，特别是在需要有意义的协作交互时表现不佳  贡献">
+<meta property="og:type" content="article">
+<meta property="og:title" content="frame papers">
+<meta property="og:url" content="http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORKpaper link 问题 由于LLMs的简单串联，容易导致级联幻觉（Cascading Hallucinations），使得解决方案复杂化 。 效率低下： 缺乏有效的、连贯的、准确的问题解决流程，特别是在需要有意义的协作交互时表现不佳  贡献">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763518817299_53vtmh_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763519675948_0a47j_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763575599364_delxgg_image.png">
+<meta property="article:published_time" content="2025-11-19T18:26:40.000Z">
+<meta property="article:modified_time" content="2025-11-19T10:27:04.900Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="vibe coding">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763518817299_53vtmh_image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>frame papers</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&text=frame papers"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&is_video=false&description=frame papers"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=frame papers&body=Check out this article: http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&name=frame papers&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&t=frame papers"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK"><span class="toc-number">1.</span> <span class="toc-text">[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">1.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AF%84%E4%BC%B0"><span class="toc-number">1.4.</span> <span class="toc-text">实验评估</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL-2024-ChatDev-Communicative-Agents-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">[ACL 2024]ChatDev: Communicative Agents for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">2.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-number">2.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methodology"><span class="toc-number">2.3.</span> <span class="toc-text">Methodology</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0-Experiments-and-Evaluation"><span class="toc-number">2.4.</span> <span class="toc-text">实验与评估 (Experiments and Evaluation)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations"><span class="toc-number">2.5.</span> <span class="toc-text">Limitations</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" style="padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    <header style="margin-bottom: 2rem; text-align: center;">
+      
+    <h1 class="posttitle p-name" itemprop="name headline">
+        frame papers
+    </h1>
+
+
+
+      <div class="meta" style="margin-top: 1.5rem; font-size: 0.95rem; color: #666;">
+        <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+        </span>
+        <span style="margin: 0 0.5rem;">•</span>
+        
+    <div class="postdate">
+      
+        <time datetime="2025-11-19T18:26:40.000Z" class="dt-published" itemprop="datePublished">2025-11-20</time>
+        
+      
+    </div>
+
+
+        
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/AI4SE/">AI4SE</a>
+    </div>
+
+
+        
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/vibe-coding/" rel="tag">vibe coding</a>
+    </div>
+
+
+      </div>
+    </header>
+    
+
+    <div class="content e-content" itemprop="articleBody" style="text-align: left; line-height: 1.8; font-size: 1rem;">
+      <h2 id="ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK"><a href="#ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK" class="headerlink" title="[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK"></a>[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2308.00352">paper link</a></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ul>
+<li>由于LLMs的简单串联，容易导致级联幻觉（Cascading Hallucinations），使得解决方案复杂化 。</li>
+<li>效率低下： 缺乏有效的、连贯的、准确的问题解决流程，特别是在需要有意义的协作交互时表现不佳</li>
+</ul>
+<h3 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h3><ul>
+<li>我们介绍了 MetaGPT，这是一个基于 LLMs 的多智能体协作元编程框架。它非常方便且灵活，具有角色定义和消息共享等明确定义的函数，使其成为开发基于 LLMs 的多智能体系统的有用平台。</li>
+<li>我们在 MetaGPT 的设计中创新性地整合了类似人类的标准操作程序（SOPs），显著增强了其鲁棒性，减少了基于 LLMs 的智能体之间的无效协作。此外，我们引入了一种新颖的执行反馈机制，在运行时调试和执行代码，显著提高了代码生成质量（例如，在 MBPP 上绝对提升了 5.4%）。</li>
+<li>我们在 HumanEval（Chen 等人，2021a）和 MBPP（Austin 等人，2021）上取得了最先进的性能。广泛的结果有力地验证了 MetaGPT，表明它是一个有前景的元编程框架，用于开发基于 LLMs 的多智能体系统。</li>
+</ul>
+<h3 id="workflow"><a href="#workflow" class="headerlink" title="workflow"></a>workflow</h3><p><img src="/images/vibe-coding-papers/1763518817299_53vtmh_image.png" alt="image"></p>
+<ul>
+<li>角色专业化和 SOP 工作流程：框架为每个智能体分配了具有人类专业领域知识的明确角色，并遵循严格的 SOP 工作流程</li>
+<li>communication protocol<ul>
+<li>MetaGPT放弃了使用非约束性的自然语言对话进行通信，智能体之间通过产生结构化的输出（如 PRD、系统设计文档、流程图等）进行信息传递</li>
+<li>共享消息池，智能体将结构化消息发布到池中，而其他智能体则可以根据自己的角色获取所需信息，避免信息过载<br><img src="/images/vibe-coding-papers/1763519675948_0a47j_image.png" alt="image"></li>
+</ul>
+</li>
+<li>可执行反馈的迭代编程：为了解决代码生成中的错误和“幻觉”问题，MetaGPT 引入了可执行反馈机制<ul>
+<li>自修正：工程师智能体在生成初始代码后，会运行并检查错误</li>
+<li>调试迭代：如果发生错误，工程师会利用其历史执行和调试记忆，编写并执行单元测试用例，并根据结果进行调试和代码改进，直到测试通过（或达到最大重试次数）</li>
+</ul>
+</li>
+</ul>
+<h3 id="实验评估"><a href="#实验评估" class="headerlink" title="实验评估"></a>实验评估</h3><p>humanEval, MBPP, SoftwareDev</p>
+<hr>
+<h2 id="ACL-2024-ChatDev-Communicative-Agents-for-Software-Development"><a href="#ACL-2024-ChatDev-Communicative-Agents-for-Software-Development" class="headerlink" title="[ACL 2024]ChatDev: Communicative Agents for Software Development"></a>[ACL 2024]ChatDev: Communicative Agents for Software Development</h2><p><a target="_blank" rel="noopener" href="https://github.com/OpenBMB/ChatDev">paper link</a></p>
+<ul>
+<li>Chat Chain（对话链）：一种链式结构化工作流，将软件开发过程分解为多个顺序阶段（Phase），每个阶段进一步划分为更小的子任务（Subtask），引导智能体通过多轮对话协作完成每个子任务。</li>
+</ul>
+<h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><ul>
+<li>软件开发过程的碎片化，技术不一致，效率较低</li>
+<li>代码幻觉，生成不完整，不可知性或不准确的源代码</li>
+</ul>
+<h3 id="Contributions"><a href="#Contributions" class="headerlink" title="Contributions"></a>Contributions</h3><ul>
+<li>提出了ChatDev框架：将多个LLM驱动的智能体整合到一个统一的对话驱动框架中，通过聊天链将每个阶段进一步细分为更小的子任务</li>
+<li>引入了通信去幻觉机制，交流模式指导代理如何进行交流，实现精确的信息交换，从而有效优化解决方案，同时减少编码幻觉</li>
+<li>创建了SRDD数据集：开发了包含1,200个软件任务提示的软件需求描述数据集</li>
+</ul>
+<h3 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h3><p><img src="/images/vibe-coding-papers/1763575599364_delxgg_image.png" alt="image"></p>
+<p>Specifically, ChatDev segments the software<br>development process into three sequential phases:<br>design, coding, and testing. The coding phase is<br>further subdivided into subtasks of code writing<br>and completion, and the testing phase is segmented<br>into code review (static testing) and system testing<br>(dynamic testing), as illustrated in Figure 2. </p>
+<p>每个子任务中都有一个Instructor和一个助手智能体Assistant，Instructor发起指令，Assistant遵循指令并响应解决方案,多轮对话达成合作（同时解决代码幻觉）</p>
+<h3 id="实验与评估-Experiments-and-Evaluation"><a href="#实验与评估-Experiments-and-Evaluation" class="headerlink" title="实验与评估 (Experiments and Evaluation)"></a>实验与评估 (Experiments and Evaluation)</h3><ul>
+<li>评估数据集：使用自建的SRDD（软件需求描述数据集），包含1,200个软件任务提示，覆盖5大领域40个子类别。</li>
+<li>核心评估指标：<ul>
+<li>完整性（Completeness）：衡量软件完成代码的程度，无”占位符”代码片段的百分比</li>
+<li>可执行性（Executability）：软件在编译环境中成功运行的概率</li>
+<li>一致性（Consistency）：生成代码与原始需求描述之间的语义对齐程度</li>
+<li>质量（Quality）：综合指标，为前三项指标的乘积</li>
+</ul>
+</li>
+<li>主要实验结果：ChatDev在完整性（0.5600）、可执行性（0.8800）和一致性（0.8021）上均显著优于基线方法，质量得分达到0.3953。与 MetaGPT 相比，ChatDev 将质量从 0.1523 显著提升至 0.3953</li>
+</ul>
+<h3 id="Limitations"><a href="#Limitations" class="headerlink" title="Limitations"></a>Limitations</h3><ul>
+<li>agents often implement simple<br>logic, resulting in low information density. With-<br>out clear, detailed requirements, agents struggle to<br>grasp task ideas.</li>
+<li>自动化评估</li>
+<li>计算量大</li>
+</ul>
+
+    </div>
+  </div>
+</article>
+<div style="padding: 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">about me</a></li>
+        
+          <li><a href="/categories/">categories</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK"><span class="toc-number">1.</span> <span class="toc-text">[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">1.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AF%84%E4%BC%B0"><span class="toc-number">1.4.</span> <span class="toc-text">实验评估</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL-2024-ChatDev-Communicative-Agents-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">[ACL 2024]ChatDev: Communicative Agents for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">2.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-number">2.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methodology"><span class="toc-number">2.3.</span> <span class="toc-text">Methodology</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0-Experiments-and-Evaluation"><span class="toc-number">2.4.</span> <span class="toc-text">实验与评估 (Experiments and Evaluation)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations"><span class="toc-number">2.5.</span> <span class="toc-text">Limitations</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&text=frame papers"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&is_video=false&description=frame papers"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=frame papers&body=Check out this article: http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&title=frame papers"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&name=frame papers&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/frame-papers-1763576800308/&t=frame papers"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'owner/githubrepo';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
