@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763468634664_c7fd0h_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763469654743_gspbjo_image.png">
 <meta property="article:published_time" content="2025-11-18T11:46:36.000Z">
-<meta property="article:modified_time" content="2025-11-19T10:29:54.477Z">
+<meta property="article:modified_time" content="2025-11-19T19:06:16.405Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="vibe coding">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">现状问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">评估实验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DevBench-A-Comprehensive-Benchmark-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">DevBench: A Comprehensive Benchmark for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#problems"><span class="toc-number">2.1.</span> <span class="toc-text">problems</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contributions"><span class="toc-number">2.2.</span> <span class="toc-text">contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">2.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#experiments-val"><span class="toc-number">2.4.</span> <span class="toc-text">experiments val</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">现状问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">评估实验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DevBench-A-Comprehensive-Benchmark-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">DevBench: A Comprehensive Benchmark for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#problems"><span class="toc-number">2.1.</span> <span class="toc-text">problems</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contributions"><span class="toc-number">2.2.</span> <span class="toc-text">contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">2.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#experiments-val"><span class="toc-number">2.4.</span> <span class="toc-text">experiments val</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling"><span class="toc-number">3.</span> <span class="toc-text">Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98-%E6%8C%91%E6%88%98-Problems-Challenges"><span class="toc-number">3.1.</span> <span class="toc-text">现状问题&#x2F;挑战 (Problems&#x2F;Challenges)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%B4%A1%E7%8C%AE-Contributions"><span class="toc-number">3.2.</span> <span class="toc-text">核心贡献 (Contributions)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-Workflow-Pipeline-Methodology"><span class="toc-number">3.3.</span> <span class="toc-text">框架&#x2F;工作流程 (Workflow&#x2F;Pipeline&#x2F;Methodology)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0-Experiments-and-Evaluation"><span class="toc-number">3.4.</span> <span class="toc-text">实验与评估 (Experiments and Evaluation)</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -253,6 +253,56 @@
 </li>
 </ul>
 <hr>
+<h2 id="Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling"><a href="#Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling" class="headerlink" title="Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling"></a>Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2511.03404v1">paper link</a></p>
+<ul>
+<li><strong>项目级代码生成 (Project-Level Code Generation)</strong>: 指根据复杂的用户需求直接生成完整的、包含多个文件的软件项目。这与仅生成单个函数或文件的代码生成任务有本质区别，因为它需要对全局架构、模块组织和跨文件依赖关系进行整体推理。</li>
+<li><strong>语义软件架构树 (Semantic Software Architecture Tree, SSAT)</strong>: 本文提出的一种结构化的、机器可解析的中间表示。它采用树形结构，显式地编码了模块、文件、类、函数及其职责和依赖关系，旨在弥合自然语言需求与可执行代码之间的语义鸿沟。</li>
+<li><strong>多智能体框架 (Multi-Agent Framework)</strong>: 一种软件工程方法，其中多个由大语言模型驱动的、具有特定角色的智能体通过协作来完成复杂任务。在本文中，框架包含生成智能体（如 ArchAgent, SkeletonAgent, CodeAgent）和评判智能体（如 JudgeA, JudgeS, JudgeC），它们协同工作以分解任务、生成代码并进行迭代优化。</li>
+<li><strong>CodeProjectEval</strong>: 本文构建的一个项目级代码生成数据集。它包含18个从真实世界仓库中筛选出的Python项目，平均每个任务需要生成12.7个源文件和2388.6行代码，并提供了用于自动评估的文档和可执行测试用例。</li>
+</ul>
+<h3 id="现状问题-挑战-Problems-Challenges"><a href="#现状问题-挑战-Problems-Challenges" class="headerlink" title="现状问题&#x2F;挑战 (Problems&#x2F;Challenges)"></a>现状问题&#x2F;挑战 (Problems&#x2F;Challenges)</h3><ul>
+<li><strong>现有数据集和评估指标缺乏真实性和可靠性</strong>：当前的项目级代码生成数据集规模较小（通常不超过5个文件或500行代码），难以反映真实软件的复杂性。评估多依赖统计或相似性度量（如SketchBLEU），这些指标可能给无法编译或运行的项目打高分，无法准确评估代码的实际质量。</li>
+<li><strong>需求文档与可执行代码之间存在语义鸿沟</strong>：实践中用于描述需求的文档（如PRD）是为人类理解而写的，可能包含图表、表格或非正式描述，大语言模型难以有效解析，导致生成性能受限。</li>
+<li><strong>处理层次化上下文依赖和长距离上下文管理的困难</strong>：软件仓库具有多层次结构（目录、文件、类、函数），且组件间存在复杂的调用和继承关系。早期阶段的错误会传播到依赖组件中。同时，大语言模型的有限上下文长度也限制了其在生成过程中维护和利用长距离依赖的能力。</li>
+</ul>
+<h3 id="核心贡献-Contributions"><a href="#核心贡献-Contributions" class="headerlink" title="核心贡献 (Contributions)"></a>核心贡献 (Contributions)</h3><ul>
+<li><strong>识别并系统阐述了项目级代码生成中的关键挑战</strong>，包括数据集与评估指标的局限性、语义鸿沟问题以及层次依赖管理难题。</li>
+<li><strong>构建了CodeProjectEval数据集</strong>，这是一个规模更大、更贴近真实软件开发场景的数据集，平均每个任务包含12.7个文件和2388.6行代码，并支持通过可执行测试用例进行自动评估，为领域研究提供了更可靠的基准。</li>
+<li><strong>提出了ProjectGEN框架</strong>，一个多智能体三阶段（架构设计、骨架生成、代码填充）代码生成框架。该框架引入了<strong>语义软件架构树（SSAT）</strong> 作为关键的中间表示，并集成了基于记忆的迭代优化机制，以逐步细化实现。</li>
+<li><strong>实验证明ProjectGEN实现了最先进的性能</strong>：在小型项目数据集DevBench上通过了52&#x2F;124个测试用例，相比基线方法提升了57%；在更大规模的CodeProjectEval数据集上通过了310个测试用例，相比基线有近十倍的提升。</li>
+</ul>
+<h3 id="框架-工作流程-Workflow-Pipeline-Methodology"><a href="#框架-工作流程-Workflow-Pipeline-Methodology" class="headerlink" title="框架&#x2F;工作流程 (Workflow&#x2F;Pipeline&#x2F;Methodology)"></a>框架&#x2F;工作流程 (Workflow&#x2F;Pipeline&#x2F;Methodology)</h3><p>ProjectGEN的核心设计理念是将复杂的项目级代码生成任务分解为三个可管理的、顺序执行的阶段，并通过多智能体协作和迭代反馈来确保每个阶段的质量，从而降低错误传播风险。</p>
+<ul>
+<li><p><strong>步骤 1：架构设计 (Architecture Design)</strong></p>
+<ul>
+<li><strong>角色&#x2F;模块</strong>: ArchAgent (生成智能体) 和 JudgeA (评判智能体)</li>
+<li><strong>工作内容与产出</strong>: ArchAgent 根据输入的产品需求文档（PRD）、UML图和架构设计文档，生成一个<strong>语义软件架构树（SSAT）</strong>。JudgeA 则从需求覆盖度、与提供信息的一致性、接口一致性和依赖关系四个维度对生成的SSAT进行评估打分。如果评分低于阈值，则提供反馈给ArchAgent进行迭代修正。修正过程中的反馈和差异会被总结并存入ArchAgent的记忆中，用于指导后续迭代。</li>
+</ul>
+</li>
+<li><p><strong>步骤 2：骨架生成 (Skeleton Generation)</strong></p>
+<ul>
+<li><strong>角色&#x2F;模块</strong>: SkeletonAgent (生成智能体) 和 JudgeS (评判智能体)</li>
+<li><strong>工作内容与产出</strong>: SkeletonAgent 根据上一步得到的SSAT，为每个源文件生成代码骨架（包含import语句、类声明、函数签名以及用<code>pass</code>填充的函数体）。JudgeS 首先尝试编译该骨架，如果失败则返回错误信息。编译成功后，JudgeS 会从目录结构匹配度和接口与调用关系匹配度两方面进行LLM评估。同样，未达标的骨架会触发迭代优化，并利用记忆机制保留相关上下文。</li>
+</ul>
+</li>
+<li><p><strong>步骤 3：代码填充 (Code Filling)</strong></p>
+<ul>
+<li><strong>角色&#x2F;模块</strong>: CodeAgent (生成智能体) 和 JudgeC (评判智能体)</li>
+<li><strong>工作内容与产出</strong>: CodeAgent 按照拓扑排序确定的文件顺序（以确保依赖文件先生成），将骨架中的<code>pass</code>语句替换为具体的代码实现，同时保留骨架中的结构。JudgeC 的核心评估手段是运行预先定义的<strong>检查测试（Check Tests）</strong>。如果测试失败，JudgeC会分析错误日志，指出需要修改的文件和建议的修正措施。CodeAgent根据反馈进行迭代修改，并利用记忆避免重复错误并实施有效修正。</li>
+</ul>
+</li>
+</ul>
+<p><strong>关键的协作机制</strong>：每个阶段都采用“生成-评判”的协作模式。评判智能体（Judge）不共享记忆，以保证评估的客观性。生成智能体（Agent）则通过基于BM25算法的记忆检索机制，在每次迭代时引入与当前反馈最相关的历史修正经验，从而实现有指导的、高效的迭代优化。</p>
+<h3 id="实验与评估-Experiments-and-Evaluation"><a href="#实验与评估-Experiments-and-Evaluation" class="headerlink" title="实验与评估 (Experiments and Evaluation)"></a>实验与评估 (Experiments and Evaluation)</h3><ul>
+<li><strong>评估数据集与基准</strong>：实验主要在两个数据集上进行：<strong>DevBench</strong>（Python子集，包含10个小型项目，平均2.2个文件，276行代码）和本文构建的<strong>CodeProjectEval</strong>（包含18个更大规模的真实项目）。</li>
+<li><strong>核心评估指标</strong>：主要指标是通过的单元测试数量（<strong>#Pass</strong>），并计算按代码行数加权的平均值（AVG_weighted）以反映项目规模和复杂度。辅助指标是<strong>SketchBLEU</strong>，用于衡量生成代码与参考代码在仓库级别的结构相似性。</li>
+<li><strong>主要实验结果</strong>：在DevBench上，ProjectGEN使用DeepSeek-V3模型通过了52个测试，显著优于基线方法CodeS（25个）和MetaGPT（33个）。在更具挑战性的CodeProjectEval上，ProjectGEN（使用GPT-4o）通过了310个测试，而CodeS和MetaGPT分别仅通过5个和28个，显示出近十倍的巨大优势。这表明ProjectGEN在处理大规模、复杂项目时具有更强的鲁棒性。</li>
+<li><strong>消融实验 (Ablation Study) 结果</strong>：为了验证核心组件的有效性，论文对比了完整版ProjectGEN与两个变体：<ol>
+<li><strong>ProjectGEN w&#x2F;o iter</strong>：移除了评判智能体和迭代优化机制，但保留SSAT。</li>
+<li><strong>CodeS</strong>：一个基线方法，它使用自然语言而非SSAT作为中间表示进行三层草图生成。<br>  实验结果表明，SSAT（对比CodeS）和迭代优化机制（对比ProjectGEN w&#x2F;o iter）都对最终性能有重要贡献。例如，在CodeProjectEval上，完整版ProjectGEN相比ProjectGEN w&#x2F;o iter在总通过测试数上取得了显著提升（DeepSeek-V3: 160 vs 38）。迭代优化机制尤其有助于处理跨文件依赖和模糊需求，确保功能正确性。</li>
+</ol>
+</li>
+</ul>
 
     </div>
   </div>
@@ -299,7 +349,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">现状问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">评估实验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DevBench-A-Comprehensive-Benchmark-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">DevBench: A Comprehensive Benchmark for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#problems"><span class="toc-number">2.1.</span> <span class="toc-text">problems</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contributions"><span class="toc-number">2.2.</span> <span class="toc-text">contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">2.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#experiments-val"><span class="toc-number">2.4.</span> <span class="toc-text">experiments val</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Automatically-Benchmarking-LLM-Code-Agents-through-Agent-driven-Annotation-and-Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Automatically Benchmarking LLM Code Agents through Agent-driven Annotation and Evaluation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">现状问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">评估实验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DevBench-A-Comprehensive-Benchmark-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">DevBench: A Comprehensive Benchmark for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#problems"><span class="toc-number">2.1.</span> <span class="toc-text">problems</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contributions"><span class="toc-number">2.2.</span> <span class="toc-text">contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">2.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#experiments-val"><span class="toc-number">2.4.</span> <span class="toc-text">experiments val</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling"><span class="toc-number">3.</span> <span class="toc-text">Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E7%8A%B6%E9%97%AE%E9%A2%98-%E6%8C%91%E6%88%98-Problems-Challenges"><span class="toc-number">3.1.</span> <span class="toc-text">现状问题&#x2F;挑战 (Problems&#x2F;Challenges)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%B4%A1%E7%8C%AE-Contributions"><span class="toc-number">3.2.</span> <span class="toc-text">核心贡献 (Contributions)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-Workflow-Pipeline-Methodology"><span class="toc-number">3.3.</span> <span class="toc-text">框架&#x2F;工作流程 (Workflow&#x2F;Pipeline&#x2F;Methodology)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0-Experiments-and-Evaluation"><span class="toc-number">3.4.</span> <span class="toc-text">实验与评估 (Experiments and Evaluation)</span></a></li></ol></li></ol>
       </div>
     
 
