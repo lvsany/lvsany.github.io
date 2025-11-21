@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="第四章 网络层 课时14.1 网络层的几个重要概念4.1.1 网络层提供的两种服务 核心争论：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？ 两种观点： 面向连接的可靠交付：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。 无连接的数据报服务：互联网设计思路，网络层简单灵活，仅提供尽最大努力交付，不保证服务质量">
+    <meta name="description" content="第四章 网络层 （太重要啦）4.1 网络层的几个重要概念4.1.1 网络层提供的两种服务 核心争论：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？ 两种观点： 面向连接的可靠交付：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。 无连接的数据报服务：互联网设计思路，网络层简单灵活，仅提供尽最大努力交付，不保证服">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计网-第四章-网络层">
 <meta property="og:url" content="http://lvsany.github.io/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
 <meta property="og:site_name" content="Fyw0o&#39;s blogs">
-<meta property="og:description" content="第四章 网络层 课时14.1 网络层的几个重要概念4.1.1 网络层提供的两种服务 核心争论：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？ 两种观点： 面向连接的可靠交付：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。 无连接的数据报服务：互联网设计思路，网络层简单灵活，仅提供尽最大努力交付，不保证服务质量">
+<meta property="og:description" content="第四章 网络层 （太重要啦）4.1 网络层的几个重要概念4.1.1 网络层提供的两种服务 核心争论：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？ 两种观点： 面向连接的可靠交付：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。 无连接的数据报服务：互联网设计思路，网络层简单灵活，仅提供尽最大努力交付，不保证服">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/image%201.png">
@@ -31,10 +31,21 @@
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763347528830_s0ig79_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763348972848_zwajg_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763665112941_gq2csw_image.png">
-<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763710161493_8mjq_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712002188_c370k9_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712067942_b13gyn_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712289827_dgsl7_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712375297_0jzpc2_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712680059_v5cm6o_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712919140_ycfer_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763710362324_dr7jfa_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763713711415_sfg64_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763713926677_okggq_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763715213586_dy9e4_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763715364402_nhjbof_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763715884618_7drzyd_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763716462734_xzt9yb_image.png">
 <meta property="article:published_time" content="2025-11-08T15:46:16.000Z">
-<meta property="article:modified_time" content="2025-11-20T23:33:32.129Z">
+<meta property="article:modified_time" content="2025-11-21T01:14:40.993Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="C-Net Theory">
 <meta name="twitter:card" content="summary">
@@ -148,7 +159,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82-%E8%AF%BE%E6%97%B61"><span class="toc-number">1.</span> <span class="toc-text">第四章 网络层 课时1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 网络层的几个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 网络层提供的两种服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 网络层的两个层面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AE-IP"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 网际协议 IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%99%9A%E6%8B%9F%E4%BA%92%E8%BF%9E%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1 虚拟互连网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.2 IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-IP%E5%9C%B0%E5%9D%80%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">1. IP地址表示方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.4.</span> <span class="toc-text">2. 分类的IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="toc-number">1.2.5.</span> <span class="toc-text">3. 无分类编址CIDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-IP%E5%9C%B0%E5%9D%80%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.6.</span> <span class="toc-text">4. IP地址特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.7.</span> <span class="toc-text">4.2.3 IP地址与MAC地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="toc-number">1.2.8.</span> <span class="toc-text">4.2.4 地址解析协议ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-5-IP%E6%95%B0%E6%8D%AE%E6%8A%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.2.9.</span> <span class="toc-text">4.2.5 IP数据报格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3"><span class="toc-number">1.3.</span> <span class="toc-text">4.3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-1-%E5%9F%BA%E4%BA%8E%E7%BB%88%E7%82%B9%E7%9A%84%E8%BD%AC%E5%8F%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.3.1 基于终点的转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-2-%E6%9C%80%E9%95%BF%E5%89%8D%E7%BC%80%E5%8C%B9%E9%85%8D"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.3.2 最长前缀匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-3-%E4%BD%BF%E7%94%A8%E4%BA%8C%E5%8F%89%E7%BA%BF%E7%B4%A2%E6%9F%A5%E6%89%BE%E8%BD%AC%E5%8F%91%E8%A1%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.3.3 使用二叉线索查找转发表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="toc-number">1.4.</span> <span class="toc-text">4.4 网际控制报文协议ICMP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-1-ICMP%E6%8A%A5%E6%96%87%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.4.1 ICMP报文的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-2-ICMP%E7%9A%84%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.4.2 ICMP的应用举例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-IPV6"><span class="toc-number">1.5.</span> <span class="toc-text">4.5 IPV6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">1.5.1.</span> <span class="toc-text">ipv6的地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.6.</span> <span class="toc-text">4.6 互联网的路由选择协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-1-%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.6.1.</span> <span class="toc-text">4.6.1 几个基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-2-%E5%86%85%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AERIP-Routing-Information-Protocol"><span class="toc-number">1.6.2.</span> <span class="toc-text">4.6.2 内部网关协议RIP-Routing Information Protocol</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82-%EF%BC%88%E5%A4%AA%E9%87%8D%E8%A6%81%E5%95%A6%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">第四章 网络层 （太重要啦）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 网络层的几个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 网络层提供的两种服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 网络层的两个层面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AE-IP"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 网际协议 IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%99%9A%E6%8B%9F%E4%BA%92%E8%BF%9E%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1 虚拟互连网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.2 IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-IP%E5%9C%B0%E5%9D%80%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">1. IP地址表示方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.4.</span> <span class="toc-text">2. 分类的IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="toc-number">1.2.5.</span> <span class="toc-text">3. 无分类编址CIDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-IP%E5%9C%B0%E5%9D%80%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.6.</span> <span class="toc-text">4. IP地址特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.7.</span> <span class="toc-text">4.2.3 IP地址与MAC地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="toc-number">1.2.8.</span> <span class="toc-text">4.2.4 地址解析协议ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-5-IP%E6%95%B0%E6%8D%AE%E6%8A%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.2.9.</span> <span class="toc-text">4.2.5 IP数据报格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3"><span class="toc-number">1.3.</span> <span class="toc-text">4.3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-1-%E5%9F%BA%E4%BA%8E%E7%BB%88%E7%82%B9%E7%9A%84%E8%BD%AC%E5%8F%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.3.1 基于终点的转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-2-%E6%9C%80%E9%95%BF%E5%89%8D%E7%BC%80%E5%8C%B9%E9%85%8D"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.3.2 最长前缀匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-3-%E4%BD%BF%E7%94%A8%E4%BA%8C%E5%8F%89%E7%BA%BF%E7%B4%A2%E6%9F%A5%E6%89%BE%E8%BD%AC%E5%8F%91%E8%A1%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.3.3 使用二叉线索查找转发表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="toc-number">1.4.</span> <span class="toc-text">4.4 网际控制报文协议ICMP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-1-ICMP%E6%8A%A5%E6%96%87%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.4.1 ICMP报文的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-2-ICMP%E7%9A%84%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.4.2 ICMP的应用举例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-IPV6"><span class="toc-number">1.5.</span> <span class="toc-text">4.5 IPV6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">1.5.1.</span> <span class="toc-text">ipv6的地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.5.2.</span> <span class="toc-text">ipv6地址的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-4-ICMPv6"><span class="toc-number">1.5.3.</span> <span class="toc-text">4.5.4 ICMPv6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.6.</span> <span class="toc-text">4.6 互联网的路由选择协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-1-%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.6.1.</span> <span class="toc-text">4.6.1 几个基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-2-%E5%86%85%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AERIP-Routing-Information-Protocol"><span class="toc-number">1.6.2.</span> <span class="toc-text">4.6.2 内部网关协议RIP-Routing Information Protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-3-%E5%86%85%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AEOSPF%EF%BC%88%E5%BC%80%E6%94%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%BC%98%E5%85%88%EF%BC%89"><span class="toc-number">1.6.3.</span> <span class="toc-text">4.6.3 内部网关协议OSPF（开放最短路径优先）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-4-%E5%A4%96%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AE-BGP"><span class="toc-number">1.6.4.</span> <span class="toc-text">4.6.4 外部网关协议 BGP</span></a></li></ol></li></ol></li></ol>
       </div>
     
   </span>
@@ -200,7 +211,7 @@
     
 
     <div class="content e-content" itemprop="articleBody" style="text-align: left; line-height: 1.8; font-size: 1rem;">
-      <h1 id="第四章-网络层-课时1"><a href="#第四章-网络层-课时1" class="headerlink" title="第四章 网络层 课时1"></a>第四章 网络层 课时1</h1><h2 id="4-1-网络层的几个重要概念"><a href="#4-1-网络层的几个重要概念" class="headerlink" title="4.1 网络层的几个重要概念"></a>4.1 网络层的几个重要概念</h2><h3 id="4-1-1-网络层提供的两种服务"><a href="#4-1-1-网络层提供的两种服务" class="headerlink" title="4.1.1 网络层提供的两种服务"></a>4.1.1 网络层提供的两种服务</h3><ul>
+      <h1 id="第四章-网络层-（太重要啦）"><a href="#第四章-网络层-（太重要啦）" class="headerlink" title="第四章 网络层 （太重要啦）"></a>第四章 网络层 （太重要啦）</h1><h2 id="4-1-网络层的几个重要概念"><a href="#4-1-网络层的几个重要概念" class="headerlink" title="4.1 网络层的几个重要概念"></a>4.1 网络层的几个重要概念</h2><h3 id="4-1-1-网络层提供的两种服务"><a href="#4-1-1-网络层提供的两种服务" class="headerlink" title="4.1.1 网络层提供的两种服务"></a>4.1.1 网络层提供的两种服务</h3><ul>
 <li><strong>核心争论</strong>：网络层应向运输层提供面向连接还是无连接的服务？可靠交付应由网络还是端系统负责？</li>
 <li><strong>两种观点</strong>：<ul>
 <li><strong>面向连接的可靠交付</strong>：通信前建立虚电路（Virtual Circuit），保证通信资源，使用可靠传输协议实现无差错、按序交付。</li>
@@ -387,6 +398,10 @@
 <p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763347528830_s0ig79_image.png" alt="image"></p>
 <p>从图里面可以看出，ICMP报文放在IP数据报的数据部分，看起来好像是一个高层协议，实际上ICMP就是网络层的协议</p>
 <p>ICMP允许主机或者路由器报告差错情况和提供有关异常情况的报告</p>
+<ul>
+<li>ICMP的检验和检测的是整个报文</li>
+<li>IP数据报的检验和检测的是首部，没必要检验数据部分</li>
+</ul>
 <h3 id="4-4-1-ICMP报文的种类"><a href="#4-4-1-ICMP报文的种类" class="headerlink" title="4.4.1 ICMP报文的种类"></a>4.4.1 ICMP报文的种类</h3><p><strong>ICMP差错报告报文</strong></p>
 <ul>
 <li>终点不可达：当路由器或者主机不能交付数据报时就向源点发送终点不可达报文</li>
@@ -395,6 +410,7 @@
 <li>改变路由（重定向）：路由器把改变路由报文发送给主机，让主机知道下次应将数据报发送给另外的路由器（也就是说，找到了更好的路由）</li>
 </ul>
 <p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763348972848_zwajg_image.png" alt="image"></p>
+<p><em>8字节放在TCP&#x2F;UDP讲，有关进程信息</em></p>
 <p>不应该发送ICMP差错报文的几种情况</p>
 <ul>
 <li>对于ICMP差错报告报文，不再发送ICMP差错报告报文</li>
@@ -425,7 +441,7 @@
 <ul>
 <li>地址空间大：128位地址，2^128个地址</li>
 <li>扩展的地址层次结构</li>
-<li>灵活的首部格式，和ipv4不兼容</li>
+<li>灵活的首部格式，和ipv4不兼容：ipv4中的扩展首部放在首部里，ipv6的扩展首部放在数据里</li>
 <li>ipv6允许数据报中包含有选项的控制信息</li>
 <li>ipv6首部改为8字节对齐，原来的ipv4是4字节对齐</li>
 </ul>
@@ -446,8 +462,14 @@
 <li>多播</li>
 <li>任播：ipv6新增的一种类型。任播的终点是一组计算机，但是数据报只交付给其中的一个计算机</li>
 </ul>
-<p>点分十进制记法 -&gt; 冒号十六进制记法，并且允许零压缩，一连串连续的零可以为一对冒号取代</p>
-<h2 id="4-6-互联网的路由选择协议"><a href="#4-6-互联网的路由选择协议" class="headerlink" title="4.6 互联网的路由选择协议"></a>4.6 互联网的路由选择协议</h2><h3 id="4-6-1-几个基本概念"><a href="#4-6-1-几个基本概念" class="headerlink" title="4.6.1 几个基本概念"></a>4.6.1 几个基本概念</h3><ol>
+<p>点分十进制记法 -&gt; 冒号十六进制记法，并且允许零压缩，一连串连续的零可以为一对冒号取代（一个地址中只能用一次零压缩）</p>
+<h3 id="ipv6地址的分类"><a href="#ipv6地址的分类" class="headerlink" title="ipv6地址的分类"></a>ipv6地址的分类</h3><p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712002188_c370k9_image.png" alt="image"></p>
+<p><strong>划分方法</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712067942_b13gyn_image.png" alt="image"></p>
+<h3 id="4-5-4-ICMPv6"><a href="#4-5-4-ICMPv6" class="headerlink" title="4.5.4 ICMPv6"></a>4.5.4 ICMPv6</h3><p>ICMPv6包含了IPv4中的ICMP和ARP协议</p>
+<h2 id="4-6-互联网的路由选择协议"><a href="#4-6-互联网的路由选择协议" class="headerlink" title="4.6 互联网的路由选择协议"></a>4.6 互联网的路由选择协议</h2><p>控制层面最核心的部分</p>
+<h3 id="4-6-1-几个基本概念"><a href="#4-6-1-几个基本概念" class="headerlink" title="4.6.1 几个基本概念"></a>4.6.1 几个基本概念</h3><p>自治系统：单一技术管理下的许多网络，IP地址和路由器，自治系统内部用的一致的路由选择策略</p>
+<ol>
 <li>理想的路由算法<ol>
 <li>正确的和完整的：沿着算法指引的路能够到达目的网络和目的主机</li>
 <li>计算上应该简单，不能增加过多额外的开销</li>
@@ -457,24 +479,167 @@
 </ol>
 </li>
 <li>分层次的路由选择协议<ol>
-<li>内部网关协议，在一个自洽系统内部使用的路由选择协议，域内路由选择</li>
-<li>外部网关协议，自洽系统之间使用的路由选择协议，域间路由选择</li>
+<li>内部网关协议，在一个自治系统内部使用的路由选择协议，<strong>域内路由选择</strong></li>
+<li>外部网关协议，自治系统之间使用的路由选择协议，<strong>域间路由选择</strong></li>
 </ol>
 </li>
 </ol>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712289827_dgsl7_image.png" alt="image"></p>
+<ul>
+<li>简答题：考区别<ul>
+<li>who? what? when?</li>
+</ul>
+</li>
+<li>计算题：考RIP</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">特性维度</th>
+<th align="left">RIP (路由信息协议)</th>
+<th align="left">OSPF (开放式最短路径优先)</th>
+<th align="left">BGP (边界网关协议)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>协议类型</strong></td>
+<td align="left">距离矢量路由协议</td>
+<td align="left">链路状态路由协议</td>
+<td align="left">路径矢量路由协议</td>
+</tr>
+<tr>
+<td align="left"><strong>工作范围</strong></td>
+<td align="left">内部网关协议(IGP)，用于自治系统(AS)内部</td>
+<td align="left">内部网关协议(IGP)，用于自治系统(AS)内部</td>
+<td align="left">外部网关协议(EGP)，用于不同自治系统(AS)之间</td>
+</tr>
+<tr>
+<td align="left"><strong>度量标准</strong></td>
+<td align="left">跳数 (最大15跳)</td>
+<td align="left">成本 (通常基于链路带宽)</td>
+<td align="left">路径属性（如AS_PATH、LOCAL_PREF等），基于策略</td>
+</tr>
+<tr>
+<td align="left"><strong>适用规模</strong></td>
+<td align="left">小型网络</td>
+<td align="left">中大型网络</td>
+<td align="left">超大规模网络（如互联网）</td>
+</tr>
+<tr>
+<td align="left"><strong>收敛速度</strong></td>
+<td align="left">慢（依赖定时更新，易产生环路）</td>
+<td align="left">快（触发更新，无环路）</td>
+<td align="left">路径矢量（通过AS_PATH属性避免环路）</td>
+</tr>
+<tr>
+<td align="left"><strong>配置与复杂度</strong></td>
+<td align="left">简单</td>
+<td align="left">复杂（需区域划分）</td>
+<td align="left">非常复杂（需手动配置对等体和策略）</td>
+</tr>
+<tr>
+<td align="left"><strong>传输层协议</strong></td>
+<td align="left">UDP，端口520</td>
+<td align="left">IP协议号89</td>
+<td align="left">TCP，端口179</td>
+</tr>
+</tbody></table>
 <h3 id="4-6-2-内部网关协议RIP-Routing-Information-Protocol"><a href="#4-6-2-内部网关协议RIP-Routing-Information-Protocol" class="headerlink" title="4.6.2 内部网关协议RIP-Routing Information Protocol"></a>4.6.2 内部网关协议RIP-Routing Information Protocol</h3><p>一种分布式的基于距离向量的路由选择协议。</p>
 <p>要求每个网络中的每一个路由器都要维护从它自己到每一个目的网络的距离记录</p>
-<p>将“距离”定义：从一路由器到直连网络的距离为1，只要经过路由器就加1，RIP认为好的路由就是它通过的网络数目少，距离短，所以只使用于小型网络</p>
-<p>三个特点：</p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712375297_0jzpc2_image.png" alt="image"></p>
+<p>三个特点（简答题）：</p>
 <ul>
-<li>和谁交换信息：相邻路由器</li>
-<li>交换整个路由表</li>
-<li>按照固定的时间间隔来交换路由信息</li>
+<li>和谁交换信息：相邻路由器（什么是相邻？补充一下😭）</li>
+<li>交换整个路由表，当前本路由器知道的全部信息</li>
+<li>按照固定的时间间隔来交换路由信息；当网络拓扑发生变换的时候，也要及时通信</li>
 </ul>
-<p><strong>距离向量算法</strong>：bellman-ford</p>
-<p>dis(a, b)&#x3D;min(dis(a, x) + dis(x, b))</p>
-<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763710161493_8mjq_image.png" alt="image"></p>
+<p>路由表记录（目的地址，最短距离，吓一跳的地址）</p>
+<p><strong>距离向量算法</strong>：bellman-ford，必考‼️‼️</p>
+<p><code>dis(a, b)=min(dis(a, x) + dis(x, b))</code></p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712680059_v5cm6o_image.png" alt="image"></p>
+<p>举个例子：R6现在有一个a表，接受到了R4的b表</p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763712919140_ycfer_image.png" alt="image"></p>
+<p><strong>RIP2的报文用UDP传送，应用层的协议？？？</strong></p>
 <p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763710362324_dr7jfa_image.png" alt="image"></p>
+<ul>
+<li>地址族标识符稳定是2</li>
+</ul>
+<p>RIP协议的优缺点</p>
+<ul>
+<li>优点：块，简单</li>
+<li>缺点：网络规模有限；收发完整路由表；坏消息传播的慢，收敛时间长；只考虑跳数</li>
+</ul>
+<h3 id="4-6-3-内部网关协议OSPF（开放最短路径优先）"><a href="#4-6-3-内部网关协议OSPF（开放最短路径优先）" class="headerlink" title="4.6.3 内部网关协议OSPF（开放最短路径优先）"></a>4.6.3 内部网关协议OSPF（开放最短路径优先）</h3><ul>
+<li>原理简单，实现复杂</li>
+<li>使用dijkstra（RIP是看跳数，OSPF是看开销）</li>
+<li>采分布式的链路状态协议</li>
+<li>现在使用的OSPFv2</li>
+</ul>
+<p>三个主要特点（www）：</p>
+<ol>
+<li>who？采用洪泛法，想本自治系统所有路由器发送信息</li>
+<li>what? 域本路由器相邻的所有路由器的链路状态，只是路由器所知道的部分信息<ol>
+<li>链路状态：说明本路由器都和那些路由器相邻，以及该链路的度量（距离，时延，带宽，费用，政治因素等等）</li>
+</ol>
+</li>
+<li>when? 变化&#x2F;固定间隔</li>
+</ol>
+<p><strong>链路状态数据库</strong></p>
+<ul>
+<li>全网的拓扑结构图</li>
+<li>全网范围内是一只的</li>
+<li>每个路由器都能使用数据库中的结构构建自己的路由表</li>
+</ul>
+<p>OSPF讲自治系统划分为两种不同的区域：猪肝区域（0.0.0.0）和区域。主干区域用来联通其他下层区域</p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763713711415_sfg64_image.png" alt="image"></p>
+<p>主干路由器；区域边界路由器；自治系统边界路由器（R6）</p>
+<p>划域优缺点：减少通信量和维护的信息；但是交换信息的种类增多了，OSPF更复杂了</p>
+<p>OSPF是基于IP协议，和RIP不同</p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763713926677_okggq_image.png" alt="image"></p>
+<p>OSPF采用可靠的洪泛法发送更新分组：依次转发，接受到了就向上游发送确认信息。采用这种方法，会传递大量的报文 $N\times (N-1)$，所以多点介入的局域网采用了指定路由器DR减少信息数量</p>
+<h3 id="4-6-4-外部网关协议-BGP"><a href="#4-6-4-外部网关协议-BGP" class="headerlink" title="4.6.4 外部网关协议 BGP"></a>4.6.4 外部网关协议 BGP</h3><p>找到一个比较好的即可，并不是要最好的路由。</p>
+<ol>
+<li>互联网的规模太大啦，不同自治系统所选用的度量不同，比较合理的做法就是交换“可达性”，能到就行</li>
+<li>自治系统之间要考虑一些政治，安全等有关策略</li>
+<li>采用路径向量路由选择协议</li>
+<li>传输协议采用TCP协议（可靠传输）</li>
+</ol>
+<p>三个主要的特点（www）：</p>
+<ol>
+<li>相邻AS的BGP发言人</li>
+<li>交换可达信息（一开始的时候全部信息，往后更新增量信息）</li>
+<li>变化的时候更新</li>
+</ol>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763715213586_dy9e4_image.png" alt="image"></p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763715364402_nhjbof_image.png" alt="image"></p>
+<p><strong>eBGP &amp; iBGP</strong></p>
+<ul>
+<li>同一个协议</li>
+<li>通报前缀时采用的规则不同，路由传递行为：<br> EBGP会将从EBGP对等体学到的路由通告给所有BGP邻居（包括EBGP和IBGP），而IBGP不会将从IBGP邻居学到的路由再次通告给其他IBGP邻居，这是为了防止路由环路</li>
+</ul>
+<p><strong>BGP路由信息</strong><br><code>BGP=[前缀, BGP属性] = [前缀， AS-PATH, NEXT-HOP]</code></p>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763715884618_7drzyd_image.png" alt="image"></p>
+<p><strong>三种不同的自治系统</strong><br>补充❓</p>
+<p><strong>怎么避免兜圈子？</strong><br>在属性<code>AS-PATH</code>中，不允许出现相同的AS号</p>
+<p><strong>BGP的路由选择（依次往下）</strong></p>
+<ul>
+<li>本地偏好值最高<ul>
+<li>如果AS1到达X有两条路，优先选择LOCAL-PREF最大的路径</li>
+</ul>
+</li>
+<li>热土豆路由选择算法<ul>
+<li>在一个AS内部选择跳数最少的来转发（这个跳数由RIP或OSPF来决定的）</li>
+</ul>
+</li>
+</ul>
+<p><strong>四种报文</strong></p>
+<ol>
+<li>OPEN，与另一个BGP发言者建立关系，通信初始化</li>
+<li>UPDATE，通告某一路由信息，以及列出要撤销的多条路由</li>
+<li>KEEPALIVE，周期性正式邻站的连通性</li>
+<li>NOTIFICATION，通知检查出来的差错</li>
+</ol>
+<p><img src="/images/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/1763716462734_xzt9yb_image.png" alt="image"><br>通用的意思是iBGP和eBGP是一样的</p>
 
     </div>
   </div>
@@ -521,7 +686,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82-%E8%AF%BE%E6%97%B61"><span class="toc-number">1.</span> <span class="toc-text">第四章 网络层 课时1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 网络层的几个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 网络层提供的两种服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 网络层的两个层面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AE-IP"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 网际协议 IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%99%9A%E6%8B%9F%E4%BA%92%E8%BF%9E%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1 虚拟互连网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.2 IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-IP%E5%9C%B0%E5%9D%80%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">1. IP地址表示方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.4.</span> <span class="toc-text">2. 分类的IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="toc-number">1.2.5.</span> <span class="toc-text">3. 无分类编址CIDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-IP%E5%9C%B0%E5%9D%80%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.6.</span> <span class="toc-text">4. IP地址特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.7.</span> <span class="toc-text">4.2.3 IP地址与MAC地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="toc-number">1.2.8.</span> <span class="toc-text">4.2.4 地址解析协议ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-5-IP%E6%95%B0%E6%8D%AE%E6%8A%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.2.9.</span> <span class="toc-text">4.2.5 IP数据报格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3"><span class="toc-number">1.3.</span> <span class="toc-text">4.3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-1-%E5%9F%BA%E4%BA%8E%E7%BB%88%E7%82%B9%E7%9A%84%E8%BD%AC%E5%8F%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.3.1 基于终点的转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-2-%E6%9C%80%E9%95%BF%E5%89%8D%E7%BC%80%E5%8C%B9%E9%85%8D"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.3.2 最长前缀匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-3-%E4%BD%BF%E7%94%A8%E4%BA%8C%E5%8F%89%E7%BA%BF%E7%B4%A2%E6%9F%A5%E6%89%BE%E8%BD%AC%E5%8F%91%E8%A1%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.3.3 使用二叉线索查找转发表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="toc-number">1.4.</span> <span class="toc-text">4.4 网际控制报文协议ICMP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-1-ICMP%E6%8A%A5%E6%96%87%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.4.1 ICMP报文的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-2-ICMP%E7%9A%84%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.4.2 ICMP的应用举例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-IPV6"><span class="toc-number">1.5.</span> <span class="toc-text">4.5 IPV6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">1.5.1.</span> <span class="toc-text">ipv6的地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.6.</span> <span class="toc-text">4.6 互联网的路由选择协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-1-%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.6.1.</span> <span class="toc-text">4.6.1 几个基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-2-%E5%86%85%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AERIP-Routing-Information-Protocol"><span class="toc-number">1.6.2.</span> <span class="toc-text">4.6.2 内部网关协议RIP-Routing Information Protocol</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82-%EF%BC%88%E5%A4%AA%E9%87%8D%E8%A6%81%E5%95%A6%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">第四章 网络层 （太重要啦）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 网络层的几个重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 网络层提供的两种服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%B1%82%E9%9D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 网络层的两个层面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AE-IP"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 网际协议 IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%99%9A%E6%8B%9F%E4%BA%92%E8%BF%9E%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1 虚拟互连网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.2 IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-IP%E5%9C%B0%E5%9D%80%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">1. IP地址表示方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.4.</span> <span class="toc-text">2. 分类的IP地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="toc-number">1.2.5.</span> <span class="toc-text">3. 无分类编址CIDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-IP%E5%9C%B0%E5%9D%80%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.6.</span> <span class="toc-text">4. IP地址特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.7.</span> <span class="toc-text">4.2.3 IP地址与MAC地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="toc-number">1.2.8.</span> <span class="toc-text">4.2.4 地址解析协议ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-5-IP%E6%95%B0%E6%8D%AE%E6%8A%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.2.9.</span> <span class="toc-text">4.2.5 IP数据报格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3"><span class="toc-number">1.3.</span> <span class="toc-text">4.3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-1-%E5%9F%BA%E4%BA%8E%E7%BB%88%E7%82%B9%E7%9A%84%E8%BD%AC%E5%8F%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.3.1 基于终点的转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-2-%E6%9C%80%E9%95%BF%E5%89%8D%E7%BC%80%E5%8C%B9%E9%85%8D"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.3.2 最长前缀匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-3-%E4%BD%BF%E7%94%A8%E4%BA%8C%E5%8F%89%E7%BA%BF%E7%B4%A2%E6%9F%A5%E6%89%BE%E8%BD%AC%E5%8F%91%E8%A1%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.3.3 使用二叉线索查找转发表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="toc-number">1.4.</span> <span class="toc-text">4.4 网际控制报文协议ICMP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-1-ICMP%E6%8A%A5%E6%96%87%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.4.1 ICMP报文的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-2-ICMP%E7%9A%84%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.4.2 ICMP的应用举例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-IPV6"><span class="toc-number">1.5.</span> <span class="toc-text">4.5 IPV6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">1.5.1.</span> <span class="toc-text">ipv6的地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.5.2.</span> <span class="toc-text">ipv6地址的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-4-ICMPv6"><span class="toc-number">1.5.3.</span> <span class="toc-text">4.5.4 ICMPv6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.6.</span> <span class="toc-text">4.6 互联网的路由选择协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-1-%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.6.1.</span> <span class="toc-text">4.6.1 几个基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-2-%E5%86%85%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AERIP-Routing-Information-Protocol"><span class="toc-number">1.6.2.</span> <span class="toc-text">4.6.2 内部网关协议RIP-Routing Information Protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-3-%E5%86%85%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AEOSPF%EF%BC%88%E5%BC%80%E6%94%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%BC%98%E5%85%88%EF%BC%89"><span class="toc-number">1.6.3.</span> <span class="toc-text">4.6.3 内部网关协议OSPF（开放最短路径优先）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-4-%E5%A4%96%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AE-BGP"><span class="toc-number">1.6.4.</span> <span class="toc-text">4.6.4 外部网关协议 BGP</span></a></li></ol></li></ol></li></ol>
       </div>
     
 
