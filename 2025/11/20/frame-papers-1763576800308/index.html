@@ -16,8 +16,10 @@
 <meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763518817299_53vtmh_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763519675948_0a47j_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/vibe-coding-papers/1763575599364_delxgg_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/frame-papers/1763725797553_gxbkb_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/frame-papers/1763726091825_4fcoi3_image.png">
 <meta property="article:published_time" content="2025-11-19T18:26:40.000Z">
-<meta property="article:modified_time" content="2025-11-20T11:17:17.833Z">
+<meta property="article:modified_time" content="2025-11-21T04:16:29.415Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="vibe coding">
 <meta name="twitter:card" content="summary">
@@ -131,7 +133,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK"><span class="toc-number">1.</span> <span class="toc-text">[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">1.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AF%84%E4%BC%B0"><span class="toc-number">1.4.</span> <span class="toc-text">实验评估</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL-2024-ChatDev-Communicative-Agents-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">[ACL 2024]ChatDev: Communicative Agents for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">2.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-number">2.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methodology"><span class="toc-number">2.3.</span> <span class="toc-text">Methodology</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0-Experiments-and-Evaluation"><span class="toc-number">2.4.</span> <span class="toc-text">实验与评估 (Experiments and Evaluation)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations"><span class="toc-number">2.5.</span> <span class="toc-text">Limitations</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK"><span class="toc-number">1.</span> <span class="toc-text">[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">1.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AF%84%E4%BC%B0"><span class="toc-number">1.4.</span> <span class="toc-text">实验评估</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL-2024-ChatDev-Communicative-Agents-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">[ACL 2024]ChatDev: Communicative Agents for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">2.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-number">2.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methodology"><span class="toc-number">2.3.</span> <span class="toc-text">Methodology</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExpEval"><span class="toc-number">2.4.</span> <span class="toc-text">ExpEval</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations"><span class="toc-number">2.5.</span> <span class="toc-text">Limitations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling"><span class="toc-number">3.</span> <span class="toc-text">Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problems"><span class="toc-number">3.1.</span> <span class="toc-text">Problems</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions-1"><span class="toc-number">3.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow-1"><span class="toc-number">3.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExpEval-1"><span class="toc-number">3.4.</span> <span class="toc-text">ExpEval</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -225,7 +227,7 @@
 <h3 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h3><p><img src="/images/vibe-coding-papers/1763575599364_delxgg_image.png" alt="image"></p>
 <p>Specifically, ChatDev segments the software<br>development process into three sequential phases:<br>design, coding, and testing. The coding phase is<br>further subdivided into subtasks of code writing<br>and completion, and the testing phase is segmented<br>into code review (static testing) and system testing<br>(dynamic testing), as illustrated in Figure 2. </p>
 <p>每个子任务中都有一个Instructor和一个助手智能体Assistant，Instructor发起指令，Assistant遵循指令并响应解决方案,多轮对话达成合作（同时解决代码幻觉）</p>
-<h3 id="实验与评估-Experiments-and-Evaluation"><a href="#实验与评估-Experiments-and-Evaluation" class="headerlink" title="实验与评估 (Experiments and Evaluation)"></a>实验与评估 (Experiments and Evaluation)</h3><ul>
+<h3 id="ExpEval"><a href="#ExpEval" class="headerlink" title="ExpEval"></a>ExpEval</h3><ul>
 <li>评估数据集：使用自建的SRDD（软件需求描述数据集），包含1,200个软件任务提示，覆盖5大领域40个子类别。</li>
 <li>核心评估指标：<ul>
 <li>完整性（Completeness）：衡量软件完成代码的程度，无”占位符”代码片段的百分比</li>
@@ -240,6 +242,50 @@
 <li>agents often implement simple<br>logic, resulting in low information density. With-<br>out clear, detailed requirements, agents struggle to<br>grasp task ideas.</li>
 <li>自动化评估</li>
 <li>计算量大</li>
+</ul>
+<h2 id="Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling"><a href="#Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling" class="headerlink" title="Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling"></a>Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2511.03404v1">paper link</a></p>
+<h3 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h3><p>大多数现有研究和工具集中于函数级或文件级代码生成，面对需要连贯架构设计、跨模块依赖推理的复杂、大规模代码生成任务以及长程上下文理解时，它们的性能仍然有限</p>
+<ul>
+<li><strong>现有数据集和评估指标缺乏真实性和可靠性</strong>：当前的项目级代码生成数据集都是小型项目，不够真实。评估多依赖统计或相似性度量，无法准确评估代码的实际质量。</li>
+<li><strong>需求文档与可执行代码之间存在语义鸿沟</strong>：实践中用于描述需求的文档（如PRD）是为人类理解而写的，可能包含图表、表格或非正式描述，大语言模型难以有效解析，导致生成性能受限。需要一种中间表示（既让ai看懂，又能让人看懂）</li>
+<li><strong>处理层次化上下文依赖和长距离上下文管理的困难</strong>：软件仓库具有多层次结构。早期阶段的错误会传播。同时，大语言模型的上下文长度有限，项目级代码很庞大</li>
+</ul>
+<h3 id="Contributions-1"><a href="#Contributions-1" class="headerlink" title="Contributions"></a>Contributions</h3><ul>
+<li>识别并系统阐述了项目级代码生成中的关键挑战</li>
+<li>构建了CodeProjectEval数据集，贴近真实软件开发的数据集，平均每个任务包含12.7个文件和2388.6行代码</li>
+<li>提出了ProjectGEN框架，一个多智能体框架，架构设计 -&gt; 骨架生成 -&gt; 代码填充，引入了语义软件架构树（SSAT）</li>
+<li>实验评估ProjectGEN在大小规模的数据集实现了最先进的性能</li>
+</ul>
+<h3 id="workflow-1"><a href="#workflow-1" class="headerlink" title="workflow"></a>workflow</h3><p><img src="/images/frame-papers/1763725797553_gxbkb_image.png" alt="image"></p>
+<p>如图是SSAT 的结构，该结构包含五种类型的节点：ModuleNode、FileNode、GlobalCodeNode、ClassNode 和 FunctionNode。每种节点包含两个通用属性：name 和 description</p>
+<blockquote>
+<p>这个很自然的描述出来项目的整体结构，并且几乎不会有长度限制✅</p>
+</blockquote>
+<p><img src="/images/frame-papers/1763726091825_4fcoi3_image.png" alt="image"></p>
+<blockquote>
+<p>有<code>archAgent</code>和<code>judgeAgent</code>很像<code>ChatDev</code></p>
+</blockquote>
+<ul>
+<li>架构设计<ul>
+<li>ArchAgent 根据输入的产品需求文档（PRD）、UML图和架构设计文档，生成一个SSAT。JudgeA 则从需求覆盖度、与提供信息的一致性、接口一致性和依赖关系四个方面对生成的SSAT进行评估。迭代。</li>
+</ul>
+</li>
+<li>骨架生成<ul>
+<li>SkeletonAgent 根据上一步得到的SSAT，为每个源文件生成代码骨架（包含import语句、类声明、函数签名以及用<code>pass</code>填充的函数体）。JudgeS 首先尝试编译该骨架，如果失败则返回错误信息。编译成功后，JudgeS 会从目录结构匹配度和接口与调用关系匹配度两方面进行LLM评估。迭代。</li>
+</ul>
+</li>
+<li>代码填充<ul>
+<li>CodeAgent 将骨架中的<code>pass</code>语句替换为具体的代码实现。JudgeC 的核心评估手段是运行预先定义的检查测试。如果测试失败，JudgeC会分析错误日志，指出需要修改的文件和建议的修正措施。迭代修正。</li>
+</ul>
+</li>
+</ul>
+<h3 id="ExpEval-1"><a href="#ExpEval-1" class="headerlink" title="ExpEval"></a>ExpEval</h3><p>在DevBench上，ProjectGEN使用DeepSeek-V3模型通过了52个测试，显著优于基线方法CodeS（25个）和MetaGPT（33个）。在更具挑战性的CodeProjectEval上，ProjectGEN（使用GPT-4o）通过了310个测试，而CodeS和MetaGPT分别仅通过5个和28个，显示出近十倍的巨大优势。这表明ProjectGEN在处理大规模、复杂项目时具有更强的鲁棒性。</p>
+<ul>
+<li>消融、<ol>
+<li>ProjectGEN w&#x2F;o iter：移除了评判智能体和迭代优化机制，但保留SSAT。</li>
+<li>CodeS：一个基线方法，它使用自然语言而非SSAT作为中间表示进行三层草图生成。<br>  实验结果表明，SSAT（对比CodeS）和迭代优化机制（对比ProjectGEN w&#x2F;o iter）都对最终性能有重要贡献</li>
+</ol>
+</li>
 </ul>
 
     </div>
@@ -287,7 +333,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK"><span class="toc-number">1.</span> <span class="toc-text">[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">1.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AF%84%E4%BC%B0"><span class="toc-number">1.4.</span> <span class="toc-text">实验评估</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL-2024-ChatDev-Communicative-Agents-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">[ACL 2024]ChatDev: Communicative Agents for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">2.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-number">2.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methodology"><span class="toc-number">2.3.</span> <span class="toc-text">Methodology</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0-Experiments-and-Evaluation"><span class="toc-number">2.4.</span> <span class="toc-text">实验与评估 (Experiments and Evaluation)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations"><span class="toc-number">2.5.</span> <span class="toc-text">Limitations</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICLR-2024-METAGPT-META-PROGRAMMING-FOR-AMULTI-AGENT-COLLABORATIVE-FRAMEWORK"><span class="toc-number">1.</span> <span class="toc-text">[ICLR 2024]METAGPT: META PROGRAMMING FOR AMULTI-AGENT COLLABORATIVE FRAMEWORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow"><span class="toc-number">1.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AF%84%E4%BC%B0"><span class="toc-number">1.4.</span> <span class="toc-text">实验评估</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL-2024-ChatDev-Communicative-Agents-for-Software-Development"><span class="toc-number">2.</span> <span class="toc-text">[ACL 2024]ChatDev: Communicative Agents for Software Development</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">2.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions"><span class="toc-number">2.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methodology"><span class="toc-number">2.3.</span> <span class="toc-text">Methodology</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExpEval"><span class="toc-number">2.4.</span> <span class="toc-text">ExpEval</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations"><span class="toc-number">2.5.</span> <span class="toc-text">Limitations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Towards-Realistic-Project-Level-Code-Generation-via-Multi-Agent-Collaboration-and-Semantic-Architecture-Modeling"><span class="toc-number">3.</span> <span class="toc-text">Towards Realistic Project-Level Code Generation via Multi-Agent Collaboration and Semantic Architecture Modeling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problems"><span class="toc-number">3.1.</span> <span class="toc-text">Problems</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contributions-1"><span class="toc-number">3.2.</span> <span class="toc-text">Contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#workflow-1"><span class="toc-number">3.3.</span> <span class="toc-text">workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExpEval-1"><span class="toc-number">3.4.</span> <span class="toc-text">ExpEval</span></a></li></ol></li></ol>
       </div>
     
 
