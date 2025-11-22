@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="编译-第6章-运行时的存储组织及管理目标程序运行时所需要存储空间的组织与管理以及源程序中变量存储空间的分配  静态存储分配 在编译阶段由编译程序实现对存储空间的管理 在编译时能够确定源程序中变量在运行时的数据空间大小，且运行时不改变 现在时兴的语言几乎无法用   动态存储分配 在目标程序运行阶段由目标程序实现 编译的时候要生成动态分配的目标指令    6.1 静态存储分配6.1.1 分配策略 相对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译-第06章-运行时的存储组织及管理">
+<meta property="og:url" content="http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="编译-第6章-运行时的存储组织及管理目标程序运行时所需要存储空间的组织与管理以及源程序中变量存储空间的分配  静态存储分配 在编译阶段由编译程序实现对存储空间的管理 在编译时能够确定源程序中变量在运行时的数据空间大小，且运行时不改变 现在时兴的语言几乎无法用   动态存储分配 在目标程序运行阶段由目标程序实现 编译的时候要生成动态分配的目标指令    6.1 静态存储分配6.1.1 分配策略 相对">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810449091_syvywh_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810458944_t9cts_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810470532_6p5hkr_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810480310_sgkv4s_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810487822_nwnxdp_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810501459_trauma_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810510452_aameu_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810520553_bfm17e_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810530421_yf0rl_image.png">
+<meta property="article:published_time" content="2025-11-22T11:18:35.000Z">
+<meta property="article:modified_time" content="2025-11-22T03:26:46.954Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="Compiler Theory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810449091_syvywh_image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>编译-第06章-运行时的存储组织及管理</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC8%E7%AB%A0-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86-1763810587076/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC5%E7%AB%A0-%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%AE%A1%E7%90%86%E6%8A%80%E6%9C%AF-1763810263042/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&text=编译-第06章-运行时的存储组织及管理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&is_video=false&description=编译-第06章-运行时的存储组织及管理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第06章-运行时的存储组织及管理&body=Check out this article: http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&name=编译-第06章-运行时的存储组织及管理&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&t=编译-第06章-运行时的存储组织及管理"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">编译-第6章-运行时的存储组织及管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E9%9D%99%E6%80%81%E5%AD%98%E5%82%A8%E5%88%86%E9%85%8D"><span class="toc-number">1.1.</span> <span class="toc-text">6.1 静态存储分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-1-%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-number">1.1.1.</span> <span class="toc-text">6.1.1 分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-2-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AE%8C%E6%95%B4%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-number">1.1.2.</span> <span class="toc-text">6.1.2 模块的完整数据区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8%E5%88%86%E9%85%8D"><span class="toc-number">1.2.</span> <span class="toc-text">6.2 动态存储分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-1-%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.1.</span> <span class="toc-text">6.2.1 分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-2-%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95%EF%BC%88AR-activation-record%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">6.2.2 活动记录（AR - activation record）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-3-%E5%BB%BA%E9%80%A0display%E5%8C%BA%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-number">1.2.3.</span> <span class="toc-text">6.2.3 建造display区的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-4-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%9C%B0%E5%9D%80%E8%AE%A1%E7%AE%97"><span class="toc-number">1.2.4.</span> <span class="toc-text">6.2.4 运行时的地址计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">6.3 内存垃圾回收器</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" style="padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    <header style="margin-bottom: 2rem; text-align: center;">
+      
+    <h1 class="posttitle p-name" itemprop="name headline">
+        编译-第06章-运行时的存储组织及管理
+    </h1>
+
+
+
+      <div class="meta" style="margin-top: 1.5rem; font-size: 0.95rem; color: #666;">
+        <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+        </span>
+        <span style="margin: 0 0.5rem;">•</span>
+        
+    <div class="postdate">
+      
+        <time datetime="2025-11-22T11:18:35.000Z" class="dt-published" itemprop="datePublished">2025-11-22</time>
+        
+      
+    </div>
+
+
+        
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Compiler/">Compiler</a>
+    </div>
+
+
+        
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Compiler-Theory/" rel="tag">Compiler Theory</a>
+    </div>
+
+
+      </div>
+    </header>
+    
+
+    <div class="content e-content" itemprop="articleBody" style="text-align: left; line-height: 1.8; font-size: 1rem;">
+      <h1 id="编译-第6章-运行时的存储组织及管理"><a href="#编译-第6章-运行时的存储组织及管理" class="headerlink" title="编译-第6章-运行时的存储组织及管理"></a>编译-第6章-运行时的存储组织及管理</h1><p>目标程序运行时所需要存储空间的组织与管理以及源程序中变量存储空间的分配</p>
+<ul>
+<li>静态存储分配<ul>
+<li>在编译阶段由编译程序实现对存储空间的管理</li>
+<li>在编译时能够确定源程序中变量在运行时的数据空间大小，且运行时不改变</li>
+<li>现在时兴的语言几乎无法用</li>
+</ul>
+</li>
+<li>动态存储分配<ul>
+<li>在目标程序运行阶段由目标程序实现</li>
+<li><strong>编译的时候要生成动态分配的目标指令</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="6-1-静态存储分配"><a href="#6-1-静态存储分配" class="headerlink" title="6.1 静态存储分配"></a>6.1 静态存储分配</h2><h3 id="6-1-1-分配策略"><a href="#6-1-1-分配策略" class="headerlink" title="6.1.1 分配策略"></a>6.1.1 分配策略</h3><p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810449091_syvywh_image.png" alt="image"></p>
+<p><strong>相对地址，实际上还要加入初始地址</strong></p>
+<h3 id="6-1-2-模块的完整数据区"><a href="#6-1-2-模块的完整数据区" class="headerlink" title="6.1.2 模块的完整数据区"></a>6.1.2 模块的完整数据区</h3><p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810458944_t9cts_image.png" alt="image"></p>
+<p>编译程序除了要给源程序（模块）中的各种变量分配数据区以外，对子程序来说还要在数据区中保留返回地址，对形式参数也要分配存储以存放相应的实参的信息。另外在编译时还要分配临时变量空间（如存放表达式计算的中间结果等）。</p>
+<h2 id="6-2-动态存储分配"><a href="#6-2-动态存储分配" class="headerlink" title="6.2 动态存储分配"></a>6.2 动态存储分配</h2><p><strong>栈式动态存储分配——分程序，允许递归调用</strong></p>
+<h3 id="6-2-1-分配策略"><a href="#6-2-1-分配策略" class="headerlink" title="6.2.1 分配策略"></a>6.2.1 分配策略</h3><p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810470532_6p5hkr_image.png" alt="image"></p>
+<p>函数的形参和局部变量等放在同一个数据区里</p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810480310_sgkv4s_image.png" alt="image"></p>
+<p>当进入M1时：</p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810487822_nwnxdp_image.png" alt="image"></p>
+<h3 id="6-2-2-活动记录（AR-activation-record）"><a href="#6-2-2-活动记录（AR-activation-record）" class="headerlink" title="6.2.2 活动记录（AR - activation record）"></a>6.2.2 活动记录（AR - activation record）</h3><p>分为三个部分：局部数据区，参数区，display区</p>
+<ul>
+<li><p>参数区</p>
+<ul>
+<li>形参数据区</li>
+<li>隐参<ul>
+<li>prev abp：存放调用模块记录基地址，知道哪个模块调用的你。函数执行完，释放数据区，数据区之中只想调用钱的位置</li>
+<li>ret addr：返回地址，调用语句的下一条执行指令地址</li>
+<li>ret value：函数返回值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>display区：存放各外层模块活动记录的基地址</p>
+<ul>
+<li>eg.</li>
+</ul>
+<p> <img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810501459_trauma_image.png" alt="image"></p>
+<ul>
+<li>变量二元地址（<strong>BL</strong>、<strong>ON</strong>）<ul>
+<li><strong>BL</strong>：变量声明所在的层次。可以用它找到该层数据区开始地址。<strong>（注意为嵌套层次，并列过程具有相同层次）</strong></li>
+<li><strong>ON</strong>：相当于<strong>显示参数区</strong>开始位置的位移（相对地址）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810510452_aameu_image.png" alt="image"></p>
+<h3 id="6-2-3-建造display区的规则"><a href="#6-2-3-建造display区的规则" class="headerlink" title="6.2.3 建造display区的规则"></a>6.2.3 建造<strong>display</strong>区的规则</h3><p>从第i进入第j层</p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810520553_bfm17e_image.png" alt="image"></p>
+<h3 id="6-2-4-运行时的地址计算"><a href="#6-2-4-运行时的地址计算" class="headerlink" title="6.2.4 运行时的地址计算"></a>6.2.4 运行时的地址计算</h3><p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86/1763810530421_yf0rl_image.png" alt="image"></p>
+<h2 id="6-3-内存垃圾回收器"><a href="#6-3-内存垃圾回收器" class="headerlink" title="6.3 内存垃圾回收器"></a>6.3 内存垃圾回收器</h2>
+    </div>
+  </div>
+</article>
+<div style="padding: 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">about me</a></li>
+        
+          <li><a href="/categories/">categories</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">编译-第6章-运行时的存储组织及管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E9%9D%99%E6%80%81%E5%AD%98%E5%82%A8%E5%88%86%E9%85%8D"><span class="toc-number">1.1.</span> <span class="toc-text">6.1 静态存储分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-1-%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-number">1.1.1.</span> <span class="toc-text">6.1.1 分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-2-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AE%8C%E6%95%B4%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-number">1.1.2.</span> <span class="toc-text">6.1.2 模块的完整数据区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E5%8A%A8%E6%80%81%E5%AD%98%E5%82%A8%E5%88%86%E9%85%8D"><span class="toc-number">1.2.</span> <span class="toc-text">6.2 动态存储分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-1-%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.1.</span> <span class="toc-text">6.2.1 分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-2-%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95%EF%BC%88AR-activation-record%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">6.2.2 活动记录（AR - activation record）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-3-%E5%BB%BA%E9%80%A0display%E5%8C%BA%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-number">1.2.3.</span> <span class="toc-text">6.2.3 建造display区的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-4-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%9C%B0%E5%9D%80%E8%AE%A1%E7%AE%97"><span class="toc-number">1.2.4.</span> <span class="toc-text">6.2.4 运行时的地址计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">6.3 内存垃圾回收器</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&text=编译-第06章-运行时的存储组织及管理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&is_video=false&description=编译-第06章-运行时的存储组织及管理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第06章-运行时的存储组织及管理&body=Check out this article: http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&title=编译-第06章-运行时的存储组织及管理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&name=编译-第06章-运行时的存储组织及管理&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/&t=编译-第06章-运行时的存储组织及管理"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'owner/githubrepo';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>

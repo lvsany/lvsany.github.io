@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="编译-第二阶段-语法分析把词法分析识别出来的token作为输入，输出是抽象语法树 描述体系上下文无关文法，2型文法 从左到右匹配 4.1 自顶向下分析方法自顶向下分析思想 若Z⇒+S，则$S\in L(G[Z])$ 存在的问题：左递归问题(U::&#x3D;Ut)；回溯问题(U::&#x3D;Ut|p) 主要的方法：递归子程序方法，LL分析法 自底向上分析思想 存在的问题：句柄的识别问题；若两个规">
+    <meta name="description" content="编译-第4章-语法分析把词法分析识别出来的token作为输入，输出是抽象语法树 描述体系上下文无关文法，2型文法 从左到右匹配 4.1 自顶向下分析方法自顶向下分析思想 若Z⇒+S，则$S\in L(G[Z])$ 存在的问题：左递归问题(U::&#x3D;Ut)；回溯问题(U::&#x3D;Ut|p) 主要的方法：递归子程序方法，LL分析法 自底向上分析思想 存在的问题：句柄的识别问题；若两个规则">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编译-第二阶段-语法分析（一）">
+<meta property="og:title" content="编译-第04章-语法分析（一）">
 <meta property="og:url" content="http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/index.html">
 <meta property="og:site_name" content="Fyw0o&#39;s blogs">
-<meta property="og:description" content="编译-第二阶段-语法分析把词法分析识别出来的token作为输入，输出是抽象语法树 描述体系上下文无关文法，2型文法 从左到右匹配 4.1 自顶向下分析方法自顶向下分析思想 若Z⇒+S，则$S\in L(G[Z])$ 存在的问题：左递归问题(U::&#x3D;Ut)；回溯问题(U::&#x3D;Ut|p) 主要的方法：递归子程序方法，LL分析法 自底向上分析思想 存在的问题：句柄的识别问题；若两个规">
+<meta property="og:description" content="编译-第4章-语法分析把词法分析识别出来的token作为输入，输出是抽象语法树 描述体系上下文无关文法，2型文法 从左到右匹配 4.1 自顶向下分析方法自顶向下分析思想 若Z⇒+S，则$S\in L(G[Z])$ 存在的问题：左递归问题(U::&#x3D;Ut)；回溯问题(U::&#x3D;Ut|p) 主要的方法：递归子程序方法，LL分析法 自底向上分析思想 存在的问题：句柄的识别问题；若两个规则">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%B8%80/1763639114663_reuhum_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%B8%80/1763639135176_irhlyu_image.png">
 <meta property="article:published_time" content="2025-11-20T02:57:45.000Z">
-<meta property="article:modified_time" content="2025-11-20T03:45:41.114Z">
+<meta property="article:modified_time" content="2025-11-22T03:26:20.702Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="Compiler Theory">
 <meta name="twitter:card" content="summary">
@@ -40,7 +40,7 @@
       
     
     <!-- title -->
-    <title>编译-第二阶段-语法分析（一）</title>
+    <title>编译-第04章-语法分析（一）</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -97,6 +97,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="Previous post" href="/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="Next post" href="/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89-1763607138715/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -112,23 +114,23 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&text=编译-第二阶段-语法分析（一）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&is_video=false&description=编译-第二阶段-语法分析（一）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=编译-第二阶段-语法分析（一）&body=Check out this article: http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&name=编译-第二阶段-语法分析（一）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&t=编译-第二阶段-语法分析（一）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&text=编译-第04章-语法分析（一）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&is_video=false&description=编译-第04章-语法分析（一）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第04章-语法分析（一）&body=Check out this article: http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&name=编译-第04章-语法分析（一）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&t=编译-第04章-语法分析（一）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">编译-第二阶段-语法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 自顶向下分析方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E5%B8%A6%E5%9B%9E%E6%BA%AF%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 带回溯的自顶向下分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 存在的问题和解决办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 梯度下降分析法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%9F%BA%E4%BA%8E%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%9E%84%E9%80%A0"><span class="toc-number">1.3.</span> <span class="toc-text">4.3 基于递归下降分析法的语法分析程序构造</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC4%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">编译-第4章-语法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 自顶向下分析方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E5%B8%A6%E5%9B%9E%E6%BA%AF%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 带回溯的自顶向下分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 存在的问题和解决办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 梯度下降分析法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%9F%BA%E4%BA%8E%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%9E%84%E9%80%A0"><span class="toc-number">1.3.</span> <span class="toc-text">4.3 基于递归下降分析法的语法分析程序构造</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -142,7 +144,7 @@
     <header style="margin-bottom: 2rem; text-align: center;">
       
     <h1 class="posttitle p-name" itemprop="name headline">
-        编译-第二阶段-语法分析（一）
+        编译-第04章-语法分析（一）
     </h1>
 
 
@@ -180,7 +182,7 @@
     
 
     <div class="content e-content" itemprop="articleBody" style="text-align: left; line-height: 1.8; font-size: 1rem;">
-      <h1 id="编译-第二阶段-语法分析"><a href="#编译-第二阶段-语法分析" class="headerlink" title="编译-第二阶段-语法分析"></a>编译-第二阶段-语法分析</h1><p>把词法分析识别出来的token作为输入，输出是抽象语法树</p>
+      <h1 id="编译-第4章-语法分析"><a href="#编译-第4章-语法分析" class="headerlink" title="编译-第4章-语法分析"></a>编译-第4章-语法分析</h1><p>把词法分析识别出来的token作为输入，输出是抽象语法树</p>
 <p><strong>描述体系</strong>上下文无关文法，2型文法</p>
 <p>从左到右匹配</p>
 <h2 id="4-1-自顶向下分析方法"><a href="#4-1-自顶向下分析方法" class="headerlink" title="4.1 自顶向下分析方法"></a>4.1 自顶向下分析方法</h2><p><strong>自顶向下分析思想</strong></p>
@@ -307,23 +309,23 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">编译-第二阶段-语法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 自顶向下分析方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E5%B8%A6%E5%9B%9E%E6%BA%AF%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 带回溯的自顶向下分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 存在的问题和解决办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 梯度下降分析法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%9F%BA%E4%BA%8E%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%9E%84%E9%80%A0"><span class="toc-number">1.3.</span> <span class="toc-text">4.3 基于递归下降分析法的语法分析程序构造</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC4%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">编译-第4章-语法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">4.1 自顶向下分析方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E5%B8%A6%E5%9B%9E%E6%BA%AF%E7%9A%84%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1 带回溯的自顶向下分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">4.1.2 存在的问题和解决办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">4.2 梯度下降分析法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%9F%BA%E4%BA%8E%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%B3%95%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%9E%84%E9%80%A0"><span class="toc-number">1.3.</span> <span class="toc-text">4.3 基于递归下降分析法的语法分析程序构造</span></a></li></ol></li></ol>
       </div>
     
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&text=编译-第二阶段-语法分析（一）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&is_video=false&description=编译-第二阶段-语法分析（一）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=编译-第二阶段-语法分析（一）&body=Check out this article: http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第二阶段-语法分析（一）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&name=编译-第二阶段-语法分析（一）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&t=编译-第二阶段-语法分析（一）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&text=编译-第04章-语法分析（一）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&is_video=false&description=编译-第04章-语法分析（一）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第04章-语法分析（一）&body=Check out this article: http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&title=编译-第04章-语法分析（一）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&name=编译-第04章-语法分析（一）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/&t=编译-第04章-语法分析（一）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

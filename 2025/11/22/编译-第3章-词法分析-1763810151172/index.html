@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="编译-第3章-词法分析3.1 词法分析的功能◆ 词法分析：根据词法规则识别及组合单词，进行词法检查。 ◆ 对数字常数完成数字字符串到数值的转换。 ◆ 删去空格字符和注解。 12345678910def say_hello():    print(&quot;Hello, World!&quot;)• NAME: &#x27;def&#x27;• NAME: &#x27;say_hello&amp;#x27">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译-第03章-词法分析">
+<meta property="og:url" content="http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/index.html">
+<meta property="og:site_name" content="Fyw0o&#39;s blogs">
+<meta property="og:description" content="编译-第3章-词法分析3.1 词法分析的功能◆ 词法分析：根据词法规则识别及组合单词，进行词法检查。 ◆ 对数字常数完成数字字符串到数值的转换。 ◆ 删去空格字符和注解。 12345678910def say_hello():    print(&quot;Hello, World!&quot;)• NAME: &#x27;def&#x27;• NAME: &#x27;say_hello&amp;#x27">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/1763810177251_qwhj2a_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/1763810195590_dfdx4o_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/1763810204985_n6do5e_image.png">
+<meta property="article:published_time" content="2025-11-22T11:15:51.000Z">
+<meta property="article:modified_time" content="2025-11-22T03:27:17.611Z">
+<meta property="article:author" content="Fyw0o Nothing">
+<meta property="article:tag" content="Compiler Theory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/1763810177251_qwhj2a_image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>编译-第03章-词法分析</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC5%E7%AB%A0-%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%AE%A1%E7%90%86%E6%8A%80%E6%9C%AF-1763810263042/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&text=编译-第03章-词法分析"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&is_video=false&description=编译-第03章-词法分析"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第03章-词法分析&body=Check out this article: http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&name=编译-第03章-词法分析&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&t=编译-第03章-词法分析"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">编译-第3章-词法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.</span> <span class="toc-text">3.1 词法分析的功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.1.</span> <span class="toc-text">实现方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%8D%95%E8%AF%8D%E7%9A%84%E7%A7%8D%E7%B1%BB%E5%8F%8A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%BE%93%E5%87%BA%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">3.2 单词的种类及词法分析程序的输出形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E6%AD%A3%E5%88%99%E6%96%87%E6%B3%95%E5%92%8C%E7%8A%B6%E6%80%81%E5%9B%BE%EF%BC%88%E5%B7%A6%E7%BA%BF%E5%BD%A2%E6%96%87%E6%B3%95%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">3.3 正则文法和状态图（左线形文法）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.4.</span> <span class="toc-text">3.4 词法分析程序的设计与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">构造词法分析程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90"><span class="toc-number">1.5.</span> <span class="toc-text">词法分析程序的自动生成</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" style="padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    <header style="margin-bottom: 2rem; text-align: center;">
+      
+    <h1 class="posttitle p-name" itemprop="name headline">
+        编译-第03章-词法分析
+    </h1>
+
+
+
+      <div class="meta" style="margin-top: 1.5rem; font-size: 0.95rem; color: #666;">
+        <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span class="p-name" itemprop="name">Fyw0o Nothing</span>
+        </span>
+        <span style="margin: 0 0.5rem;">•</span>
+        
+    <div class="postdate">
+      
+        <time datetime="2025-11-22T11:15:51.000Z" class="dt-published" itemprop="datePublished">2025-11-22</time>
+        
+      
+    </div>
+
+
+        
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Compiler/">Compiler</a>
+    </div>
+
+
+        
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Compiler-Theory/" rel="tag">Compiler Theory</a>
+    </div>
+
+
+      </div>
+    </header>
+    
+
+    <div class="content e-content" itemprop="articleBody" style="text-align: left; line-height: 1.8; font-size: 1rem;">
+      <h1 id="编译-第3章-词法分析"><a href="#编译-第3章-词法分析" class="headerlink" title="编译-第3章-词法分析"></a>编译-第3章-词法分析</h1><h2 id="3-1-词法分析的功能"><a href="#3-1-词法分析的功能" class="headerlink" title="3.1 词法分析的功能"></a>3.1 词法分析的功能</h2><p>◆ 词法分析：根据词法规则识别及组合单词，进行词法检查。</p>
+<p>◆ 对数字常数完成数字字符串到数值的转换。</p>
+<p>◆ 删去空格字符和注解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line"></span><br><span class="line">• NAME: <span class="string">&#x27;def&#x27;</span></span><br><span class="line">• NAME: <span class="string">&#x27;say_hello&#x27;</span></span><br><span class="line">• OP: <span class="string">&#x27;(&#x27;</span></span><br><span class="line">• OP: <span class="string">&#x27;)&#x27;</span></span><br><span class="line">• OP: <span class="string">&#x27;:&#x27;</span></span><br><span class="line">• NEWLINE: <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h3><ul>
+<li>词法分析单独作为一遍：先词法分析，分析完成后进行语法分析</li>
+<li>词法分析单独作为语法分析的子程序，<strong>效率高</strong><ol>
+<li>语法分析器（Parser）需要新词法单元时调用词法分析器</li>
+<li>词法分析器返回下一个识别出的词法单元（类型+值）</li>
+<li>语法分析器根据词法单元类型构建语法树</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-2-单词的种类及词法分析程序的输出形式"><a href="#3-2-单词的种类及词法分析程序的输出形式" class="headerlink" title="3.2 单词的种类及词法分析程序的输出形式"></a>3.2 单词的种类及词法分析程序的输出形式</h2><p>**单词的种类：**保留字；标识符：函数名等用户自定义；常数；分界符</p>
+<p><strong>单词的内部形式</strong></p>
+<ul>
+<li>key(type, value)</li>
+<li>常用分类：<ul>
+<li>按照单词种类</li>
+<li><strong>保留字和分界符</strong>按照一符一类（更常见）</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-正则文法和状态图（左线形文法）"><a href="#3-3-正则文法和状态图（左线形文法）" class="headerlink" title="3.3 正则文法和状态图（左线形文法）"></a>3.3 正则文法和状态图（左线形文法）</h2><p> A → Ba（左线性）</p>
+<ul>
+<li>G中的非终结符都是一个状态（识别符号为终止状态，两个圈）</li>
+<li>设置一个开始状态S</li>
+<li>若Q→t, S → Q</li>
+<li>若Q→Rt, R → Q</li>
+</ul>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/1763810177251_qwhj2a_image.png" alt="image"></p>
+<p>六条规则，六条边</p>
+<p>状态图可分析和识别字符串x，是规约的过程（自底向上的），每一步规约的正好是句柄</p>
+<p>**句柄：**最左简单短语</p>
+<h2 id="3-4-词法分析程序的设计与实现"><a href="#3-4-词法分析程序的设计与实现" class="headerlink" title="3.4 词法分析程序的设计与实现"></a>3.4 词法分析程序的设计与实现</h2><p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/1763810195590_dfdx4o_image.png" alt="image"></p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/1763810204985_n6do5e_image.png" alt="image"></p>
+<h3 id="构造词法分析程序"><a href="#构造词法分析程序" class="headerlink" title="构造词法分析程序"></a>构造词法分析程序</h3><p><strong>1.</strong> 单词及内部表示</p>
+<p><strong>2.</strong> 词法分析程序需要引用的公共（全局）变量和过程</p>
+<p><strong>3.</strong> 词法分析程序算法</p>
+<h2 id="词法分析程序的自动生成"><a href="#词法分析程序的自动生成" class="headerlink" title="词法分析程序的自动生成"></a>词法分析程序的自动生成</h2><p>略</p>
+
+    </div>
+  </div>
+</article>
+<div style="padding: 2rem; display: flex; flex-direction: column; align-items: center;">
+  <div style="max-width: 900px; width: 100%;">
+    
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">about me</a></li>
+        
+          <li><a href="/categories/">categories</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">编译-第3章-词法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.</span> <span class="toc-text">3.1 词法分析的功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.1.</span> <span class="toc-text">实现方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%8D%95%E8%AF%8D%E7%9A%84%E7%A7%8D%E7%B1%BB%E5%8F%8A%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%BE%93%E5%87%BA%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">3.2 单词的种类及词法分析程序的输出形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E6%AD%A3%E5%88%99%E6%96%87%E6%B3%95%E5%92%8C%E7%8A%B6%E6%80%81%E5%9B%BE%EF%BC%88%E5%B7%A6%E7%BA%BF%E5%BD%A2%E6%96%87%E6%B3%95%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">3.3 正则文法和状态图（左线形文法）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.4.</span> <span class="toc-text">3.4 词法分析程序的设计与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">构造词法分析程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90"><span class="toc-number">1.5.</span> <span class="toc-text">词法分析程序的自动生成</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&text=编译-第03章-词法分析"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&is_video=false&description=编译-第03章-词法分析"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编译-第03章-词法分析&body=Check out this article: http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&title=编译-第03章-词法分析"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&name=编译-第03章-词法分析&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://lvsany.github.io/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/&t=编译-第03章-词法分析"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    Fyw0o Nothing
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">about me</a></li><!--
+     --><!--
+       --><li><a href="/categories/">categories</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'owner/githubrepo';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
