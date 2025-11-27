@@ -21,8 +21,13 @@
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764030505215_abjeqj_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764031453273_2sw06f_image.png">
 <meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764032807850_tndxtj_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764208599759_4wtbxr_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764208865365_pdwqi_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764209072053_1rupo8_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764209444864_6935oa_image.png">
+<meta property="og:image" content="http://lvsany.github.io/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764211883875_jm71z_image.png">
 <meta property="article:published_time" content="2025-11-20T02:52:18.000Z">
-<meta property="article:modified_time" content="2025-11-25T05:33:29.530Z">
+<meta property="article:modified_time" content="2025-11-26T18:51:34.969Z">
 <meta property="article:author" content="Fyw0o Nothing">
 <meta property="article:tag" content="Compiler Theory">
 <meta name="twitter:card" content="summary">
@@ -220,6 +225,32 @@
 <p>同时还要消除左递归和二义性等</p>
 <h2 id="自底向上分析法（全书的重点）"><a href="#自底向上分析法（全书的重点）" class="headerlink" title="自底向上分析法（全书的重点）"></a>自底向上分析法（全书的重点）</h2><p>最左规约，即最右推导</p>
 <h3 id="LR分析法"><a href="#LR分析法" class="headerlink" title="LR分析法"></a>LR分析法</h3><p>从左到右扫描，自底向上规约</p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764208599759_4wtbxr_image.png" alt="image"></p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764208865365_pdwqi_image.png" alt="image"></p>
+<p>分析表包括：goto, action两个表</p>
+<ul>
+<li>SLR分析表（简单LR分析表，主要讲这个，并且一定是属于后面两个的）</li>
+<li>LR分析表</li>
+<li>LALR（超前LR分析表）</li>
+</ul>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764209072053_1rupo8_image.png" alt="image"></p>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764209444864_6935oa_image.png" alt="image"></p>
+<p>？？？？</p>
+<ul>
+<li>移进 (shift)，ACTION[ Si , a ] &#x3D; s<ul>
+<li>动作：将 a 推进栈，并设置新的栈顶状态为 Sj 。</li>
+<li>Sj &#x3D; GOTO[ Si, a ]，并将指针指向下一个输入符号。</li>
+</ul>
+</li>
+<li>规约 (reduce)，ACTION[ Si , a ] &#x3D; rd，d：文法规则编号 (d) A→β<ul>
+<li>动作：将符号串β(假定长度为n ) 连同状态从栈内弹出，再把 A 推进栈，并设置新的栈顶状态为Sj。</li>
+<li>Sj &#x3D; GOTO[ Si-n , A ]</li>
+</ul>
+</li>
+<li>ACCEPT接受了</li>
+<li>ERROR报错</li>
+</ul>
+<p><img src="/images/%E7%BC%96%E8%AF%91-%E7%AC%AC12%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E4%BA%8C%E9%87%8D%E8%A6%81/1764211883875_jm71z_image.png" alt="image"></p>
 
     </div>
   </div>
