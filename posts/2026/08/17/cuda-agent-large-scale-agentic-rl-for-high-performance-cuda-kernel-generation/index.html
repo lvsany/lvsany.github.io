@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="[arxiv_link](https://arxiv.org/pdf/2602.24286) ## motivation 1. **通用 LLM 的 CUDA 优化能力不足**：作者指出，通用模型虽可生成程序，但在 CUDA kernel 生成上仍不具备与 torch.compile 竞争的性能，根因是高性能 CUDA"><title>CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation · Fyw0o's blogs</title><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/css/style.css"><style>.editor-post{max-width:900px;margin:0 auto;padding:4rem 1.5rem}.editor-post .posttitle{margin-bottom:.75rem}.editor-post .meta{color:#666;margin-bottom:2rem}.editor-post .article-entry{line-height:1.8}.editor-post img{max-width:100%;height:auto}.editor-post pre{overflow:auto;padding:1rem;border-radius:8px;background:#20252d;color:#f4f5f7}.editor-post code{padding:.1rem .25rem;background:#f0f2f4;border-radius:4px}.editor-post pre code{padding:0;background:transparent}.editor-post blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid #16846b;background:#f4fbf9}.editor-post .article-tag span{margin-right:.5rem;color:#16846b}</style></head>
+<body class="max-width mx-auto px3 ltr"><main class="editor-post"><p><a href="/">← Home</a></p><article class="post h-entry"><header><h1 class="posttitle p-name">CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation</h1><p class="meta"><time datetime="2026-08-17">2026-08-17</time></p><p class="article-tag"><span class="p-category">#papers</span></p></header><div class="article-entry e-content"><p><a href="https://arxiv.org/pdf/2602.24286" target="_blank" rel="noopener noreferrer">arxiv_link</a></p>
+<h2>motivation</h2>
+<ol>
+<li><strong>通用 LLM 的 CUDA 优化能力不足</strong>：作者指出，通用模型虽可生成程序，但在 CUDA kernel 生成上仍不具备与 torch.compile 竞争的性能，根因是高性能 CUDA 所需的硬件与 profile 知识高度专门化。</li>
+<li><strong>training-free受模型基础能力限制</strong>：若基础模型不具备足够的cuda代码与优化只是，收益受限</li>
+<li><strong>多轮迭代浪费上下文并限制策略自主性</strong>：上下文会保留大量已失效的信息；agent的行为被固定模板限制，每一轮都要求“基于上一版代码修复”，因此模型通常只能做局部编辑。</li>
+<li><strong>长程CUDA RL不稳定</strong>：CUDA token在通用预料中极罕见，低概率token与训练/推理精度差异会导致PPO重要性采样比剧烈波动</li>
+</ol>
+<h2>Contributions</h2>
+<ol>
+<li><strong>CUDA Agentic RL</strong>，提出 CUDA Agent，组合可扩展数据合成、带技能的 CUDA 开发环境，以及面向长上下文、多轮训练稳定性的 RL 技术</li>
+<li>在 KernelBench 上报告相对 torch.compile 的 Level-1、Level-2、Level-3 Faster Rate 分别为 100%、100%、92%；论文称其在该设置下优于所比较的专有模型</li>
+</ol>
+<h2>WorkFlow</h2>
+<h3>构造训练任务</h3>
+<ol>
+<li>先从torch和transformers中挖掘已有的pytorch算子类，但是不能只训练这种单算子，agent容易学到局部kernel，却少见真实场景的跨算子融合的机会</li>
+<li>用LLM从种子库中抽取最多5个兼容算子，组合成一个新的pytorch参考模型</li>
+<li>得到一个新的训练任务：</li>
+</ol>
+<pre><code>输入：pytorch参考的模型代码，模型参数，随机输入生成器
+目标：实现model_new.py与自定义CUDA/C++扩展
+约束：输出与该模型一直，尽量快于torch.compile</code></pre>
+<ol>
+<li>最后只保留可作为RL环境的任务</li>
+</ol>
+<h3>CUDA Agent rollout with tools</h3>
+<ul>
+<li>input:</li>
+</ul></div></article></main><script id="article-source" type="application/json">{"title":"CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation","date":"2026-08-17","body":"[arxiv_link](https://arxiv.org/pdf/2602.24286)\n\n## motivation\n\n1. **通用 LLM 的 CUDA 优化能力不足**：作者指出，通用模型虽可生成程序，但在 CUDA kernel 生成上仍不具备与 torch.compile 竞争的性能，根因是高性能 CUDA 所需的硬件与 profile 知识高度专门化。\n2. **training-free受模型基础能力限制**：若基础模型不具备足够的cuda代码与优化只是，收益受限\n3. **多轮迭代浪费上下文并限制策略自主性**：上下文会保留大量已失效的信息；agent的行为被固定模板限制，每一轮都要求“基于上一版代码修复”，因此模型通常只能做局部编辑。\n4. **长程CUDA RL不稳定**：CUDA token在通用预料中极罕见，低概率token与训练/推理精度差异会导致PPO重要性采样比剧烈波动\n\n## Contributions\n\n1. **CUDA Agentic RL**，提出 CUDA Agent，组合可扩展数据合成、带技能的 CUDA 开发环境，以及面向长上下文、多轮训练稳定性的 RL 技术\n2. 在 KernelBench 上报告相对 torch.compile 的 Level-1、Level-2、Level-3 Faster Rate 分别为 100%、100%、92%；论文称其在该设置下优于所比较的专有模型\n\n## WorkFlow\n\n### 构造训练任务\n\n1. 先从torch和transformers中挖掘已有的pytorch算子类，但是不能只训练这种单算子，agent容易学到局部kernel，却少见真实场景的跨算子融合的机会\n2. 用LLM从种子库中抽取最多5个兼容算子，组合成一个新的pytorch参考模型\n3. 得到一个新的训练任务：\n``` \n输入：pytorch参考的模型代码，模型参数，随机输入生成器\n目标：实现model_new.py与自定义CUDA/C++扩展\n约束：输出与该模型一直，尽量快于torch.compile\n```\n4. 最后只保留可作为RL环境的任务\n\n### CUDA Agent rollout with tools\n\n- input:","slug":"cuda-agent-large-scale-agentic-rl-for-high-performance-cuda-kernel-generation","path":"posts/2026/08/17/cuda-agent-large-scale-agentic-rl-for-high-performance-cuda-kernel-generation/index.html","summary":"","tags":["papers"]}</script></body></html>

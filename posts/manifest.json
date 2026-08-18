@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "title": "CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation",
+    "date": "2026-08-17",
+    "tags": [
+      "papers"
+    ],
+    "summary": "",
+    "path": "posts/2026/08/17/cuda-agent-large-scale-agentic-rl-for-high-performance-cuda-kernel-generation/index.html",
+    "slug": "cuda-agent-large-scale-agentic-rl-for-high-performance-cuda-kernel-generation",
+    "url": "/posts/2026/08/17/cuda-agent-large-scale-agentic-rl-for-high-performance-cuda-kernel-generation/"
+  }
+]
