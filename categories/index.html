@@ -45,6 +45,8 @@
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/library.css">
+<style>#categories { display: none; }</style>
 
     <!-- persian styles -->
     
@@ -99,6 +101,25 @@
     </ul>
   </div>
 </header>
+
+        <main class="library-shell">
+          <section class="library-hero">
+            <p class="library-kicker">PERSONAL KNOWLEDGE LIBRARY</p>
+            <h1>???????????????????</h1>
+            <p>????????????????????????????????????????</p>
+          </section>
+          <div class="library-stats" aria-label="????">
+            <div class="library-stat"><strong id="library-total">0</strong><span>???</span></div>
+            <div class="library-stat"><strong id="library-topic-count">0</strong><span>???</span></div>
+            <div class="library-stat"><strong>2025</strong><span>????</span></div>
+          </div>
+          <div class="library-toolbar">
+            <h2>?????</h2>
+            <input id="library-search" class="library-search" type="search" placeholder="?????????" aria-label="????">
+          </div>
+          <div id="library-groups" class="library-grid" aria-live="polite"></div>
+        </main>
+        <script src="/js/library.js"></script>
 
         
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting" style="padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
