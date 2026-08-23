@@ -113,9 +113,32 @@
   function renderMarkdown(markdown) {
     const lines = String(markdown || '').replace(/\r\n/g, '\n').split('\n');
     const output = [];
-    let code = false, codeLines = [], listType = null, paragraph = [];
+    let code = false, codeLines = [], paragraph = [];
+    const listStack = [];
     const flushParagraph = () => { if (paragraph.length) { output.push('<p>' + inlineMarkdown(paragraph.join('<br>')) + '</p>'); paragraph = []; } };
-    const closeList = () => { if (listType) { output.push('</' + listType + '>'); listType = null; } };
+    const closeListLevel = () => {
+      const list = listStack.pop();
+      if (!list) return;
+      if (list.itemOpen) output.push('</li>');
+      output.push('</' + list.type + '>');
+    };
+    const closeLists = () => { while (listStack.length) closeListLevel(); };
+    const openList = (type, indent) => { output.push('<' + type + '>'); listStack.push({ type, indent, itemOpen: false }); };
+    const addListItem = (type, indent, content) => {
+      let current = listStack[listStack.length - 1];
+      if (!current) openList(type, indent);
+      else if (indent > current.indent) openList(type, indent);
+      else {
+        while (listStack.length && indent < listStack[listStack.length - 1].indent) closeListLevel();
+        current = listStack[listStack.length - 1];
+        if (!current || indent > current.indent) openList(type, indent);
+        else if (current.type !== type) { closeListLevel(); openList(type, indent); }
+        else if (current.itemOpen) { output.push('</li>'); current.itemOpen = false; }
+      }
+      current = listStack[listStack.length - 1];
+      output.push('<li>' + inlineMarkdown(content));
+      current.itemOpen = true;
+    };
     const flushCode = () => { if (code) { output.push('<pre><code>' + escapeHtml(codeLines.join('\n')) + '</code></pre>'); code = false; codeLines = []; } };
     const tableCells = (line) => line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => cell.trim());
     const isTableDivider = (line) => /^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line || '');
@@ -123,16 +146,15 @@
 
     for (let index = 0; index < lines.length; index += 1) {
       const line = lines[index];
-      if (/^\x60\x60\x60/.test(line)) { if (code) flushCode(); else { flushParagraph(); closeList(); code = true; } continue; }
+      if (/^\x60\x60\x60/.test(line)) { if (code) flushCode(); else { flushParagraph(); closeLists(); code = true; } continue; }
       if (code) { codeLines.push(line); continue; }
 
       const heading = line.match(/^(#{1,4})\s+(.+)$/);
-      const unordered = line.match(/^\s*[-*+]\s+(.+)$/);
-      const ordered = line.match(/^\s*\d+\.\s+(.+)$/);
+      const listItem = line.match(/^(\s*)([-*+]|\d+\.)\s+(.+)$/);
       const quote = line.match(/^>\s?(.+)$/);
 
       if (line.includes('|') && isTableDivider(lines[index + 1])) {
-        flushParagraph(); closeList();
+        flushParagraph(); closeLists();
         const headers = tableCells(line);
         const alignments = tableCells(lines[index + 1]).map(tableAlignment);
         const rows = [];
@@ -146,15 +168,15 @@
         const body = rows.map((cells) => '<tr>' + headers.map((_, column) => '<td style="text-align:' + (alignments[column] || 'left') + '">' + inlineMarkdown(cells[column] || '') + '</td>').join('') + '</tr>').join('');
         output.push('<div class="table-wrap"><table><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>');
       }
-      else if (heading) { flushParagraph(); closeList(); output.push('<h' + heading[1].length + '>' + inlineMarkdown(heading[2]) + '</h' + heading[1].length + '>'); }
-      else if (/^\s*([-*_])(?:\s*\1){2,}\s*$/.test(line)) { flushParagraph(); closeList(); output.push('<hr>'); }
-      else if (unordered || ordered) { flushParagraph(); const nextType = unordered ? 'ul' : 'ol'; if (listType && listType !== nextType) closeList(); if (!listType) { listType = nextType; output.push('<' + listType + '>'); } output.push('<li>' + inlineMarkdown((unordered || ordered)[1]) + '</li>'); }
-      else if (quote) { flushParagraph(); closeList(); output.push('<blockquote><p>' + inlineMarkdown(quote[1]) + '</p></blockquote>'); }
-      else if (!line.trim()) { flushParagraph(); closeList(); }
-      else { closeList(); paragraph.push(line); }
+      else if (heading) { flushParagraph(); closeLists(); output.push('<h' + heading[1].length + '>' + inlineMarkdown(heading[2]) + '</h' + heading[1].length + '>'); }
+      else if (/^\s*([-*_])(?:\s*\1){2,}\s*$/.test(line)) { flushParagraph(); closeLists(); output.push('<hr>'); }
+      else if (listItem) { flushParagraph(); addListItem(/^\d+\.$/.test(listItem[2]) ? 'ol' : 'ul', listItem[1].replace(/\t/g, '  ').length, listItem[3]); }
+      else if (quote) { flushParagraph(); closeLists(); output.push('<blockquote><p>' + inlineMarkdown(quote[1]) + '</p></blockquote>'); }
+      else if (!line.trim()) { flushParagraph(); closeLists(); }
+      else { closeLists(); paragraph.push(line); }
     }
 
-    flushParagraph(); closeList(); flushCode();
+    flushParagraph(); closeLists(); flushCode();
     return output.join('\n') || '<p></p>';
   }
 
@@ -343,6 +365,41 @@
     } catch (error) { setStatus(elements.connection, '验证失败', 'error'); message(error.message, 'error'); }
   }
 
+  function handleBodyTab(event) {
+    if (event.key !== 'Tab') return;
+    event.preventDefault();
+    const textarea = elements.body;
+    const value = textarea.value;
+    const selectionStart = textarea.selectionStart;
+    const selectionEnd = textarea.selectionEnd;
+    const lineStart = value.lastIndexOf('\n', selectionStart - 1) + 1;
+    const nextLine = value.indexOf('\n', selectionEnd);
+    const lineEnd = nextLine === -1 ? value.length : nextLine;
+    const selectedLines = value.slice(lineStart, lineEnd);
+    const indent = '  ';
+    const unindentPattern = /^(?:\t| {1,2})/gm;
+    let replacement;
+    let nextStart;
+    let nextEnd;
+
+    if (event.shiftKey) {
+      const firstIndent = selectedLines.match(/^(?:\t| {1,2})/);
+      const removed = [...selectedLines.matchAll(unindentPattern)].reduce((total, match) => total + match[0].length, 0);
+      replacement = selectedLines.replace(unindentPattern, '');
+      nextStart = Math.max(lineStart, selectionStart - (firstIndent ? firstIndent[0].length : 0));
+      nextEnd = Math.max(nextStart, selectionEnd - removed);
+    } else {
+      const lineCount = selectedLines.split('\n').length;
+      replacement = selectedLines.replace(/^/gm, indent);
+      nextStart = selectionStart + indent.length;
+      nextEnd = selectionEnd + lineCount * indent.length;
+    }
+
+    textarea.setRangeText(replacement, lineStart, lineEnd, 'preserve');
+    textarea.setSelectionRange(nextStart, nextEnd);
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
   elements.form.addEventListener('submit', publish);
   elements.previewButton.addEventListener('click', preview);
   elements.remove.addEventListener('click', deleteArticle);
@@ -350,6 +407,7 @@
   elements.verify.addEventListener('click', verify);
   elements.forget.addEventListener('click', () => { sessionStorage.removeItem(TOKEN_KEY); elements.token.value = ''; setStatus(elements.connection, '令牌已清除', 'idle'); message(''); });
   elements.list.addEventListener('click', (event) => { const button = event.target.closest('button[data-path]'); if (button) loadArticle(button.dataset.path); });
+  elements.body.addEventListener('keydown', handleBodyTab);
   [elements.owner, elements.repo, elements.branch].forEach((input) => input.addEventListener('change', saveSettings));
   [elements.title, elements.date, elements.category, elements.tags, elements.summary, elements.body].forEach((input) => input.addEventListener('input', () => { if (!state.busy) { setStatus(elements.draftState, '有未发布修改', 'idle'); preview(); } }));
 
