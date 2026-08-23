@@ -10,7 +10,7 @@
     owner: $('#owner'), repo: $('#repo'), branch: $('#branch'), token: $('#token'),
     verify: $('#verify'), forget: $('#forget-token'), connection: $('#connection-status'),
     form: $('#article-form'), heading: $('#form-heading'), title: $('#title'), date: $('#date'),
-    tags: $('#tags'), summary: $('#summary'), body: $('#body'), preview: $('#preview'),
+    category: $('#category'), tags: $('#tags'), summary: $('#summary'), body: $('#body'), preview: $('#preview'),
     previewButton: $('#preview-button'), publish: $('#publish'), remove: $('#delete'),
     message: $('#message'), list: $('#article-list'), listEmpty: $('#list-empty'),
     newArticle: $('#new-article'), draftState: $('#draft-state')
@@ -140,6 +140,7 @@
   }
 
   function parseTags(value) { return value.split(',').map((tag) => tag.trim()).filter(Boolean).slice(0, 12); }
+  function taxonomyUrl(type, value) { return `/${type}/${encodeURIComponent(value.trim().replace(/\s+/g, '-'))}/`; }
 
   function slugify(value) {
     const clean = value.trim().toLowerCase().replace(/\s+/g, '-').replace(/[\\/:*?"<>|#%{}]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
@@ -150,36 +151,43 @@
     const title = elements.title.value.trim();
     const date = elements.date.value;
     const body = elements.body.value.trim();
-    if (!title || !date || !body) throw new Error('标题、发布日期和正文都需要填写。');
+    const category = elements.category.value.trim();
+    const tags = parseTags(elements.tags.value);
+    if (!title || !date || !category || !tags.length || !body) throw new Error('标题、发布日期、分类、标签和正文都需要填写。');
     const existing = state.current || {};
     const slug = existing.slug || slugify(title);
     const parts = date.split('-');
     const path = `posts/${parts[0]}/${parts[1]}/${parts[2]}/${slug}/index.html`;
-    return { title, date, body, slug, path, summary: elements.summary.value.trim(), tags: parseTags(elements.tags.value) };
+    return { title, date, body, slug, path, summary: elements.summary.value.trim(), category, tags };
   }
 
   function articleUrl(path) { return `/${path.replace(/\/index\.html$/, '/')}`; }
+
+  function postMetadata(article) {
+    const category = article.category ? `<span class="article-category"><a class="category-link" href="${taxonomyUrl('categories', article.category)}">${escapeHtml(article.category)}</a></span>` : '';
+    const tags = article.tags.length ? `<span class="article-tag">${article.tags.map((tag) => `<a class="p-category" href="${taxonomyUrl('tags', tag)}" rel="tag">${escapeHtml(tag)}</a>`).join(' ')}</span>` : '';
+    return `<div class="meta"><span class="author">Fyw0o Nothing</span><span>•</span><time datetime="${escapeHtml(article.date)}">${escapeHtml(article.date)}</time>${category}${tags}</div>`;
+  }
 
   function postHtml(article) {
     const content = renderMarkdown(article.body);
     const description = escapeHtml(article.summary || article.body.replace(/\s+/g, ' ').slice(0, 160));
     const source = JSON.stringify(article).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
-    const tags = article.tags.length ? `<p class="article-tag">${article.tags.map((tag) => `<span class="p-category">#${escapeHtml(tag)}</span>`).join(' ')}</p>` : '';
     return `<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="${description}"><title>${escapeHtml(article.title)} · Fyw0o's blogs</title><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/css/style.css"><style>.editor-post{max-width:900px;margin:0 auto;padding:4rem 1.5rem}.editor-post .posttitle{margin-bottom:.75rem}.editor-post .meta{color:#666;margin-bottom:2rem}.editor-post .article-entry{line-height:1.8}.editor-post img{max-width:100%;height:auto}.editor-post pre{overflow:auto;padding:1rem;border-radius:8px;background:#20252d;color:#f4f5f7}.editor-post code{padding:.1rem .25rem;background:#f0f2f4;border-radius:4px}.editor-post pre code{padding:0;background:transparent}.editor-post blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid #16846b;background:#f4fbf9}.editor-post .article-tag span{margin-right:.5rem;color:#16846b}</style></head>
-<body class="max-width mx-auto px3 ltr"><main class="editor-post"><p><a href="/">← Home</a></p><article class="post h-entry"><header><h1 class="posttitle p-name">${escapeHtml(article.title)}</h1><p class="meta"><time datetime="${article.date}">${article.date}</time></p>${tags}</header><div class="article-entry e-content">${content}</div></article></main><script id="article-source" type="application/json">${source}</script></body></html>`;
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="${description}"><title>${escapeHtml(article.title)} · Fyw0o's blogs</title><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/css/style.css"><style>.editor-post{max-width:900px;margin:0 auto;padding:4rem 1.5rem}.editor-post .posttitle{margin-bottom:.75rem}.editor-post .meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;color:#666;margin-bottom:2rem}.editor-post .article-category,.editor-post .article-tag{display:inline-flex;gap:.45rem}.editor-post .article-entry{line-height:1.8}.editor-post img{max-width:100%;height:auto}.editor-post pre{overflow:auto;padding:1rem;border-radius:8px;background:#20252d;color:#f4f5f7}.editor-post code{padding:.1rem .25rem;background:#f0f2f4;border-radius:4px}.editor-post pre code{padding:0;background:transparent}.editor-post blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid #16846b;background:#f4fbf9}</style></head>
+<body class="max-width mx-auto px3 ltr"><main class="editor-post"><p><a href="/">← Home</a></p><article class="post h-entry"><header><h1 class="posttitle p-name">${escapeHtml(article.title)}</h1>${postMetadata(article)}</header><div class="article-entry e-content">${content}</div></article></main><script id="article-source" type="application/json">${source}</script></body></html>`;
   }
 
   function manifestRecord(article) {
-    return { title: article.title, date: article.date, tags: article.tags, summary: article.summary, path: article.path, slug: article.slug, url: articleUrl(article.path) };
+    return { title: article.title, date: article.date, category: article.category, tags: article.tags, summary: article.summary, path: article.path, slug: article.slug, url: articleUrl(article.path) };
   }
 
   function preview() {
     let article;
     try { article = articleData(); } catch (_) {
-      article = { title: elements.title.value.trim() || '文章标题', date: elements.date.value || '发布日期', body: elements.body.value, tags: parseTags(elements.tags.value), summary: '', slug: '', path: '' };
+      article = { title: elements.title.value.trim() || '文章标题', date: elements.date.value || '发布日期', body: elements.body.value, category: elements.category.value.trim(), tags: parseTags(elements.tags.value), summary: '', slug: '', path: '' };
     }
-    elements.preview.innerHTML = `<h1>${escapeHtml(article.title)}</h1><p class="meta">${escapeHtml(article.date)}</p><div class="article-entry">${renderMarkdown(article.body)}</div>`;
+    elements.preview.innerHTML = `<h1>${escapeHtml(article.title)}</h1>${postMetadata(article)}<div class="article-entry">${renderMarkdown(article.body)}</div>`;
   }
 
   function resetForm() {
@@ -229,6 +237,7 @@
       state.current = article;
       elements.title.value = article.title || '';
       elements.date.value = article.date || '';
+      elements.category.value = article.category || state.posts.find((post) => post.path === path)?.category || '';
       elements.tags.value = (article.tags || []).join(', ');
       elements.summary.value = article.summary || '';
       elements.body.value = article.body || '';
@@ -319,7 +328,7 @@
   elements.forget.addEventListener('click', () => { sessionStorage.removeItem(TOKEN_KEY); elements.token.value = ''; setStatus(elements.connection, '令牌已清除', 'idle'); message(''); });
   elements.list.addEventListener('click', (event) => { const button = event.target.closest('button[data-path]'); if (button) loadArticle(button.dataset.path); });
   [elements.owner, elements.repo, elements.branch].forEach((input) => input.addEventListener('change', saveSettings));
-  [elements.title, elements.date, elements.tags, elements.summary, elements.body].forEach((input) => input.addEventListener('input', () => { if (!state.busy) { setStatus(elements.draftState, '有未发布修改', 'idle'); preview(); } }));
+  [elements.title, elements.date, elements.category, elements.tags, elements.summary, elements.body].forEach((input) => input.addEventListener('input', () => { if (!state.busy) { setStatus(elements.draftState, '有未发布修改', 'idle'); preview(); } }));
 
   restoreSettings(); resetForm(); loadManifest();
 })();
