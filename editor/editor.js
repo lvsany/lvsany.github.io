@@ -114,23 +114,46 @@
     const lines = String(markdown || '').replace(/\r\n/g, '\n').split('\n');
     const output = [];
     let code = false, codeLines = [], listType = null, paragraph = [];
-    const flushParagraph = () => { if (paragraph.length) { output.push(`<p>${inlineMarkdown(paragraph.join('<br>'))}</p>`); paragraph = []; } };
-    const closeList = () => { if (listType) { output.push(`</${listType}>`); listType = null; } };
-    const flushCode = () => { if (code) { output.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`); code = false; codeLines = []; } };
-    for (const line of lines) {
-      if (/^```/.test(line)) { if (code) flushCode(); else { flushParagraph(); closeList(); code = true; } continue; }
+    const flushParagraph = () => { if (paragraph.length) { output.push('<p>' + inlineMarkdown(paragraph.join('<br>')) + '</p>'); paragraph = []; } };
+    const closeList = () => { if (listType) { output.push('</' + listType + '>'); listType = null; } };
+    const flushCode = () => { if (code) { output.push('<pre><code>' + escapeHtml(codeLines.join('\n')) + '</code></pre>'); code = false; codeLines = []; } };
+    const tableCells = (line) => line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => cell.trim());
+    const isTableDivider = (line) => /^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line || '');
+    const tableAlignment = (cell) => cell.startsWith(':') && cell.endsWith(':') ? 'center' : cell.endsWith(':') ? 'right' : 'left';
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = lines[index];
+      if (/^\x60\x60\x60/.test(line)) { if (code) flushCode(); else { flushParagraph(); closeList(); code = true; } continue; }
       if (code) { codeLines.push(line); continue; }
+
       const heading = line.match(/^(#{1,4})\s+(.+)$/);
       const unordered = line.match(/^\s*[-*+]\s+(.+)$/);
       const ordered = line.match(/^\s*\d+\.\s+(.+)$/);
       const quote = line.match(/^>\s?(.+)$/);
-      if (heading) { flushParagraph(); closeList(); output.push(`<h${heading[1].length}>${inlineMarkdown(heading[2])}</h${heading[1].length}>`); }
+
+      if (line.includes('|') && isTableDivider(lines[index + 1])) {
+        flushParagraph(); closeList();
+        const headers = tableCells(line);
+        const alignments = tableCells(lines[index + 1]).map(tableAlignment);
+        const rows = [];
+        index += 2;
+        while (index < lines.length && lines[index].includes('|') && lines[index].trim()) {
+          rows.push(tableCells(lines[index]));
+          index += 1;
+        }
+        index -= 1;
+        const head = headers.map((cell, column) => '<th style="text-align:' + (alignments[column] || 'left') + '">' + inlineMarkdown(cell) + '</th>').join('');
+        const body = rows.map((cells) => '<tr>' + headers.map((_, column) => '<td style="text-align:' + (alignments[column] || 'left') + '">' + inlineMarkdown(cells[column] || '') + '</td>').join('') + '</tr>').join('');
+        output.push('<div class="table-wrap"><table><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>');
+      }
+      else if (heading) { flushParagraph(); closeList(); output.push('<h' + heading[1].length + '>' + inlineMarkdown(heading[2]) + '</h' + heading[1].length + '>'); }
       else if (/^\s*([-*_])(?:\s*\1){2,}\s*$/.test(line)) { flushParagraph(); closeList(); output.push('<hr>'); }
-      else if (unordered || ordered) { flushParagraph(); const nextType = unordered ? 'ul' : 'ol'; if (listType && listType !== nextType) closeList(); if (!listType) { listType = nextType; output.push(`<${listType}>`); } output.push(`<li>${inlineMarkdown((unordered || ordered)[1])}</li>`); }
-      else if (quote) { flushParagraph(); closeList(); output.push(`<blockquote><p>${inlineMarkdown(quote[1])}</p></blockquote>`); }
+      else if (unordered || ordered) { flushParagraph(); const nextType = unordered ? 'ul' : 'ol'; if (listType && listType !== nextType) closeList(); if (!listType) { listType = nextType; output.push('<' + listType + '>'); } output.push('<li>' + inlineMarkdown((unordered || ordered)[1]) + '</li>'); }
+      else if (quote) { flushParagraph(); closeList(); output.push('<blockquote><p>' + inlineMarkdown(quote[1]) + '</p></blockquote>'); }
       else if (!line.trim()) { flushParagraph(); closeList(); }
       else { closeList(); paragraph.push(line); }
     }
+
     flushParagraph(); closeList(); flushCode();
     return output.join('\n') || '<p></p>';
   }

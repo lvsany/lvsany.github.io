@@ -434,6 +434,27 @@ body td {
   padding: 0 8px;
   border-bottom: none;
 }
+.article-entry .table-wrap {
+  max-width: 100%;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.article-entry .table-wrap table {
+  display: table;
+  width: 100%;
+  min-width: max-content;
+  margin: 0;
+}
+.article-entry .table-wrap th,
+.article-entry .table-wrap td {
+  padding: .7rem .85rem;
+  white-space: nowrap;
+}
+.article-entry .table-wrap tr:not(:last-child) td {
+  border-bottom: 1px solid #edf0f2;
+}
 @font-face {
   font-style: normal;
   font-family: "Meslo LG";
