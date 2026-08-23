@@ -31,7 +31,6 @@
   today.setHours(0, 0, 0, 0);
   const lastVisibleDate = latestPost > today ? latestPost : today;
   const lastYear = lastVisibleDate.getFullYear();
-  const monthFormatter = new Intl.DateTimeFormat('en', { month: 'short' });
 
   function fillYearOptions() {
     const options = [{ value: 'all', label: 'All time' }];
@@ -96,7 +95,7 @@
         if (date.getDate() === 1 && !seenMonths.has(monthKey)) {
           seenMonths.add(monthKey);
           const month = document.createElement('span');
-          month.textContent = monthFormatter.format(date);
+          month.textContent = String(date.getMonth() + 1);
           month.style.gridColumn = String(week + 1);
           monthFragment.append(month);
         }
