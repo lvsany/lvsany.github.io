@@ -1,5 +1,6 @@
 (() => {
   const posts = [
+    ["2026-08-17T00:00:00.000Z", "2026-08-17", "CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation", "/posts/2026/08/17/cuda-agent-large-scale-agentic-rl-for-high-performance-cuda-kernel-generation/", "Papers"],
     ["2025-11-21T04:19:22.142Z", "2025-11-18", "bench papers", "/2025/11/18/vibe-coding-papers-1763466396078/", "Vibe Coding"],
     ["2025-11-21T04:16:29.415Z", "2025-11-20", "frame papers", "/2025/11/20/frame-papers-1763576800308/", "Vibe Coding"],
     ["2025-11-22T03:27:17.611Z", "2025-11-22", "编译-第03章-词法分析", "/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/", "编译原理"],
@@ -44,7 +45,7 @@
       time.dateTime = updated;
       time.textContent = updated.slice(0, 10);
       titleWrap.style.marginLeft = "1rem";
-      link.href = href;
+      link.href = window.location.protocol === "file:" ? href.slice(1) : href;
       link.textContent = title;
       link.title = category;
       meta.append(time);

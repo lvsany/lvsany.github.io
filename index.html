@@ -83,40 +83,13 @@
       <li class="icon">
         <a href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-2x"></i></a>
       </li>
-      <!--
-     --><li><a href="/">Home</a></li><!--
-   --><!--
-     --><li><a href="/about/">about me</a></li><!--
-   --><!--
-     --><li><a href="/categories/">categories</a></li><!--
-   --><!--
-     --><li><a href="/archives/">Writing</a></li><!--
-   --><!--
-     --><li><a target="_blank" rel="noopener" href="http://github.com/lvsany">Projects</a></li><!--
-   --><li><a href="/editor/">Editor</a></li><!--
-   -->
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About Me</a></li>
+      <li><a target="_blank" rel="noopener" href="http://github.com/lvsany">GitHub</a></li>
+      <li><a href="/editor/">Editing</a></li>
     </ul>
   </div>
 </header>
-
-+<section style="padding: 0 2rem 4rem; background: #fff;">
-  <div id="archive" style="max-width: 900px; margin: 0 auto; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
-    <div style="max-width: 900px; width: 100%; text-align: center;">
-      <h2 style="font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: -0.02em;">文章</h2>
-      <p style="margin: .8rem 0 1.5rem; color: #777;">按时间、发布时间或标题浏览全部记录。</p>
-      <label style="display: inline-flex; align-items: center; gap: .55rem; margin-bottom: 1.5rem; color: #666; font-size: .9rem;">
-        排序
-        <select id="home-post-sort" style="padding: .35rem .55rem; color: inherit; background: #fff; border: 1px solid #ddd; border-radius: 4px;">
-          <option value="updated">最近更新</option>
-          <option value="published">发布时间</option>
-          <option value="title">标题</option>
-        </select>
-      </label>
-      <ul id="home-post-list" class="post-list" style="list-style: none; padding: 0; text-align: left;"></ul>
-    </div>
-  </div>
-</section>
-
 
 <!-- 主页：个人入口、常用工具与写作动态 -->
 <section style="padding: 4rem 2rem; background: linear-gradient(135deg, #fafafa 0%, #fff 100%);">
@@ -358,6 +331,25 @@
     </div>
   </div>
 </section>
+
+<section style="padding: 0 2rem 4rem; background: #fff;">
+  <div id="archive" style="max-width: 900px; margin: 0 auto; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;">
+    <div style="max-width: 900px; width: 100%; text-align: center;">
+      <h2 style="font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: -0.02em;">文章</h2>
+      <p style="margin: .8rem 0 1.5rem; color: #777;">按时间、发布时间或标题浏览全部记录。</p>
+      <label style="display: inline-flex; align-items: center; gap: .55rem; margin-bottom: 1.5rem; color: #666; font-size: .9rem;">
+        排序
+        <select id="home-post-sort" style="padding: .35rem .55rem; color: inherit; background: #fff; border: 1px solid #ddd; border-radius: 4px;">
+          <option value="updated">最近更新</option>
+          <option value="published">发布时间</option>
+          <option value="title">标题</option>
+        </select>
+      </label>
+      <ul id="home-post-list" class="post-list" style="list-style: none; padding: 0; text-align: left;"></ul>
+    </div>
+  </div>
+</section>
+
         <footer id="footer">
   <div class="footer-left">
     Copyright &copy;
@@ -403,8 +395,8 @@
 <!-- clipboard -->
 
 
-<script src="js/main.js"></script>
-<script src="js/home-posts.js"></script>
+<script src="js/main.js?v=20260822"></script>
+<script src="js/home-posts.js?v=20260822"></script>
 
 <!-- search -->
 

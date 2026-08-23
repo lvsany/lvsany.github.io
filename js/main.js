@@ -12,20 +12,24 @@ if (!!$.prototype.justifiedGallery) {
 
 $(document).ready(function() {
 
-+  /**
-   * Keeps navigation focused on the three primary destinations.
+  /**
+   * Keeps navigation focused on the primary destinations.
    */
   $("#header > #nav > ul, #menu > #nav > ul, #footer nav > ul").each(function() {
     $(this).children("li").not(".icon").each(function() {
       var link = $(this).children("a");
       var href = link.attr("href");
-      if (href !== "/" && href !== "/about/" && href !== "http://github.com/lvsany") {
+      if (href !== "/" && href !== "/about/" && href !== "/editor/" && href !== "http://github.com/lvsany") {
         $(this).remove();
         return;
       }
       if (href === "/about/") link.text("About Me");
+      if (href === "/editor/") link.text("Editing");
       if (href === "http://github.com/lvsany") link.text("GitHub");
     });
+    if (!$(this).find('a[href="/editor/"]').length) {
+      $("<li>").append($("<a>", { href: "/editor/", text: "Editing" })).appendTo(this);
+    }
   });
 
 
