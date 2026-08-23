@@ -102,7 +102,7 @@
         
         
 
-<!-- 两列布局：About Me + 快速工具 | Blogging Activity -->
+<!-- 主页：个人入口、常用工具与写作动态 -->
 <section style="padding: 4rem 2rem; background: linear-gradient(135deg, #fafafa 0%, #fff 100%);">
   <style>
     .quick-tool {
@@ -130,17 +130,17 @@
     <div style="text-align: center;">
       <div id="about-me-card" style="background: #fff; border-radius: 12px; padding: 2.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
         <h1 style="font-size: 2.5rem; font-weight: 700; margin: 0 0 1.2rem 0; letter-spacing: -0.02em; line-height: 1.1;">
-          <a href="/about/" style="text-decoration: none; color: inherit;">About Me</a>
+          <a href="/about/" style="text-decoration: none; color: inherit;">Hi, I’m Fyw0o</a>
         </h1>
         <p style="color: #333; line-height: 1.8; margin: 0.8rem auto; font-size: 1rem;">
-          🎓 来自北航软件学院的本科生 | 👀 是个菜鸡
+          在北航软件学院学习，也在这里记录课程、项目与论文阅读。
         </p>
         <p style="color: #555; line-height: 1.8; margin: 0.6rem auto; font-size: 1rem;">
-          爱代码，爱项目，爱论文（还没投呢 😄）
+          想了解项目和完整经历，可以从 About 页面开始。
         </p>
         <p style="margin-top: 1.8rem;">
           <a href="/about/" style="color: #fff; text-decoration: none; font-weight: 500; display: inline-block; padding: 0.7rem 1.5rem; background-color: #333; border-radius: 980px; transition: all 0.3s ease; font-size: 0.95rem;">
-            → Learn More
+            查看 About →
           </a>
         </p>
       </div>
@@ -343,7 +343,20 @@
   </div>
 </section>
 
-<section id="writing" style="padding: 4rem 2rem; text-align: center; display: flex; flex-direction: column; align-items: center;">
+<section class="home-explore" style="padding: 0 2rem 4rem; text-align: center;">
+  <div style="max-width: 900px; margin: 0 auto; padding: 2.2rem; border: 1px solid #e8eeeb; border-radius: 14px; background: #f7faf8;">
+    <p style="margin: 0 0 .5rem; color: #147a5b; font-size: .75rem; font-weight: 700; letter-spacing: .12em;">EXPLORE THE BLOG</p>
+    <h2 style="margin: 0; font-size: 1.7rem; letter-spacing: -.03em;">从一个入口开始就够了。</h2>
+    <p style="max-width: 560px; margin: .75rem auto 1.5rem; color: #71807a; line-height: 1.8;">首页不再重复文章清单；按你的目的选择下面的入口。</p>
+    <div style="display: flex; justify-content: center; gap: .8rem; flex-wrap: wrap;">
+      <a href="/categories/" style="padding: .7rem 1rem; border-radius: 999px; background: #147a5b; color: #fff; font-weight: 700; text-decoration: none; font-size: .88rem;">按路线学习 →</a>
+      <a href="/archives/" style="padding: .7rem 1rem; border: 1px solid #cfdcd5; border-radius: 999px; color: #283431; font-weight: 700; text-decoration: none; font-size: .88rem;">浏览全部文章 →</a>
+      <a href="/about/" style="padding: .7rem 1rem; border: 1px solid #cfdcd5; border-radius: 999px; color: #283431; font-weight: 700; text-decoration: none; font-size: .88rem;">了解作者 →</a>
+    </div>
+  </div>
+</section>
+
+<section id="writing" hidden style="display: none;">
   <div style="max-width: 900px; width: 100%;">
     <h1 style="font-size: 2.5rem; font-weight: 700; margin: 0 0 2rem 0; letter-spacing: -0.02em; line-height: 1.1;">
       <a href="/archives/" style="text-decoration: none; color: inherit;">Writing</a>

@@ -89,7 +89,7 @@
       <footer class="library-group-footer">
         <a class="library-start" href="${encodeURI(group.start[1])}">${escapeHtml(group.start[0])} <span aria-hidden="true">→</span></a>
         <a class="library-latest" href="${encodeURI(group.latest[1])}">${escapeHtml(group.latest[0])}</a>
-        <a class="library-all" href="${encodeURI(group.category)}">查看这条路线 <span aria-hidden="true">↗</span></a>
+        <a class="library-all" href="${encodeURI(group.category)}">查看本主题文章 <span aria-hidden="true">↗</span></a>
       </footer>
     </section>`).join('');
   };
