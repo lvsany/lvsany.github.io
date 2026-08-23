@@ -30,6 +30,7 @@
   const records = posts.map(([updated, published, title, href, category]) => ({
     updated, published, title, href, category, tags: tagsByCategory[category] || []
   }));
+  window.BLOG_POSTS = records;
   const list = document.getElementById("home-post-list");
   const sort = document.getElementById("home-post-sort");
   const categoryFilters = document.getElementById("home-category-filters");
