@@ -4,7 +4,7 @@
   const SETTINGS_KEY = 'fywoo-editor-settings';
   const TOKEN_KEY = 'fywoo-editor-token';
   const MANIFEST_PATH = 'posts/manifest.json';
-  const state = { posts: [], current: null, busy: false };
+  const state = { posts: [], current: null, busy: false, images: [] };
   const $ = (selector) => document.querySelector(selector);
   const elements = {
     owner: $('#owner'), repo: $('#repo'), branch: $('#branch'), token: $('#token'),
@@ -85,6 +85,19 @@
     const binary = atob(value.replace(/\n/g, ''));
     const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
     return new TextDecoder().decode(bytes);
+  }
+
+  function readImage(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error('图片读取失败。'));
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function imageExtension(type) {
+    return ({ 'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif', 'image/webp': 'webp', 'image/svg+xml': 'svg' }[type] || 'png');
   }
 
   function escapeHtml(value) {
@@ -234,6 +247,7 @@
 
   function resetForm() {
     state.current = null;
+    state.images = [];
     elements.form.reset();
     elements.date.value = new Date().toISOString().slice(0, 10);
     elements.heading.textContent = '新文章';
@@ -277,6 +291,7 @@
       if (!source) throw new Error('这篇文章不是由本编辑器发布，无法安全回读 Markdown 源码。');
       const article = JSON.parse(source[1]);
       state.current = article;
+      state.images = [];
       elements.title.value = article.title || '';
       elements.date.value = article.date || '';
       elements.category.value = article.category || state.posts.find((post) => post.path === path)?.category || '';
@@ -304,6 +319,12 @@
     return github(`${repoPrefix()}/git/blobs`, { method: 'POST', body: JSON.stringify({ content: encodeBase64(content), encoding: 'base64' }) });
   }
 
+  async function createImageBlob(dataUrl) {
+    const separator = dataUrl.indexOf(',');
+    if (separator === -1 || !/^data:image\/.+;base64,/i.test(dataUrl.slice(0, separator + 1))) throw new Error('图片数据格式无效。');
+    return github(`${repoPrefix()}/git/blobs`, { method: 'POST', body: JSON.stringify({ content: dataUrl.slice(separator + 1), encoding: 'base64' }) });
+  }
+
   async function commitChanges(changes, commitMessage) {
     const { branch } = settings();
     const ref = await github(`${repoPrefix()}/git/ref/heads/${encodeURIComponent(branch)}`);
@@ -321,16 +342,18 @@
       const article = articleData(); setBusy(true); message('正在创建 Git 提交…');
       const manifest = await getCurrentManifest();
       const articleBlob = await createBlob(postHtml(article));
+      const imageBlobs = await Promise.all(state.images.map(async (image) => ({ image, blob: await createImageBlob(image.dataUrl) })));
       const nextRecords = (Array.isArray(manifest.records) ? manifest.records : []).filter((item) => item.path !== article.path && item.path !== state.current?.path);
       nextRecords.push(manifestRecord(article)); nextRecords.sort((a, b) => b.date.localeCompare(a.date));
       const manifestBlob = await createBlob(`${JSON.stringify(nextRecords, null, 2)}\n`);
       const changes = [
         { path: article.path, mode: '100644', type: 'blob', sha: articleBlob.sha },
-        { path: MANIFEST_PATH, mode: '100644', type: 'blob', sha: manifestBlob.sha }
+        { path: MANIFEST_PATH, mode: '100644', type: 'blob', sha: manifestBlob.sha },
+        ...imageBlobs.map(({ image, blob }) => ({ path: article.path.replace(/index\.html$/, `images/${image.filename}`), mode: '100644', type: 'blob', sha: blob.sha }))
       ];
       if (state.current?.path && state.current.path !== article.path) changes.push({ path: state.current.path, mode: '100644', type: 'blob', sha: null });
       const commit = await commitChanges(changes, `Publish: ${article.title}`);
-      state.current = article; state.posts = nextRecords; elements.heading.textContent = '编辑文章';
+      state.current = article; state.posts = nextRecords; state.images = []; elements.heading.textContent = '编辑文章';
       elements.remove.disabled = false; setStatus(elements.draftState, '已发布', 'success');
       message(`已提交 ${commit.sha.slice(0, 7)}。GitHub Pages 通常会在几分钟内更新。`); renderList();
     } catch (error) { setStatus(elements.draftState, '发布失败', 'error'); message(error.message, 'error'); }
@@ -397,6 +420,36 @@
     textarea.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
+  async function handleImagePaste(event) {
+    const files = [...(event.clipboardData?.items || [])]
+      .filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
+      .map((item) => item.getAsFile())
+      .filter(Boolean);
+    if (!files.length) return;
+    event.preventDefault();
+    if (files.some((file) => file.size > 8 * 1024 * 1024)) { message('单张粘贴图片不能超过 8MB。', 'error'); return; }
+
+    try {
+      const pasted = await Promise.all(files.map(async (file, index) => {
+        const filename = `pasted-${Date.now()}-${state.images.length + index + 1}.${imageExtension(file.type)}`;
+        return { filename, dataUrl: await readImage(file) };
+      }));
+      const textarea = elements.body;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const before = textarea.value.slice(0, start);
+      const after = textarea.value.slice(end);
+      const prefix = before && !before.endsWith('\n') ? '\n\n' : '';
+      const suffix = after && !after.startsWith('\n') ? '\n\n' : '';
+      const markdown = pasted.map((image) => `![${image.filename}](./images/${image.filename})`).join('\n\n');
+      const insertion = prefix + markdown + suffix;
+      state.images.push(...pasted);
+      textarea.setRangeText(insertion, start, end, 'end');
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      message(`${pasted.length} 张图片已插入，发布时会一并上传。`);
+    } catch (error) { message(error.message || '图片粘贴失败。', 'error'); }
+  }
+
   elements.form.addEventListener('submit', publish);
   elements.remove.addEventListener('click', deleteArticle);
   elements.newArticle.addEventListener('click', resetForm);
@@ -404,6 +457,7 @@
   elements.forget.addEventListener('click', () => { sessionStorage.removeItem(TOKEN_KEY); elements.token.value = ''; setStatus(elements.connection, '令牌已清除', 'idle'); message(''); });
   elements.list.addEventListener('click', (event) => { const button = event.target.closest('button[data-path]'); if (button) loadArticle(button.dataset.path); });
   elements.body.addEventListener('keydown', handleBodyTab);
+  elements.body.addEventListener('paste', handleImagePaste);
   [elements.owner, elements.repo, elements.branch].forEach((input) => input.addEventListener('change', saveSettings));
   [elements.title, elements.date, elements.category, elements.tags, elements.summary, elements.body].forEach((input) => input.addEventListener('input', () => { if (!state.busy) setStatus(elements.draftState, '有未发布修改', 'idle'); }));
 

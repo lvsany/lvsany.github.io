@@ -46,4 +46,6 @@ textarea { min-height: 420px; resize: vertical; line-height: 1.55; }
 .status.busy { color: #826313; background: #fff6d8; }
 .message { min-height: 1.3rem; margin: 0; color: #515862; font-size: .88rem; }
 .message.error { color: #ad2f2f; }
+.editor-hint { margin: .7rem 0 0; color: #737b84; font-size: .78rem; line-height: 1.5; }
+.editor-hint code { padding: .1rem .3rem; border-radius: 4px; background: #eef1f2; color: #4c555b; }
 @media (max-width: 760px) { .editor-shell { padding-top: 1.5rem; } .editor-header { align-items: flex-start; flex-direction: column; } .editor-utilities { grid-template-columns: 1fr; } .article-list-panel { max-height: none; } .settings-grid, .form-grid { grid-template-columns: 1fr; } .settings-grid .token-field, .form-grid .wide { grid-column: auto; } .compact-actions { flex-direction: column; } textarea { min-height: 320px; } }
