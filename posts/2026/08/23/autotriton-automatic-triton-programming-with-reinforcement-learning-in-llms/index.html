@@ -7,6 +7,8 @@
 </li>
 <li>triton: GPU kernel DSL with python styles
 </li>
+<li>在代码生成领域，可以把问题建模为马尔可夫决策过程，代码生成可以被视作为逐步决策
+</li>
 </ul>
 <h2>Probs and motivation</h2>
 <ul>
@@ -21,5 +23,10 @@
 <ul>
 <li>AutoTrition based on seed-coder-8B -&gt; SFT -&gt; GRPO/RLVR。作者称其为首个RL驱动，专注triton编程的模型
 </li>
+<li>可验证的数据与训练闭环：构建从 PyTorch 内核采集、测试生成、Triton 合成、功能等价验证到 CoT 生成的数据流水线；SFT 使用 14,102 条样本，RL 使用 6,302 条样本
+</li>
+<li>五个评测通道的实证与组件分析：在 TritonBench 两通道和 KernelBench 三个难度级别上评估，并分析 SFT、RL 与规则奖励的作用
+</li>
 </ul>
-<p>-</p></div></div></article></div><script id="article-source" type="application/json">{"title":"AutoTriton: Automatic Triton Programming with Reinforcement Learning in LLMs","date":"2026-08-23","body":"[arxiv_link](https://arxiv.org/pdf/2507.05687)\n\n## Prev\n\n- the article mentions some benchmarks such as tritonbench and kernelbench(this is also used by cuda agent)\n- triton: GPU kernel DSL with python styles\n\n## Probs and motivation\n\n- triton等cuda编程框架的提出，虽然提升了开发的便捷性，但是开发者们仍然需要手动配置诸如布局配置和数据布局等关键参数，这种通过反复试验来解决问题的方式，阻碍性能可移植性和广泛应用\n- 通用的模型缺少专门能力，这个问题在CUDA Agent中也提到了，目前的通用模型的预训练语料库中缺少GPU编程相关的知识\n- ALSO MENTIONED BY \"CUDA AGENT\",通用LLM，training-freeAgent和纯SFT方法难以生成既正确又高性能的triton内核\n\n## Contributions\n\n- AutoTrition based on seed-coder-8B -\u003e SFT -\u003e GRPO/RLVR。作者称其为首个RL驱动，专注triton编程的模型\n-","slug":"autotriton-automatic-triton-programming-with-reinforcement-learning-in-llms","path":"posts/2026/08/23/autotriton-automatic-triton-programming-with-reinforcement-learning-in-llms/index.html","summary":"","category":"operator","tags":["papers"]}</script></body></html>
+<h2>WorkFlow</h2>
+<h3>Pytorch Kernel</h3></div></div></article></div><script id="article-source" type="application/json">{"title":"AutoTriton: Automatic Triton Programming with Reinforcement Learning in LLMs","date":"2026-08-23","body":"[arxiv_link](https://arxiv.org/pdf/2507.05687)\n\n## Prev\n\n- the article mentions some benchmarks such as tritonbench and kernelbench(this is also used by cuda agent)\n- triton: GPU kernel DSL with python styles\n- 在代码生成领域，可以把问题建模为马尔可夫决策过程，代码生成可以被视作为逐步决策\n\n## Probs and motivation\n\n- triton等cuda编程框架的提出，虽然提升了开发的便捷性，但是开发者们仍然需要手动配置诸如布局配置和数据布局等关键参数，这种通过反复试验来解决问题的方式，阻碍性能可移植性和广泛应用\n- 通用的模型缺少专门能力，这个问题在CUDA Agent中也提到了，目前的通用模型的预训练语料库中缺少GPU编程相关的知识\n- ALSO MENTIONED BY \"CUDA AGENT\",通用LLM，training-freeAgent和纯SFT方法难以生成既正确又高性能的triton内核\n\n## Contributions\n\n- AutoTrition based on seed-coder-8B -\u003e SFT -\u003e GRPO/RLVR。作者称其为首个RL驱动，专注triton编程的模型\n- 可验证的数据与训练闭环：构建从 PyTorch 内核采集、测试生成、Triton 合成、功能等价验证到 CoT 生成的数据流水线；SFT 使用 14,102 条样本，RL 使用 6,302 条样本\n- 五个评测通道的实证与组件分析：在 TritonBench 两通道和 KernelBench 三个难度级别上评估，并分析 SFT、RL 与规则奖励的作用\n\n## WorkFlow\n\n\n\n### Pytorch Kernel","slug":"autotriton-automatic-triton-programming-with-reinforcement-learning-in-llms","path":"posts/2026/08/23/autotriton-automatic-triton-programming-with-reinforcement-learning-in-llms/index.html","summary":"","category":"operator","tags":["papers"]}</script></body></html>
