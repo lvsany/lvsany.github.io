@@ -1,5 +1,17 @@
 [
   {
+    "title": "AutoTriton: Automatic Triton Programming with Reinforcement Learning in LLMs",
+    "date": "2026-08-23",
+    "category": "operator",
+    "tags": [
+      "papers"
+    ],
+    "summary": "",
+    "path": "posts/2026/08/23/autotriton-automatic-triton-programming-with-reinforcement-learning-in-llms/index.html",
+    "slug": "autotriton-automatic-triton-programming-with-reinforcement-learning-in-llms",
+    "url": "/posts/2026/08/23/autotriton-automatic-triton-programming-with-reinforcement-learning-in-llms/"
+  },
+  {
     "title": "CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation",
     "date": "2026-08-17",
     "category": "operator",
