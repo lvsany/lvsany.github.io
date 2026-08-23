@@ -21,12 +21,10 @@
     ["2025-11-21T01:24:59.469Z", "2025-11-08", "计网-第四章-网络层", "/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/", "计算机网络"]
   ];
   const list = document.getElementById("home-post-list");
-  if (!list) return;
+  const sort = document.getElementById("home-post-sort");
+  if (!list || !sort) return;
 
   const collator = new Intl.Collator("zh-Hans-CN", { numeric: true, sensitivity: "base" });
-  const count = document.getElementById("post-count");
-  count.textContent = posts.length;
-
   const render = (mode) => {
     const position = mode === "updated" ? 0 : mode === "published" ? 1 : 2;
     const ordered = [...posts].sort((a, b) => mode === "title"
@@ -35,28 +33,27 @@
 
     list.replaceChildren(...ordered.map(([updated, published, title, href, category]) => {
       const item = document.createElement("li");
+      const meta = document.createElement("div");
+      const time = document.createElement("time");
+      const titleWrap = document.createElement("span");
       const link = document.createElement("a");
-      const titleElement = document.createElement("span");
-      const meta = document.createElement("span");
 
-      item.className = "home-post-item";
+      item.className = "post-item";
+      item.style.cssText = "padding: 1rem 0; border-bottom: 1px solid #f0f0f0; transition: .3s;";
+      meta.className = "meta";
+      time.dateTime = updated;
+      time.textContent = updated.slice(0, 10);
+      titleWrap.style.marginLeft = "1rem";
       link.href = href;
-      titleElement.className = "home-post-title";
-      meta.className = "home-post-meta";
-      titleElement.textContent = title;
-      meta.textContent = updated.slice(0, 10) + " · " + category;
-      link.append(titleElement, meta);
-      item.append(link);
+      link.textContent = title;
+      link.title = category;
+      meta.append(time);
+      titleWrap.append(link);
+      item.append(meta, titleWrap);
       return item;
     }));
-
-    document.querySelectorAll(".post-sort button").forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.sort === mode);
-    });
   };
 
-  document.querySelectorAll(".post-sort button").forEach((button) => {
-    button.addEventListener("click", () => render(button.dataset.sort));
-  });
-  render("updated");
+  sort.addEventListener("change", () => render(sort.value));
+  render(sort.value);
 })();
