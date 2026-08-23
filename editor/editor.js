@@ -10,8 +10,8 @@
     owner: $('#owner'), repo: $('#repo'), branch: $('#branch'), token: $('#token'),
     verify: $('#verify'), forget: $('#forget-token'), connection: $('#connection-status'),
     form: $('#article-form'), heading: $('#form-heading'), title: $('#title'), date: $('#date'),
-    category: $('#category'), tags: $('#tags'), summary: $('#summary'), body: $('#body'), preview: $('#preview'),
-    previewButton: $('#preview-button'), publish: $('#publish'), remove: $('#delete'),
+    category: $('#category'), tags: $('#tags'), summary: $('#summary'), body: $('#body'),
+    publish: $('#publish'), remove: $('#delete'),
     message: $('#message'), list: $('#article-list'), listEmpty: $('#list-empty'),
     newArticle: $('#new-article'), draftState: $('#draft-state')
   };
@@ -44,7 +44,7 @@
 
   function setBusy(busy) {
     state.busy = busy;
-    [elements.publish, elements.remove, elements.verify, elements.previewButton].forEach((button) => { button.disabled = busy || (button === elements.remove && !state.current); });
+    [elements.publish, elements.remove, elements.verify].forEach((button) => { button.disabled = busy || (button === elements.remove && !state.current); });
     if (busy) setStatus(elements.draftState, '正在提交…', 'busy');
   }
 
@@ -232,14 +232,6 @@
     return { title: article.title, date: article.date, category: article.category, tags: article.tags, summary: article.summary, path: article.path, slug: article.slug, url: articleUrl(article.path) };
   }
 
-  function preview() {
-    let article;
-    try { article = articleData(); } catch (_) {
-      article = { title: elements.title.value.trim() || '文章标题', date: elements.date.value || '发布日期', body: elements.body.value, category: elements.category.value.trim(), tags: parseTags(elements.tags.value), summary: '', slug: '', path: '' };
-    }
-    elements.preview.innerHTML = `<h1>${escapeHtml(article.title)}</h1>${postMetadata(article)}<div class="article-entry">${renderMarkdown(article.body)}</div>`;
-  }
-
   function resetForm() {
     state.current = null;
     elements.form.reset();
@@ -247,7 +239,7 @@
     elements.heading.textContent = '新文章';
     elements.remove.disabled = true;
     setStatus(elements.draftState, '未保存', 'idle');
-    message(''); preview(); renderList();
+    message(''); renderList();
   }
 
   function renderList() {
@@ -293,7 +285,7 @@
       elements.body.value = article.body || '';
       elements.heading.textContent = '编辑文章';
       elements.remove.disabled = false;
-      setStatus(elements.draftState, '已载入', 'success'); message('文章已载入。'); preview(); renderList();
+      setStatus(elements.draftState, '已载入', 'success'); message('文章已载入。'); renderList();
     } catch (error) { message(error.message, 'error'); }
     finally { setBusy(false); }
   }
@@ -340,7 +332,7 @@
       const commit = await commitChanges(changes, `Publish: ${article.title}`);
       state.current = article; state.posts = nextRecords; elements.heading.textContent = '编辑文章';
       elements.remove.disabled = false; setStatus(elements.draftState, '已发布', 'success');
-      message(`已提交 ${commit.sha.slice(0, 7)}。GitHub Pages 通常会在几分钟内更新。`); preview(); renderList();
+      message(`已提交 ${commit.sha.slice(0, 7)}。GitHub Pages 通常会在几分钟内更新。`); renderList();
     } catch (error) { setStatus(elements.draftState, '发布失败', 'error'); message(error.message, 'error'); }
     finally { setBusy(false); }
   }
@@ -406,7 +398,6 @@
   }
 
   elements.form.addEventListener('submit', publish);
-  elements.previewButton.addEventListener('click', preview);
   elements.remove.addEventListener('click', deleteArticle);
   elements.newArticle.addEventListener('click', resetForm);
   elements.verify.addEventListener('click', verify);
@@ -414,7 +405,7 @@
   elements.list.addEventListener('click', (event) => { const button = event.target.closest('button[data-path]'); if (button) loadArticle(button.dataset.path); });
   elements.body.addEventListener('keydown', handleBodyTab);
   [elements.owner, elements.repo, elements.branch].forEach((input) => input.addEventListener('change', saveSettings));
-  [elements.title, elements.date, elements.category, elements.tags, elements.summary, elements.body].forEach((input) => input.addEventListener('input', () => { if (!state.busy) { setStatus(elements.draftState, '有未发布修改', 'idle'); preview(); } }));
+  [elements.title, elements.date, elements.category, elements.tags, elements.summary, elements.body].forEach((input) => input.addEventListener('input', () => { if (!state.busy) setStatus(elements.draftState, '有未发布修改', 'idle'); }));
 
   restoreSettings(); resetForm(); loadManifest();
 })();
