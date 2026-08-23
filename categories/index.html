@@ -104,9 +104,9 @@
 
         <main class="library-shell">
           <section class="library-hero">
-            <p class="library-kicker">PERSONAL KNOWLEDGE LIBRARY</p>
-            <h1>把学习轨迹，整理成可以回看的知识地图。</h1>
-            <p>所有原文章都保留在原地址。这里按照学习主题重新梳理，方便从一个知识模块连续阅读。</p>
+            <p class="library-kicker">LEARNING ROUTES</p>
+            <h1>别从最新一篇开始，沿着一条路线学下去。</h1>
+            <p>首页用来发现最近的更新；这里则把笔记整理成可进入、可继续的学习路径。</p>
           </section>
           <div class="library-stats" aria-label="博客统计">
             <div class="library-stat"><strong id="library-total">0</strong><span>篇文章</span></div>
@@ -114,10 +114,24 @@
             <div class="library-stat"><strong>2025</strong><span>开始记录</span></div>
           </div>
           <div class="library-toolbar">
-            <h2>按主题浏览</h2>
-            <input id="library-search" class="library-search" type="search" placeholder="搜索文章标题或主题" aria-label="搜索文章">
+            <div>
+              <h2>选择一条路线</h2>
+              <p>每条路线都标出适合的切入点、学习重点和下一步。</p>
+            </div>
+            <a class="library-archive-link" href="/archives/">浏览全部文章 <span aria-hidden="true">→</span></a>
           </div>
           <div id="library-groups" class="library-grid" aria-live="polite"></div>
+          <section class="library-next" aria-label="其他浏览方式">
+            <div>
+              <p class="library-kicker">KEEP EXPLORING</p>
+              <h2>想按时间看更新？</h2>
+              <p>首页保留最新文章，写作归档则适合回看全部记录。</p>
+            </div>
+            <div class="library-next-links">
+              <a href="/">回到首页 <span aria-hidden="true">→</span></a>
+              <a href="/archives/">查看文章归档 <span aria-hidden="true">→</span></a>
+            </div>
+          </section>
         </main>
         <script src="/js/library.js"></script>
 
@@ -296,6 +310,7 @@
         var disqus_shortname = 'cactus-1';
 
         (function(){
+            if (!document.getElementById('disqus_thread')) return;
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript';
             dsq.async = true;
@@ -313,6 +328,8 @@
       var utterances_theme = 'github-dark';
 
       (function(){
+          var utterancesThread = document.getElementById('utterances_thread');
+          if (!utterancesThread) return;
           var script = document.createElement('script');
 
           script.src = 'https://utteranc.es/client.js';
@@ -322,7 +339,7 @@
           script.setAttribute('theme', utterances_theme);
           script.setAttribute('crossorigin', 'anonymous');
           script.async = true;
-          (document.getElementById('utterances_thread')).appendChild(script);
+          utterancesThread.appendChild(script);
       }());
   </script>
 
