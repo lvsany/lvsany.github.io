@@ -21,40 +21,102 @@
     ["2025-11-22T03:12:53.144Z", "2025-09-09", "计网-第二章-物理层", "/2025/09/09/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/", "计算机网络"],
     ["2025-11-21T01:24:59.469Z", "2025-11-08", "计网-第四章-网络层", "/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/", "计算机网络"]
   ];
+  const tagsByCategory = {
+    "Papers": ["AI4SE", "CUDA"],
+    "Vibe Coding": ["Papers"],
+    "编译原理": ["Compiler Theory"],
+    "计算机网络": ["C-Net Theory"]
+  };
+  const records = posts.map(([updated, published, title, href, category]) => ({
+    updated, published, title, href, category, tags: tagsByCategory[category] || []
+  }));
   const list = document.getElementById("home-post-list");
   const sort = document.getElementById("home-post-sort");
-  if (!list || !sort) return;
+  const categoryFilters = document.getElementById("home-category-filters");
+  const tagFilters = document.getElementById("home-tag-filters");
+  const count = document.getElementById("home-post-count");
+  if (!list || !sort || !categoryFilters || !tagFilters || !count) return;
 
   const collator = new Intl.Collator("zh-Hans-CN", { numeric: true, sensitivity: "base" });
-  const render = (mode) => {
-    const position = mode === "updated" ? 0 : mode === "published" ? 1 : 2;
-    const ordered = [...posts].sort((a, b) => mode === "title"
-      ? collator.compare(a[position], b[position])
-      : b[position].localeCompare(a[position]));
+  const categories = [...new Set(records.map((post) => post.category))];
+  const tags = [...new Set(records.flatMap((post) => post.tags))];
+  const activeFilter = { type: "all", value: "" };
+  const matchesFilter = (post) => activeFilter.type === "all"
+    || (activeFilter.type === "category" && post.category === activeFilter.value)
+    || (activeFilter.type === "tag" && post.tags.includes(activeFilter.value));
+  const filteredPosts = () => records.filter(matchesFilter);
+  const countPosts = (type, value) => records.filter((post) => type === "all"
+    || (type === "category" && post.category === value)
+    || (type === "tag" && post.tags.includes(value))).length;
 
-    list.replaceChildren(...ordered.map(([updated, published, title, href, category]) => {
+  function filterButton(label, type, value) {
+    const button = document.createElement("button");
+    const labelNode = document.createElement("span");
+    const countNode = document.createElement("span");
+    button.type = "button";
+    button.className = "home-filter-button";
+    button.classList.toggle("is-active", activeFilter.type === type && activeFilter.value === value);
+    labelNode.textContent = label;
+    countNode.className = "filter-count";
+    countNode.textContent = String(countPosts(type, value));
+    button.append(labelNode, countNode);
+    button.addEventListener("click", () => {
+      activeFilter.type = type;
+      activeFilter.value = value;
+      renderFilters();
+      render(sort.value);
+    });
+    return button;
+  }
+
+  function renderFilters() {
+    categoryFilters.replaceChildren(
+      filterButton("全部文章", "all", ""),
+      ...categories.map((category) => filterButton(category, "category", category))
+    );
+    tagFilters.replaceChildren(...tags.map((tag) => filterButton(tag, "tag", tag)));
+  }
+
+  function postChip(label, type) {
+    const chip = document.createElement("span");
+    chip.className = `home-post-chip ${type}`;
+    chip.textContent = label;
+    return chip;
+  }
+
+  function render(mode) {
+    const field = mode === "updated" ? "updated" : mode === "published" ? "published" : "title";
+    const ordered = filteredPosts().sort((a, b) => mode === "title"
+      ? collator.compare(a.title, b.title)
+      : b[field].localeCompare(a[field]));
+    count.textContent = `${ordered.length} 篇`;
+
+    list.replaceChildren(...ordered.map((post) => {
       const item = document.createElement("li");
       const meta = document.createElement("div");
       const time = document.createElement("time");
-      const titleWrap = document.createElement("span");
+      const main = document.createElement("div");
       const link = document.createElement("a");
+      const taxonomy = document.createElement("div");
 
       item.className = "post-item";
-      item.style.cssText = "padding: 1rem 0; border-bottom: 1px solid #f0f0f0; transition: .3s;";
       meta.className = "meta";
-      time.dateTime = updated;
-      time.textContent = updated.slice(0, 10);
-      titleWrap.style.marginLeft = "1rem";
-      link.href = window.location.protocol === "file:" ? href.slice(1) : href;
-      link.textContent = title;
-      link.title = category;
+      time.dateTime = post.updated;
+      time.textContent = post.updated.slice(0, 10);
+      main.className = "home-post-main";
+      link.className = "home-post-title";
+      link.href = window.location.protocol === "file:" ? post.href.slice(1) : post.href;
+      link.textContent = post.title;
+      taxonomy.className = "home-post-taxonomy";
+      taxonomy.append(postChip(post.category, "category"), ...post.tags.map((tag) => postChip(tag, "tag")));
       meta.append(time);
-      titleWrap.append(link);
-      item.append(meta, titleWrap);
+      main.append(link, taxonomy);
+      item.append(meta, main);
       return item;
     }));
-  };
+  }
 
   sort.addEventListener("change", () => render(sort.value));
+  renderFilters();
   render(sort.value);
 })();
