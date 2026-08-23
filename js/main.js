@@ -12,6 +12,23 @@ if (!!$.prototype.justifiedGallery) {
 
 $(document).ready(function() {
 
++  /**
+   * Keeps navigation focused on the three primary destinations.
+   */
+  $("#header > #nav > ul, #menu > #nav > ul, #footer nav > ul").each(function() {
+    $(this).children("li").not(".icon").each(function() {
+      var link = $(this).children("a");
+      var href = link.attr("href");
+      if (href !== "/" && href !== "/about/" && href !== "http://github.com/lvsany") {
+        $(this).remove();
+        return;
+      }
+      if (href === "/about/") link.text("About Me");
+      if (href === "http://github.com/lvsany") link.text("GitHub");
+    });
+  });
+
+
   /**
    * Shows the responsive navigation menu on mobile.
    */

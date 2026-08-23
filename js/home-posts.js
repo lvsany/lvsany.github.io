@@ -1,0 +1,62 @@
+(() => {
+  const posts = [
+    ["2025-11-21T04:19:22.142Z", "2025-11-18", "bench papers", "/2025/11/18/vibe-coding-papers-1763466396078/", "Vibe Coding"],
+    ["2025-11-21T04:16:29.415Z", "2025-11-20", "frame papers", "/2025/11/20/frame-papers-1763576800308/", "Vibe Coding"],
+    ["2025-11-22T03:27:17.611Z", "2025-11-22", "编译-第03章-词法分析", "/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC3%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-1763810151172/", "编译原理"],
+    ["2025-11-26T19:11:16.875Z", "2025-11-20", "编译-第04章-语法分析（一）", "/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-1763607465971/", "编译原理"],
+    ["2025-11-22T03:26:43.353Z", "2025-11-22", "编译-第05章-符号表管理技术", "/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC5%E7%AB%A0-%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%AE%A1%E7%90%86%E6%8A%80%E6%9C%AF-1763810263042/", "编译原理"],
+    ["2025-11-22T03:26:46.954Z", "2025-11-22", "编译-第06章-运行时的存储组织及管理", "/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC6%E7%AB%A0-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87%E5%8F%8A%E7%AE%A1%E7%90%86-1763810315046/", "编译原理"],
+    ["2025-11-22T03:26:51.641Z", "2025-11-20", "编译-第07章-生成中间代码", "/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-1763573220537/", "编译原理"],
+    ["2025-11-22T03:26:39.734Z", "2025-11-22", "编译-第08章-错误处理", "/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC8%E7%AB%A0-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86-1763810587076/", "编译原理"],
+    ["2025-11-22T03:26:26.059Z", "2025-11-22", "编译-第09章-语法制导翻译技术", "/2025/11/22/%E7%BC%96%E8%AF%91-%E7%AC%AC9%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91%E6%8A%80%E6%9C%AF-1763810649654/", "编译原理"],
+    ["2025-11-27T07:06:57.857Z", "2025-11-20", "编译-第12章-语法分析（二）（重要）", "/2025/11/20/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89-1763607138715/", "编译原理"],
+    ["2025-11-20T11:15:47.567Z", "2025-10-01", "编译-实验日志", "/2025/10/01/%E7%BC%96%E8%AF%91-%E5%AE%9E%E9%AA%8C/", "编译原理"],
+    ["2025-11-22T03:26:14.169Z", "2025-11-09", "编译-第01章-概论", "/2025/11/09/%E7%BC%96%E8%AF%91-%E6%A6%82%E8%AE%BA/", "编译原理"],
+    ["2025-11-22T03:26:35.031Z", "2025-11-09", "编译-第02章-文法和语言的概念和表示", "/2025/11/09/%E7%BC%96%E8%AF%91-%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E8%A1%A8%E7%A4%BA/", "编译原理"],
+    ["2025-11-24T15:58:53.987Z", "2025-11-18", "编译-第11章-词法分析程序的自动生成技术(重要)", "/2025/11/18/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF-1763424149748/", "编译原理"],
+    ["2025-11-24T15:58:47.435Z", "2025-11-03", "编译-第14章-代码优化", "/2025/11/03/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/", "编译原理"],
+    ["2025-11-24T15:58:50.297Z", "2025-11-11", "编译-第15章-目标代码生成和优化", "/2025/11/11/%E7%BC%96%E8%AF%91-%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0-%E7%9B%AE%E6%A0%87%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%92%8C%E4%BC%98%E5%8C%96/", "编译原理"],
+    ["2025-11-20T11:27:08.204Z", "2025-10-09", "计网-第三章-数据链路层", "/2025/10/09/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/", "计算机网络"],
+    ["2025-11-22T03:12:53.144Z", "2025-09-09", "计网-第二章-物理层", "/2025/09/09/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/", "计算机网络"],
+    ["2025-11-21T01:24:59.469Z", "2025-11-08", "计网-第四章-网络层", "/2025/11/08/%E8%AE%A1%E7%BD%91-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/", "计算机网络"]
+  ];
+  const list = document.getElementById("home-post-list");
+  if (!list) return;
+
+  const collator = new Intl.Collator("zh-Hans-CN", { numeric: true, sensitivity: "base" });
+  const count = document.getElementById("post-count");
+  count.textContent = posts.length;
+
+  const render = (mode) => {
+    const position = mode === "updated" ? 0 : mode === "published" ? 1 : 2;
+    const ordered = [...posts].sort((a, b) => mode === "title"
+      ? collator.compare(a[position], b[position])
+      : b[position].localeCompare(a[position]));
+
+    list.replaceChildren(...ordered.map(([updated, published, title, href, category]) => {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      const titleElement = document.createElement("span");
+      const meta = document.createElement("span");
+
+      item.className = "home-post-item";
+      link.href = href;
+      titleElement.className = "home-post-title";
+      meta.className = "home-post-meta";
+      titleElement.textContent = title;
+      meta.textContent = updated.slice(0, 10) + " · " + category;
+      link.append(titleElement, meta);
+      item.append(link);
+      return item;
+    }));
+
+    document.querySelectorAll(".post-sort button").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.sort === mode);
+    });
+  };
+
+  document.querySelectorAll(".post-sort button").forEach((button) => {
+    button.addEventListener("click", () => render(button.dataset.sort));
+  });
+  render("updated");
+})();
