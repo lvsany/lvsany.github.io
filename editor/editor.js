@@ -172,7 +172,12 @@
       else if (/^\s*([-*_])(?:\s*\1){2,}\s*$/.test(line)) { flushParagraph(); closeLists(); output.push('<hr>'); }
       else if (listItem) { flushParagraph(); addListItem(/^\d+\.$/.test(listItem[2]) ? 'ol' : 'ul', listItem[1].replace(/\t/g, '  ').length, listItem[3]); }
       else if (quote) { flushParagraph(); closeLists(); output.push('<blockquote><p>' + inlineMarkdown(quote[1]) + '</p></blockquote>'); }
-      else if (!line.trim()) { flushParagraph(); closeLists(); }
+      else if (!line.trim()) {
+        flushParagraph();
+        const nextList = lines[index + 1] && lines[index + 1].match(/^(\s*)([-*+]|\d+\.)\s+(.+)$/);
+        const current = listStack[listStack.length - 1];
+        if (!current || !nextList || nextList[1].replace(/\t/g, '  ').length < current.indent) closeLists();
+      }
       else { closeLists(); paragraph.push(line); }
     }
 
