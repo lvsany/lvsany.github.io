@@ -114,5 +114,6 @@
 
   fillYearOptions();
   yearSelect.addEventListener('change', () => render(yearSelect.value));
-  render('all');
+  yearSelect.value = String(lastYear);
+  render(yearSelect.value);
 })();
