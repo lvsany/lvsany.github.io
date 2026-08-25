@@ -1,5 +1,5 @@
 (() => {
-  const posts = [
+  const legacyPosts = [
     ["2026-08-17T00:00:00.000Z", "2026-08-17", "CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation", "/posts/2026/08/17/cuda-agent-large-scale-agentic-rl-for-high-performance-cuda-kernel-generation/", "operator"],
     ["2025-11-21T04:19:22.142Z", "2025-11-18", "bench papers", "/2025/11/18/vibe-coding-papers-1763466396078/", "Vibe Coding"],
     ["2025-11-21T04:16:29.415Z", "2025-11-20", "frame papers", "/2025/11/20/frame-papers-1763576800308/", "Vibe Coding"],
@@ -27,10 +27,10 @@
     "编译原理": ["Compiler Theory"],
     "计算机网络": ["C-Net Theory"]
   };
-  const records = posts.map(([updated, published, title, href, category]) => ({
+  const legacyRecords = legacyPosts.map(([updated, published, title, href, category]) => ({
     updated, published, title, href, category, tags: tagsByCategory[category] || []
   }));
-  window.BLOG_POSTS = records;
+  let records = legacyRecords;
   const list = document.getElementById("home-post-list");
   const sort = document.getElementById("home-post-sort");
   const categoryFilters = document.getElementById("home-category-filters");
@@ -39,8 +39,8 @@
   if (!list || !sort || !categoryFilters || !tagFilters || !count) return;
 
   const collator = new Intl.Collator("zh-Hans-CN", { numeric: true, sensitivity: "base" });
-  const categories = [...new Set(records.map((post) => post.category))];
-  const tags = [...new Set(records.flatMap((post) => post.tags))];
+  let categories = [];
+  let tags = [];
   const activeFilter = { type: "all", value: "" };
   const matchesFilter = (post) => activeFilter.type === "all"
     || (activeFilter.type === "category" && post.category === activeFilter.value)
@@ -117,7 +117,54 @@
     }));
   }
 
+  function setRecords(nextRecords) {
+    records = nextRecords;
+    categories = [...new Set(records.map((post) => post.category))];
+    tags = [...new Set(records.flatMap((post) => post.tags))];
+    if (activeFilter.type === 'category' && !categories.includes(activeFilter.value)) activeFilter.type = 'all';
+    if (activeFilter.type === 'tag' && !tags.includes(activeFilter.value)) activeFilter.type = 'all';
+    window.BLOG_POSTS = records;
+    renderFilters();
+    render(sort.value);
+  }
+
+  function mergePublishedPosts(manifest) {
+    const merged = new Map(legacyRecords.map((post) => [post.href, post]));
+    manifest.forEach((post) => {
+      const href = post.url || `/${String(post.path || '').replace(/index\.html$/, '')}`;
+      if (!post.title || !post.date || !href) return;
+      merged.set(href, {
+        updated: post.date,
+        published: post.date,
+        title: post.title,
+        href,
+        category: post.category || '未分类',
+        tags: Array.isArray(post.tags) ? post.tags : []
+      });
+    });
+    return [...merged.values()];
+  }
+
+  async function syncPublishedPosts() {
+    try {
+      if (Array.isArray(window.BLOG_MANIFEST)) {
+        setRecords(mergePublishedPosts(window.BLOG_MANIFEST));
+        return records;
+      }
+      const manifestUrl = window.location.protocol === 'file:' ? 'posts/manifest.json' : '/posts/manifest.json';
+      const response = await fetch(`${manifestUrl}?v=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error('无法读取发布清单。');
+      const manifest = await response.json();
+      if (!Array.isArray(manifest)) throw new Error('发布清单格式无效。');
+      setRecords(mergePublishedPosts(manifest));
+      return records;
+    } catch (_) {
+      setRecords(legacyRecords);
+      return records;
+    }
+  }
+
   sort.addEventListener("change", () => render(sort.value));
-  renderFilters();
-  render(sort.value);
+  setRecords(legacyRecords);
+  window.BLOG_POSTS_READY = syncPublishedPosts();
 })();

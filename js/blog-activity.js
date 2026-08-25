@@ -1,5 +1,6 @@
-(() => {
-  const posts = Array.isArray(window.BLOG_POSTS) ? window.BLOG_POSTS : [];
+(async () => {
+  const syncedPosts = await (window.BLOG_POSTS_READY || Promise.resolve(window.BLOG_POSTS));
+  const posts = Array.isArray(syncedPosts) ? syncedPosts : [];
   const yearSelect = document.getElementById('blog-activity-year');
   const summary = document.getElementById('blog-activity-summary');
   const total = document.getElementById('blog-activity-total');

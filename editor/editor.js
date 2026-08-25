@@ -4,6 +4,7 @@
   const SETTINGS_KEY = 'fywoo-editor-settings';
   const TOKEN_KEY = 'fywoo-editor-token';
   const MANIFEST_PATH = 'posts/manifest.json';
+  const MANIFEST_SCRIPT_PATH = 'posts/manifest.js';
   const state = { posts: [], current: null, busy: false, images: [] };
   const $ = (selector) => document.querySelector(selector);
   const elements = {
@@ -245,6 +246,10 @@
     return { title: article.title, date: article.date, category: article.category, tags: article.tags, summary: article.summary, path: article.path, slug: article.slug, url: articleUrl(article.path) };
   }
 
+  function manifestScript(records) {
+    return `window.BLOG_MANIFEST = ${JSON.stringify(records).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026')};\n`;
+  }
+
   function resetForm() {
     state.current = null;
     state.images = [];
@@ -346,9 +351,11 @@
       const nextRecords = (Array.isArray(manifest.records) ? manifest.records : []).filter((item) => item.path !== article.path && item.path !== state.current?.path);
       nextRecords.push(manifestRecord(article)); nextRecords.sort((a, b) => b.date.localeCompare(a.date));
       const manifestBlob = await createBlob(`${JSON.stringify(nextRecords, null, 2)}\n`);
+      const manifestScriptBlob = await createBlob(manifestScript(nextRecords));
       const changes = [
         { path: article.path, mode: '100644', type: 'blob', sha: articleBlob.sha },
         { path: MANIFEST_PATH, mode: '100644', type: 'blob', sha: manifestBlob.sha },
+        { path: MANIFEST_SCRIPT_PATH, mode: '100644', type: 'blob', sha: manifestScriptBlob.sha },
         ...imageBlobs.map(({ image, blob }) => ({ path: article.path.replace(/index\.html$/, `images/${image.filename}`), mode: '100644', type: 'blob', sha: blob.sha }))
       ];
       if (state.current?.path && state.current.path !== article.path) changes.push({ path: state.current.path, mode: '100644', type: 'blob', sha: null });
@@ -367,9 +374,11 @@
       const manifest = await getCurrentManifest();
       const nextRecords = (Array.isArray(manifest.records) ? manifest.records : []).filter((item) => item.path !== state.current.path);
       const manifestBlob = await createBlob(`${JSON.stringify(nextRecords, null, 2)}\n`);
+      const manifestScriptBlob = await createBlob(manifestScript(nextRecords));
       const commit = await commitChanges([
         { path: state.current.path, mode: '100644', type: 'blob', sha: null },
-        { path: MANIFEST_PATH, mode: '100644', type: 'blob', sha: manifestBlob.sha }
+        { path: MANIFEST_PATH, mode: '100644', type: 'blob', sha: manifestBlob.sha },
+        { path: MANIFEST_SCRIPT_PATH, mode: '100644', type: 'blob', sha: manifestScriptBlob.sha }
       ], `Delete: ${state.current.title}`);
       state.posts = nextRecords; resetForm(); message(`已提交删除 ${commit.sha.slice(0, 7)}。`);
     } catch (error) { message(error.message, 'error'); }
